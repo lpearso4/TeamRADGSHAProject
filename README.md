@@ -6,20 +6,11 @@ One about the peculiar nature of truth, as any philosopher/mathematician
 must understand to some extent...
 
 -----------------------------------
-THOUGH love repine and reason chafe  
+THOUGH love repine and reason chafe 
 There came a voice without reply 
 'T is man's perdition to be safe, 
 When for the truth he ought to die.
-
-        _    .  ,   .           .
-    *  / \_ *  / \_      _  *        *   /\'__        *
-      /    \  /    \,   ((        .    _/  /  \  *'.
- .   /\/\  /\/ :' __ \_  `          _^/  ^/    `--.
-    /    \/  \  _/  \-'\      *    /.' ^_   \_   .'\  *
-  /\  .-   `. \/     \ /==~=-=~=-=-;.  _/ \ -. `_/   \
- /  `-.__ ^   / .-'.--\ =-=~_=-=~=^/  _ `--./ .-'  `-
-/jgs     `.  / /       `.~-^=-=~=^=.-'      '-._ `._
--------------------------------------------------------
+-----------------------------------
 
 Short but apt...
 Secondly a more humorous poem.
