@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RADGSHAProject.Classes
+namespace RADGSHALibrary
 {
-    class Visit
+    class Inventorycs
     {
     }
 }

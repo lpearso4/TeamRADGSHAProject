@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RADGSHAProject.Classes
+namespace RADGSHALibrary
 {
-    class Room
+    public class Class1
+    {
+    }
+    class DatabaseConnection
     {
     }
 }

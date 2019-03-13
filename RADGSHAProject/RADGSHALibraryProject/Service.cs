@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RADGSHAProject.Classes
+namespace RADGSHALibrary
 {
-    class DiagnosisWizard
+    public class Service
     {
-
     }
 }
