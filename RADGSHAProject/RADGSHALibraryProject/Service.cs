@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace RADGSHALibrary
 {
-    public class Service
+    public class Service : Inventory
     {
+        public Service(string setStockID, string setDescription, decimal setCost) : base(setStockID, setStockID, setCost)
+        {
+            
+        }
     }
 }
