@@ -17,27 +17,85 @@ namespace RADGSHALibrary
         private List<Inventory> billables;
         private string note;
 
-        public void addBillable(Item newItem)
+        public Visit()
         {
+            billables = new List<Inventory>();
+            symptoms = new List<string>();
+            rooms = new List<Room>();
+        }
+        public void setEntryDate(DateTime newEntryDate)
+        {
+            entryDate = newEntryDate;
+        }
+        public DateTime getEntryDate()
+        {
+            return entryDate;
+        }
+        public void setExitDate(DateTime newExitDate)
+        {
+            exitDate = newExitDate;
+        }
+        public DateTime getExitDate()
+        {
+            return exitDate;
+        }
+        public void addBillable(Inventory newItem)
+        {
+            billables.Add(newItem);
+        }
+        public List<Inventory> getBillableList()
+        {
+            return billables;
+        }
+        /*public void addBillable(Item newItem)
+        {
+            billables.Add(newItem);
         }
 
         public void addBillable(Service newService)
         {
+            billables.Add(newService);
+        }*/
+        public void addRoom(Room newRoom)
+        {
+            rooms.Add(newRoom);
         }
-
+        public List<Room> getRoomList()
+        {
+            return rooms;
+        }
         public void addSymptom(string newSymptom)
         {
+            symptoms.Add(newSymptom);
         }
-
+        public List<string> getSymptomList()
+        {
+            return symptoms;
+        }
         public void changeDiagnosis(string newDiagnosis)
         {
-
+            diagnosis = newDiagnosis;
         }
-
+        public void setAttendingPhysician(string newAttendingPhysician)
+        {
+            attendingPhysician = newAttendingPhysician;
+        }
+        public string getAttendingPhysician()
+        {
+            return attendingPhysician;
+        }
+        public void setNote(string newNote)
+        {
+            note = newNote;
+        }
+        public string getNote()
+        {
+            return note;
+        }
         public decimal computeBill()
         {
-
+            
             return 0; // placeholder
         }
-    }
+    } 
 }

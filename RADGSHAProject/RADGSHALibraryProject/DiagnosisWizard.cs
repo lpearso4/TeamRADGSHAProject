@@ -12,14 +12,17 @@ namespace RADGSHALibrary
 
         public DiagnosisWizard(Visit setCurrentVisit)
         {
+            currentVisit = setCurrentVisit;
         }
 
         public void runDiagnosisWizard()
         {
+
         }
 
         public void applyDiagnosisToVisit()
         {
+            
         }
     }
 }
