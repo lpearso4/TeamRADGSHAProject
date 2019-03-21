@@ -6,18 +6,27 @@ using System.Threading.Tasks;
 
 namespace RADGSHALibrary
 {
-   public abstract class Inventory
+    public abstract class Inventory
     {
         private string stockID;
         private string description;
- 
-        private string cost;
+        private decimal cost;
 
-        public Inventory(string setStockID, string setDescription, decimal setCost)
+        public Inventory(string newStockID, string newDescription, decimal newCost)
         {
+            stockID = newStockID;
+            description = newDescription;
+            cost = newCost;
         }
-
-        public void useQuantity(int amountUsed)
+        public string getDescription()
+        {
+            return description;
+        }
+        public decimal getCost()
+        {
+            return cost;
+        }
+            public void useQuantity(int amountUsed)
         {
         }
 
