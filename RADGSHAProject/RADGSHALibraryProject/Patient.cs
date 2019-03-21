@@ -33,6 +33,10 @@ namespace RADGSHALibrary
             ssn = newSSN;
             visits = new List<Visit>();
         }
+        public string getSSN()
+        {
+            return ssn;
+        }
         public void setFirstName(string newFirstName)
         {
             if (newFirstName == "") throw new Exception("Patient Error: Patient must have first name.");
