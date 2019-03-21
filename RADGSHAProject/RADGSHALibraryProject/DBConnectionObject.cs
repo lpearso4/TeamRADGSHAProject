@@ -85,10 +85,10 @@ namespace RADGSHALibrary
             patient.setLastName(reader.GetString((int)PCol.LastName));
             patient.setFirstName(reader.GetString((int)PCol.FirstName));
             patient.setMiddleInitial(reader.GetString((int)PCol.MiddleInitial)[0]);
-            patient.setAddressLine1(reader.GetString((int)PCol.AddressLine1);
+            patient.setAddressLine1(reader.GetString((int)PCol.AddressLine1));
             if (!reader.IsDBNull((int)PCol.AddressLine2)) patient.setAddressLine2(reader.GetString((int)PCol.AddressLine2));
             patient.setCity(reader.GetString((int)PCol.City));
-            patient.setState(reader.GetString((int)PCol.State);
+            patient.setState(reader.GetString((int)PCol.State));
             int zip = reader.GetInt32((int)PCol.ZipCode);
             patient.setZipcode((ushort)zip);
             patient.setGender(reader.GetString((int)PCol.Gender)[0]);
@@ -123,9 +123,9 @@ namespace RADGSHALibrary
             int count = 0;
             while (reader.Read() && count < QUERY_LIMIT)
             {
-                RADGSHALibrary.Patient patient = new RADGSHALibrary.Patient(reader.GetString(0)); // ssn
-                patient.setLastName(reader.GetString(1));
-                patient.setFirstName(reader.GetString(2));
+                RADGSHALibrary.Patient patient = new RADGSHALibrary.Patient(reader.GetString((int)PCol.SSN)); // ssn
+                patient.setLastName(reader.GetString((int)PCol.LastName));
+                patient.setFirstName(reader.GetString((int)PCol.FirstName));
                 results.Add(patient);
                 count++;
             }
