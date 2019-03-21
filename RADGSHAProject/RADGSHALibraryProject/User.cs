@@ -18,6 +18,7 @@ namespace RADGSHALibrary
 
         public void logOut()
         {
+
         }
 
         public void importFile(string filepath) // different from low level object model (there is no "file" object)

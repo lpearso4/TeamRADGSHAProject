@@ -14,10 +14,9 @@ namespace RADGSHAProject
         [STAThread]
         static void Main()
         {
-            //DatabaseConnection dbc = DatabaseConnection.getDatabaseConnection();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new LoginPage());
         }
     }
 }

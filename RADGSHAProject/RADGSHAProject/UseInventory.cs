@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace RADGSHAProject
 {
-    public partial class Form1 : Form
+    public partial class UseInventory : Form
     {
-        public Form1()
+        public UseInventory()
         {
             InitializeComponent();
         }
