@@ -12,9 +12,26 @@ namespace RADGSHAProject
 {
     public partial class DiagnosisWizard : Form
     {
+        Form previousForm;//Used for displaying the previous Form when closing this one
+
         public DiagnosisWizard()
         {
             InitializeComponent();
+        }
+
+        public DiagnosisWizard(Form previousForm)
+        {
+            InitializeComponent();
+            this.previousForm = previousForm;
+        }
+
+        private void FormClose(object sender, FormClosedEventArgs e)
+        {
+            if (previousForm != null)
+            {
+                previousForm.Show();
+            }
+            Dispose();
         }
     }
 }

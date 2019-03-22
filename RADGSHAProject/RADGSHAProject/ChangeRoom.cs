@@ -12,9 +12,26 @@ namespace RADGSHAProject
 {
     public partial class ChangeRoom : Form
     {
+        Form previousForm;//Used for displaying the previous Form when closing this one
+
         public ChangeRoom()
         {
             InitializeComponent();
+        }
+
+        public ChangeRoom(Form previousForm)
+        {
+            InitializeComponent();
+            this.previousForm = previousForm;
+        }
+
+        private void FormClose(object sender, FormClosedEventArgs e)
+        {
+            if (previousForm != null)
+            {
+                previousForm.Show();
+            }
+            Dispose();
         }
     }
 }

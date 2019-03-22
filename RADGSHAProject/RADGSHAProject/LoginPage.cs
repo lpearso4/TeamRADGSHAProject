@@ -17,9 +17,18 @@ namespace RADGSHAProject
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void loginButton_Click(object sender, EventArgs e)
         {
-
+            Login(usernameTextBox.Text, passwordTextBox.Text);
         }
+
+        private void Login(string username, string password)//Update for actual security checking
+        {
+            MainPage M = new MainPage(this);
+            M.Show();
+            Hide();
+        }
+
+
     }
 }
