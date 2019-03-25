@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace RADGSHALibrary
 {
-    class DBConnectionObject
+    public class DBConnectionObject
     {
         // move some of these to properties file
         private const string DBUSER = "teamRADGSHAUser";
@@ -19,12 +19,14 @@ namespace RADGSHALibrary
 
         private enum PCol : int { Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, ZipCode, InsurerID, DnrStatus, OrganDonor };
         private enum RoomCol : int { HourlyRate, EffectiveDate, RoomNumber };
-        private enum LogCol : int { StockID, UserID, Date, QuantityUsed };
-        private enum ItemCol : int { Size, Quantity, StockId };
+        private enum LogCol : int { StockID, UserName, Date, QuantityUsed };
+        private enum ItemCol : int { StockID, Size, Quantity };
+        private enum ServiceCol : int { StockID };
         private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
-        private enum UserCol : int { Username, Password, UserType, UserID }; // if we use UserID
+        private enum UserCol : int { Username, Password, UserType }; 
         private enum VisCol : int { PatientId, EntryDate, ExitDate, AttendingPhysician, Diagnosis };
         private enum SymCol : int { PatientId, EntryDate, SymptomName };
+        private enum UsesCol : int { StockId, PatientId, EntryDateTime };
         
         private SqlConnection conn;
         private static DBConnectionObject instance;
@@ -43,31 +45,90 @@ namespace RADGSHALibrary
             return instance;
         }
 
-        public List<Visit> getVisits(Patient patient)
+        public void getVisits(ref Patient patient)
         {
-            // TODO: everything
-            // WHAT: this will return a list of visits attached to 'patient'
-            List<Visit> visits = new List<Visit>();
+            // This attaches a list of visits to patient. 
+            // TODO: symptoms should be pulled from Symptom table and added to each visit
+            //   and room list should be pulled from StaysIn table
+            //   Items used and services should be pulled from respective tables
+            //List<Visit> visits = patient.getVisitList();
+            //visits.Clear();
 
-            return visits; // PLACEHOLDER
+            string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
+
+
+            SqlCommand command = new SqlCommand(queryString);
+            command.Connection = conn;
+            conn.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Visit visit = new Visit();
+
+                if (!reader.IsDBNull((int)VisCol.EntryDate)) visit.setEntryDate(reader.GetDateTime((int)VisCol.EntryDate));
+             
+                if (!reader.IsDBNull((int)VisCol.ExitDate)) visit.setExitDate(reader.GetDateTime((int)VisCol.ExitDate));
+                if (!reader.IsDBNull((int)VisCol.AttendingPhysician)) visit.setAttendingPhysician(reader.GetString((int)VisCol.AttendingPhysician));
+                if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
+                //visit.addSymptom(); // 
+                //visits.Add(visit);
+                patient.addVisit(visit);
+              
+            }
+            conn.Close();
+           
         }
         public void addVisit(Visit visit, Patient patient)
         {
-            // TODO: EVERYTHING
-            // WHAT: this will add a visit to the database attached to the visit
+            // What is the attending physician? The User name, probably?
+            // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
         }
+        public void addRoom (Room room)
+        {
+            string addString = "Room (HourlyRate, EffectiveDate, RoomNumber) VALUES ('" + room.getHourlyRate() + "','" + room.getEffectiveDate() + "','" + room.getRoomNumber() + "')";
+            add(addString);
+        }
+
+
         public void addPatient(Patient patient)
         {
-            // TODO: everything
-            // WHAT: this will add a patient to the database
+       
+            string addString = "Patient (Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, Zipcode, InsurerId, DoNotResuscitate, OrganDonor) " +
+                                "VALUES ('" + patient.getGender() + "','" + patient.getSSN() + "','" + patient.getBirthDate() +"','" + patient.getFirstName() 
+                                 + "','" + patient.getMiddleInitial() + "','" + patient.getLastName() +"','" + patient.getAddressLine1() +"','" + patient.getAddressLine2() +"','" + patient.getState() 
+                                 +"','" + patient.getCity() +"','" + patient.getZipcode() + "','" + patient.getInsurer() + "','" + patient.getDoNotResuscitateStatus() + "','" + patient.getOrganDonorStatus() +"')";
+          
+            add(addString);
+        }
+        private void add(string addString)
+        {
+            string insertString = "INSERT INTO ";
+            addString = insertString + addString;
+            SqlCommand command = new SqlCommand(addString);
+            command.Connection = conn;
+            conn.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            conn.Close();
         }
         public void updatePatient(Patient patient)
         {
-            string queryString = "UPDATE Patient SET LastName='" + patient.getLastName() +"', " +
-                                  "FirstName='" + patient.getFirstName() + "' " +
-                                  //  middleInitial, addressLine1, addressLine2, city, state, zipcode, gender, birthDate, insurer, dnrStatus, organDonor 
+             string updateString = "UPDATE Patient SET LastName='" + patient.getLastName() + "', " +
+                                      "FirstName='" + patient.getFirstName() + "', " +
+                                      "MiddleInitial='" + patient.getMiddleInitial() + "', " +
+                                      "AddressLine1='" + patient.getAddressLine1() + "', " +
+                                      "AddressLine2='" + patient.getAddressLine2() + "', " +
+                                      "State='" + patient.getState() + "', " +
+                                      "City='" + patient.getCity() + "', " +
+                                      "Zipcode='" + patient.getZipcode() + "', " +
+                                      "InsurerId='" + patient.getInsurer() + "', " +
+                                      "DoNotResuscitate='" + patient.getDoNotResuscitateStatus() + "', " +
+                                      "OrganDonor='" + patient.getOrganDonorStatus() + "', " +
+                                      "BirthDate='" + patient.getBirthDate() + "', " +
+                                      "Gender='" + patient.getGender() + "' " +
+
                                   "WHERE SSN='" + patient.getSSN() + "'";
-            SqlCommand command = new SqlCommand(queryString);
+            SqlCommand command = new SqlCommand(updateString);
             command.Connection = conn;
             conn.Open();
             SqlDataReader reader = command.ExecuteReader();
@@ -76,54 +137,52 @@ namespace RADGSHALibrary
 
         public Patient getPatient(string ssn)
         {
+      
             SqlDataReader reader = getItem("Patient", "SSN", ssn);
 
             reader.Read();
             string patientSSN = reader.GetString((int)PCol.SSN);
             if (patientSSN != ssn) throw new Exception("Exception: Patient not found!");
             Patient patient = new Patient(patientSSN);
-            patient.setLastName(reader.GetString((int)PCol.LastName));
-            patient.setFirstName(reader.GetString((int)PCol.FirstName));
-            patient.setMiddleInitial(reader.GetString((int)PCol.MiddleInitial)[0]);
-            patient.setAddressLine1(reader.GetString((int)PCol.AddressLine1));
+
+            // An exception will be thrown if we attempt to retrieve a null column
+            if (!reader.IsDBNull((int)PCol.LastName)) patient.setLastName(reader.GetString((int)PCol.LastName));
+            if (!reader.IsDBNull((int)PCol.FirstName)) patient.setFirstName(reader.GetString((int)PCol.FirstName));
+            if (!reader.IsDBNull((int)PCol.MiddleInitial)) patient.setMiddleInitial(reader.GetString((int)PCol.MiddleInitial)[0]);
+            if (!reader.IsDBNull((int)PCol.AddressLine1)) patient.setAddressLine1(reader.GetString((int)PCol.AddressLine1));
             if (!reader.IsDBNull((int)PCol.AddressLine2)) patient.setAddressLine2(reader.GetString((int)PCol.AddressLine2));
-            patient.setCity(reader.GetString((int)PCol.City));
-            patient.setState(reader.GetString((int)PCol.State));
-            int zip = reader.GetInt32((int)PCol.ZipCode);
-            patient.setZipcode((ushort)zip);
-            patient.setGender(reader.GetString((int)PCol.Gender)[0]);
+            if (!reader.IsDBNull((int)PCol.City)) patient.setCity(reader.GetString((int)PCol.City));
+            if (!reader.IsDBNull((int)PCol.State)) patient.setState(reader.GetString((int)PCol.State));
+            if (!reader.IsDBNull((int)PCol.ZipCode)) patient.setZipcode(reader.GetString((int)PCol.ZipCode));
+            if (!reader.IsDBNull((int)PCol.Gender)) patient.setGender(reader.GetString((int)PCol.Gender)[0]);
             if (!reader.IsDBNull((int)PCol.BirthDate)) patient.setBirthDate(reader.GetDateTime((int)PCol.BirthDate));
             if (!reader.IsDBNull((int)PCol.InsurerID)) patient.setInsurer(reader.GetString((int)PCol.InsurerID));
             if (!reader.IsDBNull((int)PCol.DnrStatus)) patient.setDoNotResuscitateStatus(reader.GetBoolean((int)PCol.DnrStatus));
             if (!reader.IsDBNull((int)PCol.OrganDonor)) patient.setOrganDonorStatus(reader.GetBoolean((int)PCol.OrganDonor));
             
             conn.Close();
+
+            getVisits(ref patient);
+
             return patient;
 
         }
-        private SqlDataReader getItem(string table, string fieldName, string query)
-        {
-            string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";
-            SqlCommand command = new SqlCommand(queryString);
-            command.Connection = conn;
-            conn.Open();
-            SqlDataReader reader = command.ExecuteReader();
-            return reader;
-        }
+   
         public List<Patient> queryPatient(string ssn, string lastName, string firstName)
         {
+            // Query patient only returns the three fields we are looking for (firstname, lastname, ssn) You have to get patient to get the rest of the fields
             string queryString = "SELECT * FROM Patient WHERE SSN LIKE '%" + ssn + "%' AND LastName LIKE '%" + lastName + "%' AND "
                                  + " FirstName LIKE '%" + firstName + "%'";
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
             conn.Open();
             SqlDataReader reader = command.ExecuteReader();
-            List<RADGSHALibrary.Patient> results = new List<RADGSHALibrary.Patient>();
+            List<Patient> results = new List<Patient>();
             
             int count = 0;
             while (reader.Read() && count < QUERY_LIMIT)
             {
-                RADGSHALibrary.Patient patient = new RADGSHALibrary.Patient(reader.GetString((int)PCol.SSN)); // ssn
+                Patient patient = new Patient(reader.GetString((int)PCol.SSN)); // ssn
                 patient.setLastName(reader.GetString((int)PCol.LastName));
                 patient.setFirstName(reader.GetString((int)PCol.FirstName));
                 results.Add(patient);
@@ -133,7 +192,17 @@ namespace RADGSHALibrary
             return results;
         }
 
-   
-    
+        private SqlDataReader getItem(string table, string fieldName, string query)
+        {
+            string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";
+            SqlCommand command = new SqlCommand(queryString);
+            command.Connection = conn;
+            conn.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            return reader;
+        }
+
+
+
     }
 }

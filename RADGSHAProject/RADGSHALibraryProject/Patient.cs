@@ -15,7 +15,7 @@ namespace RADGSHALibrary
         private string addressLine2;
         private string city;
         private string state;
-        private ushort zipcode;             // should zip be a string? we are not performing arithmetic on it, and a long zipcode contains a hyphen
+        private string zipcode;             
         private string ssn;
         private char gender;
 
@@ -89,7 +89,7 @@ namespace RADGSHALibrary
         {
             visits.Add(newVisit);
         }
-        public void modifyAddress(string newAddressLine1, string newAddressLine2, string newCity, string newState, ushort newZipcode)
+        public void modifyAddress(string newAddressLine1, string newAddressLine2, string newCity, string newState, string newZipcode)
         {
             setAddressLine1(newAddressLine1);
             setAddressLine2(newAddressLine2);
@@ -131,12 +131,12 @@ namespace RADGSHALibrary
         {
             return state;
         }
-        public void setZipcode(ushort newZipcode)
+        public void setZipcode(string newZipcode)
         {
             // possible error checking goes here
             zipcode = newZipcode;
         }
-        public ushort getZipcode()
+        public string getZipcode()
         {
             return zipcode;
         }

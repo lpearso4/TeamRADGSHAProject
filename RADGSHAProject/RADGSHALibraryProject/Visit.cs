@@ -76,6 +76,10 @@ namespace RADGSHALibrary
         {
             diagnosis = newDiagnosis;
         }
+        public string getDiagnosis()
+        {
+            return diagnosis;
+        }
         public void setAttendingPhysician(string newAttendingPhysician)
         {
             attendingPhysician = newAttendingPhysician;
