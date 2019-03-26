@@ -13,7 +13,7 @@ namespace RADGSHALibrary
         private const string DBUSER = "teamRADGSHAUser";
         private const string DBPASS = "123";
         private const string DBNAME = "HRAS_RAD";
-        private const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
+        private const string DATASOURCE = "LAPTOP-CIDFKFS1"; // change to your server name
 
         private const int QUERY_LIMIT = 100; // set limit of search results
 
