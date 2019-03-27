@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ImportToolLibrary;
 
 namespace RADGSHAProject
 {
@@ -14,6 +15,8 @@ namespace RADGSHAProject
         [STAThread]
         static void Main()
         {
+            //ImportToolLibrary.ImportTool it = new ImportToolLibrary.ImportTool();
+            //it.importPatientData(@"D:\stuff\COLLEGE\semester 6\CSCI ROSEN\GHSAProject\import_data\MedicalRecords.txt");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginPage());

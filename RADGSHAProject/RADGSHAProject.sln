@@ -9,6 +9,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TeamRADGSHASharedProject", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RADGSHALibrary", "RADGSHALibraryProject\RADGSHALibrary.csproj", "{0EF52E69-7420-444C-9680-506BB144B564}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportToolLibrary", "ImportToolLibrary\ImportToolLibrary.csproj", "{C4D3870D-EA83-4C97-8795-5B5793859025}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TeamRADGSHASharedProject\TeamRADGSHASharedProject.projitems*{b8055505-6233-4547-81f4-3c1832095a54}*SharedItemsImports = 13
@@ -26,6 +28,10 @@ Global
 		{0EF52E69-7420-444C-9680-506BB144B564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EF52E69-7420-444C-9680-506BB144B564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EF52E69-7420-444C-9680-506BB144B564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D3870D-EA83-4C97-8795-5B5793859025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D3870D-EA83-4C97-8795-5B5793859025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D3870D-EA83-4C97-8795-5B5793859025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D3870D-EA83-4C97-8795-5B5793859025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
