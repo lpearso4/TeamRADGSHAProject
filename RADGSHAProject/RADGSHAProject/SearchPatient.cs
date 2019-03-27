@@ -66,12 +66,29 @@ namespace RADGSHAProject
 
         private void UpdatePatientList()
         {
+            string firstName = "";
+            string lastName = "";
+            int indexOfFirstSpace = PatientNameField.Text.IndexOf(' ');
+            Char[] prohibitedChars = { ' ', '*', '.', char.Parse("'") };
             DBConnectionObject DBconnection = DBConnectionObject.getInstance();
-            List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text, PatientNameField.Text, PatientNameField.Text);
+
+            if (indexOfFirstSpace > 0)
+            {
+                firstName = PatientNameField.Text.Substring(0, indexOfFirstSpace);
+                lastName = PatientNameField.Text.Substring(indexOfFirstSpace, PatientNameField.Text.Length - indexOfFirstSpace);
+            }
+            else { firstName = PatientNameField.Text; }
+
+            List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text.Trim(prohibitedChars), lastName.Trim(prohibitedChars), firstName.Trim(prohibitedChars));
             PatientListView.Items.Clear();
+
             foreach (RADGSHALibrary.Patient p in ResultingPatientList)
             {
-                PatientListView.Items.Add(p.getFirstName());
+                ListViewItem patientResult = new ListViewItem(p.getFirstName());
+
+                patientResult.SubItems.Add(p.getLastName());
+                patientResult.SubItems.Add(p.getSSN());
+                PatientListView.Items.Add(patientResult);
             }
         }
     }
