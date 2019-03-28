@@ -37,9 +37,10 @@
             // 
             // chooseFileButton
             // 
-            this.chooseFileButton.Location = new System.Drawing.Point(711, 51);
+            this.chooseFileButton.Location = new System.Drawing.Point(533, 41);
+            this.chooseFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chooseFileButton.Name = "chooseFileButton";
-            this.chooseFileButton.Size = new System.Drawing.Size(98, 22);
+            this.chooseFileButton.Size = new System.Drawing.Size(74, 18);
             this.chooseFileButton.TabIndex = 0;
             this.chooseFileButton.Text = "Choose File";
             this.chooseFileButton.UseVisualStyleBackColor = true;
@@ -47,16 +48,18 @@
             // 
             // DirectoryInputField
             // 
-            this.DirectoryInputField.Location = new System.Drawing.Point(182, 51);
+            this.DirectoryInputField.Location = new System.Drawing.Point(136, 41);
+            this.DirectoryInputField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DirectoryInputField.Name = "DirectoryInputField";
-            this.DirectoryInputField.Size = new System.Drawing.Size(523, 22);
+            this.DirectoryInputField.Size = new System.Drawing.Size(393, 20);
             this.DirectoryInputField.TabIndex = 1;
             // 
             // importDataButton
             // 
-            this.importDataButton.Location = new System.Drawing.Point(815, 248);
+            this.importDataButton.Location = new System.Drawing.Point(611, 202);
+            this.importDataButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.importDataButton.Name = "importDataButton";
-            this.importDataButton.Size = new System.Drawing.Size(240, 51);
+            this.importDataButton.Size = new System.Drawing.Size(180, 41);
             this.importDataButton.TabIndex = 2;
             this.importDataButton.Text = "IMPORT DATA";
             this.importDataButton.UseVisualStyleBackColor = true;
@@ -70,9 +73,10 @@
             "Medical Records",
             "Inventory",
             "Rooms"});
-            this.DataImportType.Location = new System.Drawing.Point(815, 51);
+            this.DataImportType.Location = new System.Drawing.Point(611, 41);
+            this.DataImportType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DataImportType.Name = "DataImportType";
-            this.DataImportType.Size = new System.Drawing.Size(240, 191);
+            this.DataImportType.Size = new System.Drawing.Size(181, 154);
             this.DataImportType.TabIndex = 3;
             // 
             // openFileDialog1
@@ -82,15 +86,15 @@
             // 
             // ImportTool
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.DataImportType);
             this.Controls.Add(this.importDataButton);
             this.Controls.Add(this.DirectoryInputField);
             this.Controls.Add(this.chooseFileButton);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ImportTool";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImportTool";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
             this.ResumeLayout(false);

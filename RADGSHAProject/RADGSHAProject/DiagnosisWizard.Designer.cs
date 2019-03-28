@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "DiagnosisWizard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DiagnosisWizard";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
             this.ResumeLayout(false);

@@ -76,10 +76,10 @@ namespace RADGSHAProject
 
         private void UpdatePatientList()
         {
-            string firstName = "";
-            string lastName = "";
-            int indexOfFirstSpace = PatientFirstNameField.Text.IndexOf(' ');
-            Char[] prohibitedChars = { ' ', '*', '.', char.Parse("'") };
+            //string firstName = "";
+            //string lastName = "";
+            //int indexOfFirstSpace = PatientFirstNameField.Text.IndexOf(' ');
+            Char[] prohibitedChars = { ' ', '*', '.', '\'' };
             DBConnectionObject DBconnection = DBConnectionObject.getInstance();
             /*
             if (indexOfFirstSpace > 0)

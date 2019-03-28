@@ -72,6 +72,7 @@
             this.Controls.Add(this.changeRoomButton);
             this.Controls.Add(this.useInventoryButton);
             this.Name = "Patient";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Patient";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
             this.Load += new System.EventHandler(this.Patient_Load);

@@ -194,6 +194,7 @@
             this.Controls.Add(this.viewPatientButton);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SearchPatient";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchPatient";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
             this.ResumeLayout(false);

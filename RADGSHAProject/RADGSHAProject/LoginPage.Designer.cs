@@ -73,6 +73,7 @@
             this.Controls.Add(this.loginButton);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "LoginPage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login Page";
             this.ResumeLayout(false);
             this.PerformLayout();
