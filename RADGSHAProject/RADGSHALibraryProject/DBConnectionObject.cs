@@ -44,7 +44,7 @@ namespace RADGSHALibrary
         }
         ~DBConnectionObject()
         {
-            conn.Close();
+            conn.Close(); // add error checking
         }
 
         

@@ -68,18 +68,21 @@ namespace RADGSHAProject
         {
             string firstName = "";
             string lastName = "";
-            int indexOfFirstSpace = PatientNameField.Text.IndexOf(' ');
+            int indexOfFirstSpace = PatientFirstNameField.Text.IndexOf(' ');
             Char[] prohibitedChars = { ' ', '*', '.', char.Parse("'") };
             DBConnectionObject DBconnection = DBConnectionObject.getInstance();
-
+            /*
             if (indexOfFirstSpace > 0)
             {
-                firstName = PatientNameField.Text.Substring(0, indexOfFirstSpace);
-                lastName = PatientNameField.Text.Substring(indexOfFirstSpace, PatientNameField.Text.Length - indexOfFirstSpace);
+                firstName = PatientFirstNameField.Text.Substring(0, indexOfFirstSpace);
+                lastName = PatientFirstNameField.Text.Substring(indexOfFirstSpace, PatientFirstNameField.Text.Length - indexOfFirstSpace);
             }
-            else { lastName = PatientNameField.Text; }
+            else { lastName = PatientFirstNameField.Text; }
 
             List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text.Trim(prohibitedChars), lastName.Trim(prohibitedChars), firstName.Trim(prohibitedChars));
+            */
+            List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text.Trim(prohibitedChars), PatientLastNameField.Text.Trim(prohibitedChars), PatientFirstNameField.Text.Trim(prohibitedChars));
+
             PatientListView.Items.Clear();
 
             foreach (RADGSHALibrary.Patient p in ResultingPatientList)
@@ -92,5 +95,9 @@ namespace RADGSHAProject
             }
         }
 
+        private void PatientLastNameField_TextChanged(object sender, EventArgs e)
+        {
+            UpdatePatientList();
+        }
     }
 }
