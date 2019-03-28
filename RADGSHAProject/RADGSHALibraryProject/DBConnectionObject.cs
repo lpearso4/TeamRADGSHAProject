@@ -9,13 +9,8 @@ namespace RADGSHALibrary
 {
     public class DBConnectionObject
     {
-        // move some of these to properties file
-        private const string DBUSER = "teamRADGSHAUser";
-        private const string DBPASS = "123";
-        private const string DBNAME = "HRAS_RAD";
-        private const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
-
-        private const int QUERY_LIMIT = 100; // set limit of search results
+     
+        private const int QUERY_LIMIT = 100; // set limit of search results ( move to properties file later )
 
         /* These just make it easier to find the column number for each attribute when using SqlDataReader */
         private enum PCol : int { Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, ZipCode, InsurerID, DnrStatus, OrganDonor };
@@ -35,10 +30,17 @@ namespace RADGSHALibrary
         
         protected DBConnectionObject()
         {
+            // move some of these to properties file
+            const string DBUSER = "teamRADGSHAUser";
+            const string DBPASS = "123";
+            const string DBNAME = "HRAS_RAD";
+            //private const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
+            const string DATASOURCE = "database\\csci3400011030"; // school computer
+
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
             conn = new SqlConnection(connectionString);
-            conn.Open();
+            conn.Open(); // TODO: add error handling in case connection fails
         }
         ~DBConnectionObject()
         {
@@ -59,14 +61,16 @@ namespace RADGSHALibrary
             // TODO: symptoms should be pulled from Symptom table and added to each visit
             //   and room list should be pulled from StaysIn table
             //   Items used and services should be pulled from respective tables
+            //   (Or should they be added somewhere else?)
+
             //List<Visit> visits = patient.getVisitList();
             //visits.Clear();
-            
+
+            //patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
 
             //Change to use stored procedures
             string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
 
-            
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
             
@@ -81,8 +85,8 @@ namespace RADGSHALibrary
                 if (!reader.IsDBNull((int)VisCol.ExitDate)) visit.setExitDate(reader.GetDateTime((int)VisCol.ExitDate));
                 if (!reader.IsDBNull((int)VisCol.AttendingPhysician)) visit.setAttendingPhysician(reader.GetString((int)VisCol.AttendingPhysician));
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
-                //visit.addSymptom(); // 
-                //visits.Add(visit);
+                //visit.addSymptom(); 
+                
                 patient.addVisit(visit);
               
             }
@@ -91,7 +95,7 @@ namespace RADGSHALibrary
         }
         public void addVisit(Visit visit, Patient patient)
         {
-            
+            // NOTE: doesn't do anything yet
             // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
         }
         public void addRoom (Room room)
@@ -179,7 +183,6 @@ namespace RADGSHALibrary
             command.Parameters.Add(new SqlParameter("@ssn", ssn));
             command.Connection = conn;
             SqlDataReader reader = command.ExecuteReader();
-
             */
             reader.Read();
             string patientSSN = reader.GetString((int)PCol.SSN);
@@ -246,7 +249,6 @@ namespace RADGSHALibrary
 
         private SqlDataReader getItem(string table, string fieldName, string query)
         {
-
             string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
@@ -254,8 +256,5 @@ namespace RADGSHALibrary
             SqlDataReader reader = command.ExecuteReader();
             return reader;
         }
-
-
-
     }
 }
