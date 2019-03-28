@@ -43,9 +43,9 @@ namespace ImportToolLibrary
                 string patientZipcode = line.Substring(559, 5).Trim(prohibitedChars).Replace("'", "’");
                 string patientState = line.Substring(557, 2).Trim(prohibitedChars).Replace("'", "’");
                 string patientCity = line.Substring(532, 25).Trim(prohibitedChars).Replace("'", "’");
-                string patientAddressLine1 = line.Substring(457, 50).Trim(prohibitedChars).Replace("'", "’");
-                string patientAddressLine2 = line.Substring(490, 25).Trim(prohibitedChars).Replace("'", "’");
-                string patientInsurer = line.Substring(449, 5).Trim(prohibitedChars).Replace("'", "’");
+                string patientAddressLine1 = line.Substring(462, 35).Trim(prohibitedChars).Replace("'", "’");
+                string patientAddressLine2 = line.Substring(497, 35).Trim(prohibitedChars).Replace("'", "’");
+                string patientInsurer = line.Substring(457, 5).Trim(prohibitedChars).Replace("'", "’");
 
                 string DnrStatusString = line.Substring(564, 1).Trim(prohibitedChars).Replace("'", "’");
                 Boolean patientDnrStatus = (DnrStatusString == "Y");

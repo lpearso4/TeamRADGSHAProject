@@ -13,10 +13,11 @@ namespace RADGSHALibrary
         private const string DBUSER = "teamRADGSHAUser";
         private const string DBPASS = "123";
         private const string DBNAME = "HRAS_RAD";
-        private const string DATASOURCE = "LAPTOP-CIDFKFS1"; // change to your server name
+        private const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
 
         private const int QUERY_LIMIT = 100; // set limit of search results
 
+        /* These just make it easier to find the column number for each attribute when using SqlDataReader */
         private enum PCol : int { Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, ZipCode, InsurerID, DnrStatus, OrganDonor };
         private enum RoomCol : int { HourlyRate, EffectiveDate, RoomNumber };
         private enum LogCol : int { StockID, UserName, Date, QuantityUsed };
@@ -27,21 +28,28 @@ namespace RADGSHALibrary
         private enum VisCol : int { PatientId, EntryDate, ExitDate, AttendingPhysician, Diagnosis };
         private enum SymCol : int { PatientId, EntryDate, SymptomName };
         private enum UsesCol : int { StockId, PatientId, EntryDateTime };
-        
+
         private SqlConnection conn;
         private static DBConnectionObject instance;
+
         
         protected DBConnectionObject()
         {
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
             conn = new SqlConnection(connectionString);
-          
+            conn.Open();
         }
+        ~DBConnectionObject()
+        {
+            conn.Close();
+        }
+
+        
         public static DBConnectionObject getInstance()
         {
             if (instance == null) instance = new DBConnectionObject();
-
+           
             return instance;
         }
 
@@ -53,13 +61,15 @@ namespace RADGSHALibrary
             //   Items used and services should be pulled from respective tables
             //List<Visit> visits = patient.getVisitList();
             //visits.Clear();
+            
 
+            //Change to use stored procedures
             string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
 
-
+            
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
-            conn.Open();
+            
             SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -76,16 +86,17 @@ namespace RADGSHALibrary
                 patient.addVisit(visit);
               
             }
-            conn.Close();
+            reader.Close();
            
         }
         public void addVisit(Visit visit, Patient patient)
         {
-            // What is the attending physician? The User name, probably?
+            
             // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
         }
         public void addRoom (Room room)
         {
+            /* Change to stored procedure version */
             string addString = "Room (HourlyRate, EffectiveDate, RoomNumber) VALUES ('" + room.getHourlyRate() + "','" + room.getEffectiveDate() + "','" + room.getRoomNumber() + "')";
             add(addString);
         }
@@ -93,6 +104,7 @@ namespace RADGSHALibrary
 
         public void addPatient(Patient patient)
         {
+            /* Change to stored procedure version */
        
             string addString = "Patient (Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, Zipcode, InsurerId, DoNotResuscitate, OrganDonor) " +
                                 "VALUES ('" + patient.getGender() + "','" + patient.getSSN() + "','" + patient.getBirthDate() +"','" + patient.getFirstName() 
@@ -107,9 +119,9 @@ namespace RADGSHALibrary
             addString = insertString + addString;
             SqlCommand command = new SqlCommand(addString);
             command.Connection = conn;
-            conn.Open();
+            
             SqlDataReader reader = command.ExecuteReader();
-            conn.Close();
+            reader.Close();
         }
         public void updatePatient(Patient patient)
         {
@@ -129,17 +141,46 @@ namespace RADGSHALibrary
 
                                   "WHERE SSN='" + patient.getSSN() + "'";
             SqlCommand command = new SqlCommand(updateString);
+
+            /* Change above to stored procedure version below (and finish stored procedure version below)
+           string queryString = "updatePatient";
+           SqlCommand command = new SqlCommand(queryString, conn);
+           command.CommandType = System.Data.CommandType.StoredProcedure;
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           command.Parameters.Add(new SqlParameter("@ssn", ssn));
+           */
+
             command.Connection = conn;
-            conn.Open();
+           
             SqlDataReader reader = command.ExecuteReader();
-            conn.Close();
+            reader.Close();
         }
 
         public Patient getPatient(string ssn)
         {
-      
+            // The below line will be replaced with stored procedure version
             SqlDataReader reader = getItem("Patient", "SSN", ssn);
+            /*
+            string queryString = "getPatient";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@ssn", ssn));
+            command.Connection = conn;
+            SqlDataReader reader = command.ExecuteReader();
 
+            */
             reader.Read();
             string patientSSN = reader.GetString((int)PCol.SSN);
             if (patientSSN != ssn) throw new Exception("Exception: Patient not found!");
@@ -160,7 +201,7 @@ namespace RADGSHALibrary
             if (!reader.IsDBNull((int)PCol.DnrStatus)) patient.setDoNotResuscitateStatus(reader.GetBoolean((int)PCol.DnrStatus));
             if (!reader.IsDBNull((int)PCol.OrganDonor)) patient.setOrganDonorStatus(reader.GetBoolean((int)PCol.OrganDonor));
             
-            conn.Close();
+            reader.Close();
 
             getVisits(ref patient);
 
@@ -174,9 +215,20 @@ namespace RADGSHALibrary
             string queryString = "SELECT * FROM Patient WHERE SSN LIKE '%" + ssn + "%' AND LastName LIKE '%" + lastName + "%' AND "
                                  + " FirstName LIKE '%" + firstName + "%'";
             SqlCommand command = new SqlCommand(queryString);
+           
+            /* We will replace the above with the stored procedure version below: (may have to be modified)
+            string queryString = "queryPatient";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@ssn", ssn));
+            command.Parameters.Add(new SqlParameter("@lastName", lastName));
+            command.Parameters.Add(new SqlParameter("@firstName", firstName));
+            */
+
             command.Connection = conn;
-            conn.Open();
+           
             SqlDataReader reader = command.ExecuteReader();
+
             List<Patient> results = new List<Patient>();
             
             int count = 0;
@@ -188,16 +240,17 @@ namespace RADGSHALibrary
                 results.Add(patient);
                 count++;
             }
-            conn.Close();
+            reader.Close();
             return results;
         }
 
         private SqlDataReader getItem(string table, string fieldName, string query)
         {
+
             string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
-            conn.Open();
+           
             SqlDataReader reader = command.ExecuteReader();
             return reader;
         }

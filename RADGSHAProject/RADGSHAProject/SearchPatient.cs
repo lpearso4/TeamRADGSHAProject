@@ -77,7 +77,7 @@ namespace RADGSHAProject
                 firstName = PatientNameField.Text.Substring(0, indexOfFirstSpace);
                 lastName = PatientNameField.Text.Substring(indexOfFirstSpace, PatientNameField.Text.Length - indexOfFirstSpace);
             }
-            else { firstName = PatientNameField.Text; }
+            else { lastName = PatientNameField.Text; }
 
             List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text.Trim(prohibitedChars), lastName.Trim(prohibitedChars), firstName.Trim(prohibitedChars));
             PatientListView.Items.Clear();
@@ -91,5 +91,6 @@ namespace RADGSHAProject
                 PatientListView.Items.Add(patientResult);
             }
         }
+
     }
 }
