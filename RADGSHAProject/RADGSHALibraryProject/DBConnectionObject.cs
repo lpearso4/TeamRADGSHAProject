@@ -174,16 +174,16 @@ namespace RADGSHALibrary
 
         public Patient getPatient(string ssn)
         {
-            // The below line will be replaced with stored procedure version
-            SqlDataReader reader = getItem("Patient", "SSN", ssn);
-            /*
+            // stored procedure version
+          
+          
             string queryString = "getPatient";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@ssn", ssn));
             command.Connection = conn;
             SqlDataReader reader = command.ExecuteReader();
-            */
+            
             reader.Read();
             string patientSSN = reader.GetString((int)PCol.SSN);
             if (patientSSN != ssn) throw new Exception("Exception: Patient not found!");

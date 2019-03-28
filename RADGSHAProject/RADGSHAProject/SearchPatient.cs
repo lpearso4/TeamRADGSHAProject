@@ -28,6 +28,16 @@ namespace RADGSHAProject
 
         private void viewPatientButton_Click(object sender, EventArgs e)
         {
+            if (PatientListView.SelectedIndices.Count > 0)
+            {
+                RADGSHALibrary.Patient p;// = new RADGSHALibrary.Patient(PatientListView.SelectedItems[0].SubItems[2].Text);
+                // stored procedure test
+                DBConnectionObject DBconnection = DBConnectionObject.getInstance();
+                p = DBconnection.getPatient(PatientListView.SelectedItems[0].SubItems[2].Text);
+                Console.WriteLine(p.getAddressLine1());
+
+            }
+
             //This should return the selected Patient,
             //If no selected patient, have this button disabled, and greyed out.
             Patient P = new Patient(this);
