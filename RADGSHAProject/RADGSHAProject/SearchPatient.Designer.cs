@@ -42,6 +42,10 @@
             this.VisitRoomNumberLabel = new System.Windows.Forms.Label();
             this.PatientLastNameLabel = new System.Windows.Forms.Label();
             this.PatientLastNameField = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.addPatientButton = new System.Windows.Forms.Button();
+            this.importToolButton = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // viewPatientButton
@@ -177,11 +181,42 @@
             this.PatientLastNameField.TabIndex = 9;
             this.PatientLastNameField.TextChanged += new System.EventHandler(this.PatientLastNameField_TextChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.addPatientButton);
+            this.groupBox1.Controls.Add(this.importToolButton);
+            this.groupBox1.Location = new System.Drawing.Point(5, 9);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(136, 339);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            // 
+            // addPatientButton
+            // 
+            this.addPatientButton.Location = new System.Drawing.Point(9, 57);
+            this.addPatientButton.Margin = new System.Windows.Forms.Padding(2);
+            this.addPatientButton.Name = "addPatientButton";
+            this.addPatientButton.Size = new System.Drawing.Size(111, 24);
+            this.addPatientButton.TabIndex = 1;
+            this.addPatientButton.Text = "Add Patient";
+            this.addPatientButton.UseVisualStyleBackColor = true;
+            // 
+            // importToolButton
+            // 
+            this.importToolButton.Location = new System.Drawing.Point(9, 284);
+            this.importToolButton.Margin = new System.Windows.Forms.Padding(2);
+            this.importToolButton.Name = "importToolButton";
+            this.importToolButton.Size = new System.Drawing.Size(111, 24);
+            this.importToolButton.TabIndex = 0;
+            this.importToolButton.Text = "Import Tool";
+            this.importToolButton.UseVisualStyleBackColor = true;
+            // 
             // SearchPatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.PatientLastNameLabel);
             this.Controls.Add(this.PatientLastNameField);
             this.Controls.Add(this.VisitRoomNumberLabel);
@@ -197,6 +232,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchPatient";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,5 +254,8 @@
         private System.Windows.Forms.ColumnHeader RoomNumber;
         private System.Windows.Forms.Label PatientLastNameLabel;
         private System.Windows.Forms.TextBox PatientLastNameField;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button addPatientButton;
+        private System.Windows.Forms.Button importToolButton;
     }
 }
