@@ -52,7 +52,6 @@ namespace RADGSHALibrary
             {
                 //Handle error
             }
-            //conn.Close();// add error checking
         }
 
 
@@ -223,8 +222,8 @@ namespace RADGSHALibrary
         public List<Patient> queryPatient(string ssn, string lastName, string firstName)
         {
             // Query patient only returns the three fields we are looking for (firstname, lastname, ssn) You have to get patient to get the rest of the fields
-            string queryString = "SELECT * FROM Patient WHERE SSN LIKE '%" + ssn + "%' AND LastName LIKE '%" + lastName + "%' AND "
-                                 + " FirstName LIKE '%" + firstName + "%'";
+            string queryString = "SELECT * FROM Patient WHERE SSN LIKE '" + ssn + "%' AND LastName LIKE '" + lastName + "%' AND "
+                                 + " FirstName LIKE '" + firstName + "%'";
             SqlCommand command = new SqlCommand(queryString);
            
             /* We will replace the above with the stored procedure version below: (may have to be modified)
