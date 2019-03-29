@@ -44,10 +44,18 @@ namespace RADGSHALibrary
         }
         ~DBConnectionObject()
         {
-            conn.Close(); // add error checking
+            try
+            {
+                conn.Close();
+            }
+            catch (Exception)
+            {
+                //Handle error
+            }
+            //conn.Close();// add error checking
         }
 
-        
+
         public static DBConnectionObject getInstance()
         {
             if (instance == null) instance = new DBConnectionObject();
