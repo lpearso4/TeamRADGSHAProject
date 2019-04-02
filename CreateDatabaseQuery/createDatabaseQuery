@@ -1,0 +1,723 @@
+USE [master]
+GO
+/****** Object:  Database [HRAS_RAD]    Script Date: 3/27/2019 7:15:41 PM ******/
+CREATE DATABASE [HRAS_RAD]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'RADGSHADatabase', FILENAME = N'D:\SQL server\MSSQL14.MSSQLSERVER\MSSQL\DATA\RADGSHADatabase.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'RADGSHADatabase_log', FILENAME = N'D:\SQL server\MSSQL14.MSSQLSERVER\MSSQL\DATA\RADGSHADatabase_log.ldf' , SIZE = 335872KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [HRAS_RAD] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [HRAS_RAD].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [HRAS_RAD] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [HRAS_RAD] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [HRAS_RAD] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [HRAS_RAD] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [HRAS_RAD] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET RECOVERY FULL 
+GO
+ALTER DATABASE [HRAS_RAD] SET  MULTI_USER 
+GO
+ALTER DATABASE [HRAS_RAD] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [HRAS_RAD] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [HRAS_RAD] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [HRAS_RAD] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [HRAS_RAD] SET DELAYED_DURABILITY = DISABLED 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'HRAS_RAD', N'ON'
+GO
+ALTER DATABASE [HRAS_RAD] SET QUERY_STORE = OFF
+GO
+USE [HRAS_RAD]
+GO
+/****** Object:  User [teamRADGSHAUser]    Script Date: 3/27/2019 7:15:41 PM ******/
+CREATE USER [teamRADGSHAUser] FOR LOGIN [teamRADGSHAUser] WITH DEFAULT_SCHEMA=[dbo]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [teamRADGSHAUser]
+GO
+/****** Object:  Table [dbo].[Inventory]    Script Date: 3/27/2019 7:15:41 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Inventory](
+	[StockId] [nvarchar](50) NOT NULL,
+	[Description] [nvarchar](300) NULL,
+	[Cost] [money] NULL,
+ CONSTRAINT [PK_Inventory] PRIMARY KEY CLUSTERED 
+(
+	[StockId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Item]    Script Date: 3/27/2019 7:15:41 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Item](
+	[StockId] [nvarchar](50) NOT NULL,
+	[Size] [int] NULL,
+	[Quantity] [int] NULL,
+ CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED 
+(
+	[StockId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Log]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Log](
+	[StockId] [nvarchar](50) NOT NULL,
+	[UserName] [nvarchar](50) NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[QuantityUsed] [decimal](14, 1) NULL,
+ CONSTRAINT [PK_Log] PRIMARY KEY CLUSTERED 
+(
+	[StockId] ASC,
+	[UserName] ASC,
+	[Date] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Patient]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Patient](
+	[Gender] [nvarchar](1) NULL,
+	[SSN] [nvarchar](9) NOT NULL,
+	[BirthDate] [datetime] NULL,
+	[FirstName] [nvarchar](50) NULL,
+	[MiddleInitial] [nvarchar](1) NULL,
+	[LastName] [nvarchar](50) NULL,
+	[AddressLine1] [nvarchar](50) NULL,
+	[AddressLine2] [nvarchar](50) NULL,
+	[State] [nvarchar](2) NULL,
+	[City] [nvarchar](50) NULL,
+	[Zipcode] [nchar](10) NULL,
+	[InsurerId] [nvarchar](50) NULL,
+	[DoNotResuscitate] [bit] NULL,
+	[OrganDonor] [bit] NULL,
+ CONSTRAINT [PK_Patient] PRIMARY KEY CLUSTERED 
+(
+	[SSN] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Room]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Room](
+	[HourlyRate] [decimal](5, 2) NULL,
+	[EffectiveDate] [datetime] NOT NULL,
+	[RoomNumber] [nvarchar](10) NOT NULL,
+ CONSTRAINT [PK_Room_1] PRIMARY KEY CLUSTERED 
+(
+	[EffectiveDate] ASC,
+	[RoomNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Service]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Service](
+	[StockId] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Service] PRIMARY KEY CLUSTERED 
+(
+	[StockId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StaysIn]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StaysIn](
+	[RoomNumber] [nvarchar](10) NOT NULL,
+	[RoomEffectiveDate] [datetime] NOT NULL,
+	[PatientId] [nvarchar](9) NOT NULL,
+	[VisitEntryDate] [datetime] NOT NULL,
+	[RoomEntryDateTime] [datetime] NULL,
+	[RoomExitDateTime] [datetime] NULL,
+ CONSTRAINT [PK_StaysIn] PRIMARY KEY CLUSTERED 
+(
+	[RoomNumber] ASC,
+	[RoomEffectiveDate] ASC,
+	[PatientId] ASC,
+	[VisitEntryDate] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Symptom]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Symptom](
+	[PatientId] [nvarchar](9) NOT NULL,
+	[EntryDate] [datetime] NOT NULL,
+	[SymptomName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Symptom] PRIMARY KEY CLUSTERED 
+(
+	[PatientId] ASC,
+	[EntryDate] ASC,
+	[SymptomName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[Username] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](50) NOT NULL,
+	[UserType] [nchar](10) NOT NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Uses]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Uses](
+	[StockId] [nvarchar](50) NOT NULL,
+	[PatientId] [nvarchar](9) NOT NULL,
+	[EntryDateTime] [datetime] NOT NULL,
+ CONSTRAINT [PK_Uses] PRIMARY KEY CLUSTERED 
+(
+	[StockId] ASC,
+	[PatientId] ASC,
+	[EntryDateTime] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Visit]    Script Date: 3/27/2019 7:15:42 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Visit](
+	[PatientId] [nvarchar](9) NOT NULL,
+	[EntryDate] [datetime] NOT NULL,
+	[ExitDate] [datetime] NULL,
+	[AttendingPhysician] [nvarchar](50) NULL,
+	[Diagnosis] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Visit] PRIMARY KEY CLUSTERED 
+(
+	[PatientId] ASC,
+	[EntryDate] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Item]  WITH CHECK ADD  CONSTRAINT [FK_Item_Inventory] FOREIGN KEY([StockId])
+REFERENCES [dbo].[Inventory] ([StockId])
+GO
+ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_Item_Inventory]
+GO
+ALTER TABLE [dbo].[Log]  WITH CHECK ADD  CONSTRAINT [FK_Log_Inventory] FOREIGN KEY([StockId])
+REFERENCES [dbo].[Inventory] ([StockId])
+GO
+ALTER TABLE [dbo].[Log] CHECK CONSTRAINT [FK_Log_Inventory]
+GO
+ALTER TABLE [dbo].[Log]  WITH CHECK ADD  CONSTRAINT [FK_Log_User] FOREIGN KEY([UserName])
+REFERENCES [dbo].[User] ([Username])
+GO
+ALTER TABLE [dbo].[Log] CHECK CONSTRAINT [FK_Log_User]
+GO
+ALTER TABLE [dbo].[Service]  WITH CHECK ADD  CONSTRAINT [FK_Service_Inventory] FOREIGN KEY([StockId])
+REFERENCES [dbo].[Inventory] ([StockId])
+GO
+ALTER TABLE [dbo].[Service] CHECK CONSTRAINT [FK_Service_Inventory]
+GO
+ALTER TABLE [dbo].[StaysIn]  WITH CHECK ADD  CONSTRAINT [FK_StaysIn_Patient] FOREIGN KEY([PatientId])
+REFERENCES [dbo].[Patient] ([SSN])
+GO
+ALTER TABLE [dbo].[StaysIn] CHECK CONSTRAINT [FK_StaysIn_Patient]
+GO
+ALTER TABLE [dbo].[StaysIn]  WITH CHECK ADD  CONSTRAINT [FK_StaysIn_Room] FOREIGN KEY([RoomEffectiveDate], [RoomNumber])
+REFERENCES [dbo].[Room] ([EffectiveDate], [RoomNumber])
+GO
+ALTER TABLE [dbo].[StaysIn] CHECK CONSTRAINT [FK_StaysIn_Room]
+GO
+ALTER TABLE [dbo].[Symptom]  WITH CHECK ADD  CONSTRAINT [FK_Symptom_Visit] FOREIGN KEY([PatientId], [EntryDate])
+REFERENCES [dbo].[Visit] ([PatientId], [EntryDate])
+GO
+ALTER TABLE [dbo].[Symptom] CHECK CONSTRAINT [FK_Symptom_Visit]
+GO
+ALTER TABLE [dbo].[Uses]  WITH CHECK ADD  CONSTRAINT [FK_Uses_Inventory] FOREIGN KEY([StockId])
+REFERENCES [dbo].[Inventory] ([StockId])
+GO
+ALTER TABLE [dbo].[Uses] CHECK CONSTRAINT [FK_Uses_Inventory]
+GO
+ALTER TABLE [dbo].[Uses]  WITH CHECK ADD  CONSTRAINT [FK_Uses_Visit] FOREIGN KEY([PatientId], [EntryDateTime])
+REFERENCES [dbo].[Visit] ([PatientId], [EntryDate])
+GO
+ALTER TABLE [dbo].[Uses] CHECK CONSTRAINT [FK_Uses_Visit]
+GO
+USE [master]
+GO
+ALTER DATABASE [HRAS_RAD] SET  READ_WRITE 
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+USE [HRAS_RAD]
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes variables and inserts them into the Patient table as a new row
+-- =============================================
+CREATE PROCEDURE addPatient
+
+	-- Add the parameters for the stored procedure here
+	@gender nvarchar(1), @ssn nvarchar(50), 
+	@birthDate datetime, @firstName nvarchar(50), 
+	@middleInitial nvarchar(1), @lastName nvarchar(50), 
+	@addressLine1 nvarchar(50), @addressLine2 nvarchar(50), 
+	@state nvarchar(2), @city nvarchar(50), 
+	@zipcode nchar(10), @insurerId nvarchar(50), 
+	@doNotResuscitate bit, @organDonor bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Patient (Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, 
+	AddressLine2, State, City, Zipcode, InsurerId, DoNotResuscitate, OrganDonor) VALUES (@gender, @ssn, 
+	@birthDate, @firstName,
+	@middleInitial, @lastName,
+	@addressLine1, @addressLine2,
+	@state, @city,
+	@zipcode, @insurerId,
+	@doNotResuscitate, @organDonor)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes 3 variables and stores them into the Room table
+-- =============================================
+CREATE PROCEDURE addRoom
+	-- Add the parameters for the stored procedure here
+	@hourlyRate decimal(5,2), @effectiveDate datetime,
+	@roomNumber nvarchar(4)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Room (HourlyRate, EffectiveDate, RoomNumber) VALUES (@hourlyRate, @effectiveDate, @roomNumber)
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes a ssn variable and returns patients where SSN matches
+-- =============================================
+CREATE PROCEDURE getPatient
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Patient WHERE SSN = @ssn
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes a ssn variable and returns visits where SSN matches
+-- =============================================
+CREATE PROCEDURE getVisits
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Visit WHERE PatientId = @ssn
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes 3 variables and returns patients that begin with the given variables
+-- =============================================
+CREATE PROCEDURE queryPatient
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9), @lastName nvarchar(50), 
+	@firstName nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Patient WHERE SSN LIKE @ssn + '%'and LastName LIKE @lastName +'%' AND FirstName LIKE @firstName + '%'
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes in variables and updates them to the patient table with the ssn given
+-- =============================================
+CREATE PROCEDURE updatePatient
+
+	-- Add the parameters for the stored procedure here
+	@gender nvarchar(1), @ssn nvarchar(50), 
+	@birthDate datetime, @firstName nvarchar(50), 
+	@middleInitial nvarchar(1), @lastName nvarchar(50), 
+	@addressLine1 nvarchar(50), @addressLine2 nvarchar(50), 
+	@state nvarchar(2), @city nvarchar(50), 
+	@zipcode nchar(10), @insurerId nvarchar(50), 
+	@doNotResuscitate bit, @organDonor bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE Patient SET 
+	Gender = @gender, SSN = @ssn, 
+	BirthDate = @birthDate, FirstName = @firstName,
+	MiddleInitial = @middleInitial, LastName = @lastName, 
+	AddressLine1 = @addressLine1,
+	AddressLine2 = @addressLine2, 
+	state = @state, city = @city, 
+	Zipcode = @zipcode, InsurerId = @insurerId,
+	DoNotResuscitate = @doNotResuscitate, OrganDonor = @organDonor 
+	WHERE SSN = @ssn
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes a ssn variable and returns visits where SSN matches
+-- =============================================
+CREATE PROCEDURE getItems
+	-- Add the parameters for the stored procedure here
+	@table nvarchar(20), @feildName nvarchar(20),
+	@query nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	
+	EXEC('SELECT * FROM @table WHERE @feildName = @query')
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/29/2019
+-- Description:	takes variables and inserts them into the Item table as a new row
+-- =============================================
+CREATE PROCEDURE addItem
+
+	-- Add the parameters for the stored procedure here
+	@StockId nvarchar(50), @Size int,
+	@Quantity int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Item(StockId, Size, Quantity) VALUES (@StockId, @Size, @Quantity)
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/29/2019
+-- Description:	takes stockId and removes the row from the table
+-- =============================================
+CREATE PROCEDURE removeItem
+
+	-- Add the parameters for the stored procedure here
+	@StockId nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	DELETE FROM Item
+	WHERE StockId = @StockId
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/29/2019
+-- Description:	takes variables and updates them in the Item table
+-- =============================================
+CREATE PROCEDURE updateItem
+
+	-- Add the parameters for the stored procedure here
+	@StockId nvarchar(50), @Size int,
+	@Quantity int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE Item SET stockId = @StockId, Size = @Size, Quantity = @Quantity
+	WHERE StockId = @StockId
+
+END
+GO
