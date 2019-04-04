@@ -28,19 +28,11 @@ namespace RADGSHAProject
 
         private void viewPatientButton_Click(object sender, EventArgs e)
         {
-            if (PatientListView.SelectedIndices.Count > 0)
-            {
-                RADGSHALibrary.Patient p;// = new RADGSHALibrary.Patient(PatientListView.SelectedItems[0].SubItems[2].Text);
-                // stored procedure test
-                DBConnectionObject DBconnection = DBConnectionObject.getInstance();
-                p = DBconnection.getPatient(PatientListView.SelectedItems[0].SubItems[2].Text);
-                Console.WriteLine(p.getAddressLine1());
+            DBConnectionObject DBconnection = DBConnectionObject.getInstance();
+            RADGSHALibrary.Patient p = DBconnection.getPatient(PatientListView.SelectedItems[0].SubItems[2].Text);
 
-            }
-
-            //This should return the selected Patient,
-            //If no selected patient, have this button disabled, and greyed out.
-            Patient P = new Patient(this);
+            //This should return the selected Patient
+            Patient P = new Patient(this, p);
             P.Show();
             Hide();
         }
@@ -56,7 +48,9 @@ namespace RADGSHAProject
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            viewPatientButton.Enabled = true;
+            if (PatientListView.SelectedItems.Count != 1)
+                viewPatientButton.Enabled = false;
         }
 
         private void PatientNameField_TextChanged(object sender, EventArgs e)
@@ -76,22 +70,19 @@ namespace RADGSHAProject
 
         private void UpdatePatientList()
         {
-            //string firstName = "";
-            //string lastName = "";
-            //int indexOfFirstSpace = PatientFirstNameField.Text.IndexOf(' ');
             Char[] prohibitedChars = { ' ', '*', '.', '\'' };
             DBConnectionObject DBconnection = DBConnectionObject.getInstance();
-            /*
-            if (indexOfFirstSpace > 0)
-            {
-                firstName = PatientFirstNameField.Text.Substring(0, indexOfFirstSpace);
-                lastName = PatientFirstNameField.Text.Substring(indexOfFirstSpace, PatientFirstNameField.Text.Length - indexOfFirstSpace);
-            }
-            else { lastName = PatientFirstNameField.Text; }
 
-            List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text.Trim(prohibitedChars), lastName.Trim(prohibitedChars), firstName.Trim(prohibitedChars));
-            */
-            List<RADGSHALibrary.Patient> ResultingPatientList = DBconnection.queryPatient(PatientSSNField.Text.Trim(prohibitedChars), PatientLastNameField.Text.Trim(prohibitedChars), PatientFirstNameField.Text.Trim(prohibitedChars));
+            string patientSSN = PatientSSNField.Text.Trim(prohibitedChars);
+            string patientLastName = PatientLastNameField.Text.Trim(prohibitedChars);
+            string patientFirstName = PatientFirstNameField.Text.Trim(prohibitedChars);
+
+            List<RADGSHALibrary.Patient> ResultingPatientList = new List<RADGSHALibrary.Patient>();
+
+            if (patientSSN != "" || patientLastName!="" || patientFirstName!= "")
+            {
+                ResultingPatientList = DBconnection.queryPatient(patientSSN, patientLastName, patientFirstName);
+            }
 
             PatientListView.Items.Clear();
 
@@ -103,11 +94,20 @@ namespace RADGSHAProject
                 patientResult.SubItems.Add(p.getSSN());
                 PatientListView.Items.Add(patientResult);
             }
+
+            if (PatientListView.SelectedItems.Count != 1)
+                viewPatientButton.Enabled = false;
         }
 
         private void PatientLastNameField_TextChanged(object sender, EventArgs e)
         {
             UpdatePatientList();
+        }
+
+        private void PatientListView_Leave(object sender, EventArgs e)
+        {
+            if (PatientListView.SelectedItems.Count != 1)
+                viewPatientButton.Enabled = false;
         }
     }
 }

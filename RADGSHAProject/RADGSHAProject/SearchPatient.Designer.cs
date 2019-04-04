@@ -50,6 +50,7 @@
             // 
             // viewPatientButton
             // 
+            this.viewPatientButton.Enabled = false;
             this.viewPatientButton.Location = new System.Drawing.Point(458, 316);
             this.viewPatientButton.Margin = new System.Windows.Forms.Padding(2);
             this.viewPatientButton.Name = "viewPatientButton";
@@ -96,7 +97,6 @@
             this.RoomNumber});
             this.PatientListView.FullRowSelect = true;
             this.PatientListView.GridLines = true;
-            this.PatientListView.HoverSelection = true;
             this.PatientListView.Location = new System.Drawing.Point(146, 150);
             this.PatientListView.Margin = new System.Windows.Forms.Padding(2);
             this.PatientListView.Name = "PatientListView";
@@ -108,6 +108,7 @@
             this.PatientListView.UseCompatibleStateImageBehavior = false;
             this.PatientListView.View = System.Windows.Forms.View.Details;
             this.PatientListView.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.PatientListView.Leave += new System.EventHandler(this.PatientListView_Leave);
             // 
             // FirstNameColumn
             // 
