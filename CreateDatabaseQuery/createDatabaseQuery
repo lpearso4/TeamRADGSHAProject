@@ -9,13 +9,33 @@ begin
 EXEC [HRAS_RAD].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
-USE [HRAS_RAD]
-GO
 /* COMMENT OUT BELOW IF USER CREATION PERMISSION IS NOT GRANTED */
 /* create User If possible */
-CREATE USER [teamRADGSHAUser] FOR LOGIN [teamRADGSHAUser] WITH DEFAULT_SCHEMA=[dbo]
+--create a login
+USE [master];
 GO
-ALTER ROLE [db_owner] ADD MEMBER [teamRADGSHAUser]
+CREATE LOGIN teamRADGSHAUser
+    WITH PASSWORD    = '123';
+GO
+--optional code to set login to dbcreator
+--EXEC sp_addsrvrolemember 
+--	@loginame = N'teamRADGSHAUser', 
+--	@rolename = N'dbcreator';
+
+USE [HRAS_RAD]
+--create user
+CREATE USER [teamRADGSHAUser] FOR LOGIN [teamRADGSHAUser]
+
+--update roles
+EXEC sys.sp_addrolemember
+	@rolename = 'db_datareader',
+	@membername = 'teamRADGSHAUser'
+EXEC sys.sp_addrolemember
+	@rolename = 'db_datawriter',
+	@membername = 'teamRADGSHAUser'
+EXEC sys.sp_addrolemember
+	@rolename = N'db_owner',
+	@membername = N'teamRADGSHAUser'
 GO
 /* COMMENT OUT ABOVE IF USER CREATION PERMISSION IS NOT GRANTED */
 
@@ -264,6 +284,206 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 USE [HRAS_RAD]
+GO
+
+
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes 3 variables and returns patients that begin with the given variables
+-- =============================================
+CREATE OR ALTER PROCEDURE queryPatient
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9), @lastName nvarchar(50), 
+	@firstName nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Patient WHERE SSN LIKE @ssn + '%'and LastName LIKE @lastName +'%' AND FirstName LIKE @firstName + '%'
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes variables and inserts them into the Patient table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addPatient
+
+	-- Add the parameters for the stored procedure here
+	@gender nvarchar(1), @ssn nvarchar(50), 
+	@birthDate datetime, @firstName nvarchar(50), 
+	@middleInitial nvarchar(1), @lastName nvarchar(50), 
+	@addressLine1 nvarchar(50), @addressLine2 nvarchar(50), 
+	@state nvarchar(2), @city nvarchar(50), 
+	@zipcode nchar(10), @insurerId nvarchar(50), 
+	@doNotResuscitate bit, @organDonor bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Patient (Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, 
+	AddressLine2, State, City, Zipcode, InsurerId, DoNotResuscitate, OrganDonor) VALUES (@gender, @ssn, 
+	@birthDate, @firstName,
+	@middleInitial, @lastName,
+	@addressLine1, @addressLine2,
+	@state, @city,
+	@zipcode, @insurerId,
+	@doNotResuscitate, @organDonor)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes 3 variables and stores them into the Room table
+-- =============================================
+CREATE OR ALTER PROCEDURE addRoom
+	-- Add the parameters for the stored procedure here
+	@hourlyRate decimal(5,2), @effectiveDate datetime,
+	@roomNumber nvarchar(4)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Room (HourlyRate, EffectiveDate, RoomNumber) VALUES (@hourlyRate, @effectiveDate, @roomNumber)
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes a ssn variable and returns patients where SSN matches
+-- =============================================
+CREATE OR ALTER PROCEDURE getPatient
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Patient WHERE SSN = @ssn
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/28/2019
+-- Description:	takes a ssn variable and returns visits where SSN matches
+-- =============================================
+CREATE OR ALTER PROCEDURE getVisits
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Visit WHERE PatientId = @ssn
+
+END
+GO
+
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
 -- Author:		Matt
@@ -542,5 +762,6 @@ BEGIN
 
 END
 GO
+
 USE [master]
 GO
