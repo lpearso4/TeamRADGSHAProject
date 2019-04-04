@@ -34,6 +34,7 @@ namespace RADGSHAProject
             InitializeComponent();
             this.previousForm = previousForm;
             this.selectedPatient = selectedPatient;
+            //set the patient passed to this form as the active patient
         }
 
         private void Patient_Load(object sender, EventArgs e)
