@@ -15,16 +15,25 @@ namespace RADGSHAProject
     public partial class Patient : Form
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
+        RADGSHALibrary.Patient selectedPatient;
 
         public Patient()//This constructor can probably be safely removed
         {
             InitializeComponent();
         }
 
+        //This constructor is obsolete, and should only be used for testing purposes
         public Patient(Form previousForm)
         {
             InitializeComponent();
             this.previousForm = previousForm;
+        }
+
+        public Patient(Form previousForm, RADGSHALibrary.Patient selectedPatient)
+        {
+            InitializeComponent();
+            this.previousForm = previousForm;
+            this.selectedPatient = selectedPatient;
         }
 
         private void Patient_Load(object sender, EventArgs e)
