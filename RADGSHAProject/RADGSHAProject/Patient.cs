@@ -57,6 +57,7 @@ namespace RADGSHAProject
 
         private void diagnosisWizardButton_Click(object sender, EventArgs e)
         {
+            // Open diagnosis wizard
             DiagnosisWizard D = new DiagnosisWizard(this);
             D.Show();
             Hide();
