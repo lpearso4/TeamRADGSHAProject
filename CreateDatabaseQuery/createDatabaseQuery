@@ -34,8 +34,8 @@ EXEC sys.sp_addrolemember
 	@rolename = 'db_datawriter',
 	@membername = 'teamRADGSHAUser'
 EXEC sys.sp_addrolemember
-	@rolename = N'db_owner',
-	@membername = N'teamRADGSHAUser'
+	@rolename = 'db_owner',
+	@membername = 'teamRADGSHAUser'
 GO
 /* COMMENT OUT ABOVE IF USER CREATION PERMISSION IS NOT GRANTED */
 
@@ -188,7 +188,7 @@ GO
 CREATE TABLE [dbo].[User](
 	[Username] [nvarchar](50) NOT NULL,
 	[Password] [nvarchar](50) NOT NULL,
-	[UserType] [nchar](10) NOT NULL,
+	[UserType] [bit] NOT NULL,
  CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
 (
 	[Username] ASC
@@ -283,32 +283,10 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 USE [HRAS_RAD]
 GO
-
-
--- =============================================
--- Author:		Matt
--- Create date: 3/28/2019
--- Description:	takes 3 variables and returns patients that begin with the given variables
--- =============================================
-CREATE OR ALTER PROCEDURE queryPatient
-	-- Add the parameters for the stored procedure here
-	@ssn nvarchar(9), @lastName nvarchar(50), 
-	@firstName nvarchar(50)
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-
-    -- Insert statements for procedure here
-
-	SELECT * FROM Patient WHERE SSN LIKE @ssn + '%'and LastName LIKE @lastName +'%' AND FirstName LIKE @firstName + '%'
-
-END
-GO
-
 -- ================================================
 -- Template generated from Template Explorer using:
 -- Create Procedure (New Menu).SQL
@@ -622,8 +600,8 @@ GO
 CREATE OR ALTER PROCEDURE addItem
 
 	-- Add the parameters for the stored procedure here
-	@StockId nvarchar(50), @Size int,
-	@Quantity int
+	@stockId nvarchar(50), @size int,
+	@quantity int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -632,7 +610,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Item(StockId, Size, Quantity) VALUES (@StockId, @Size, @Quantity)
+	INSERT INTO Item(StockId, Size, Quantity) VALUES (@stockId, @size, @quantity)
 
 END
 GO
@@ -661,7 +639,7 @@ GO
 CREATE OR ALTER PROCEDURE removeItem
 
 	-- Add the parameters for the stored procedure here
-	@StockId nvarchar(50)
+	@stockId nvarchar(50)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -671,7 +649,7 @@ BEGIN
     -- Insert statements for procedure here
 
 	DELETE FROM Item
-	WHERE StockId = @StockId
+	WHERE StockId = @stockId
 
 END
 GO
@@ -700,8 +678,8 @@ GO
 CREATE OR ALTER PROCEDURE updateItem
 
 	-- Add the parameters for the stored procedure here
-	@StockId nvarchar(50), @Size int,
-	@Quantity int
+	@stockId nvarchar(50), @size int,
+	@quantity int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -710,8 +688,8 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	UPDATE Item SET stockId = @StockId, Size = @Size, Quantity = @Quantity
-	WHERE StockId = @StockId
+	UPDATE Item SET stockId = @stockId, Size = @size, Quantity = @quantity
+	WHERE StockId = @stockId
 
 END
 GO
@@ -740,7 +718,7 @@ GO
 CREATE OR ALTER PROCEDURE validateLogin
 
 	-- Add the parameters for the stored procedure here
-	@UserName nvarchar(50), @givenPW int
+	@userName nvarchar(50), @givenPW nvarchar(50)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -763,5 +741,693 @@ BEGIN
 END
 GO
 
-USE [master]
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes a variables and inserts them into the Log table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addToLog
+
+	-- Add the parameters for the stored procedure here
+	@stockId nvarchar(50), @userName nvarchar(50),
+	@quantityUsed dec(14,1)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO [Log](StockId, UserName, Date, QuantityUsed) VALUES (@stockId, @userName, CURRENT_TIMESTAMP, @quantityUsed)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes a variables and inserts them into the Inventory table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addInventory
+
+	-- Add the parameters for the stored procedure here
+	@stockId nvarchar(50), @description nvarchar(300),
+	@cost money
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Inventory(StockId, Description, Cost) VALUES (@stockId, @description, @cost)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/29/2019
+-- Description:	takes variables and updates them in the Inventory table
+-- =============================================
+CREATE OR ALTER PROCEDURE updateInventory
+
+	-- Add the parameters for the stored procedure here
+	@stockId nvarchar(50), @description nvarchar(300),
+	@cost money
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE Inventory SET stockId = @StockId, Description = @description, Cost = @cost
+	WHERE StockId = @stockId
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 3/29/2019
+-- Description:	takes stockId and removes the row from the table
+-- =============================================
+CREATE OR ALTER PROCEDURE removeInventory
+
+	-- Add the parameters for the stored procedure here
+	@StockId nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	DELETE FROM Inventory
+	WHERE StockId = @StockId
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes variables and updates them in the Room table
+-- =============================================
+CREATE OR ALTER PROCEDURE updateRoom
+	-- Add the parameters for the stored procedure here
+	@hourlyRate nvarchar(50), @dateTime datetime,
+	@roomNumber nvarchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE Room SET HourlyRate = @hourlyRate, EffectiveDate = @dateTime, RoomNumber = @roomNumber
+	WHERE RoomNumber = @roomNumber
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes roomNumber and removes the row from the table
+-- =============================================
+CREATE OR ALTER PROCEDURE removeRoom
+
+	-- Add the parameters for the stored procedure here
+	@roomNumber nvarchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	DELETE FROM Room
+	WHERE RoomNumber = @roomNumber
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes variables and inserts them into the User table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addUser
+
+	-- Add the parameters for the stored procedure here
+	@userName nvarchar(50), @password nvarchar(50),
+	@userType bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO [User](Username, Password, UserType) VALUES (@userName, @password, @userType)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	removes user from User table
+-- =============================================
+CREATE OR ALTER PROCEDURE removeUser
+
+	-- Add the parameters for the stored procedure here
+	@userName nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	DELETE FROM [User]
+	WHERE Username = @userName
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	updates password of userGiven from User table
+-- =============================================
+CREATE OR ALTER PROCEDURE updatePassword
+
+	-- Add the parameters for the stored procedure here
+	@userGiven nvarchar(50), @password nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE [User] SET Password = @password WHERE Username = @userGiven
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	verifies login
+-- =============================================
+CREATE OR ALTER PROCEDURE validateUserType
+
+	-- Add the parameters for the stored procedure here
+	@UserName nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT UserType FROM [User] WHERE @username = Username
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes variables and inserts them into the StaysIn table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addStaysIn
+
+	-- Add the parameters for the stored procedure here
+	@roomNumber nvarchar(10), @patientId nvarchar(9)
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DECLARE @roomEffectiveDate datetime
+	DECLARE @visitEntryDate datetime
+
+	SET @roomEffectiveDate = (SELECT effectiveDate FROM Room WHERE RoomNumber = @roomNumber)
+	SET @visitEntryDate = (SELECT entryDate FROM Visit WHERE PatientId = @patientId)
+
+	INSERT INTO StaysIn(RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime) 
+	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, CURRENT_TIMESTAMP)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes variables and inserts them into the Symptom table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addSymptom
+
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(9), @symptomName nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Symptom(PatientId, EntryDate, SymptomName) VALUES (@patientId, CURRENT_TIMESTAMP, @symptomName)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	removes symptom from Symptom for patient given
+-- =============================================
+CREATE OR ALTER PROCEDURE removeSymptom
+
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(9)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	DELETE FROM Symptom
+	WHERE PatientId = @patientId
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes variables and inserts them into the Uses table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addUses
+
+	-- Add the parameters for the stored procedure here
+	@stockId nvarchar(50), @patientId nvarchar(9)
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Uses(StockId, PatientId, EntryDateTime) VALUES (@stockId, @patientId, CURRENT_TIMESTAMP)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	takes variables and inserts them into the Visit table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addVisit
+
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(9), @attendingPhysician nvarchar(50),
+	@diagnosis nvarchar(50)
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Visit(PatientId, EntryDate, AttendingPhysician, Diagnosis) VALUES (@patientId, CURRENT_TIMESTAMP,
+	@attendingPhysician, @diagnosis)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	updates visits based on parameters given
+-- =============================================
+CREATE OR ALTER PROCEDURE updateVisit
+
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(9), @attendingPhysician nvarchar(50),
+	@diagnosis nvarchar(50)
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE VISIT SET AttendingPhysician = @attendingPhysician, Diagnosis = @diagnosis WHERE PatientId = @patientId
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	closes the staysIn by updating roomexitDate with current timestamp
+-- =============================================
+CREATE OR ALTER PROCEDURE closeStaysIn
+
+	-- Add the parameters for the stored procedure here
+	@visitEntryDate datetime
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE StaysIn SET RoomExitDateTime = CURRENT_TIMESTAMP WHERE VisitEntryDate = @visitEntryDate 
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/4/2019
+-- Description:	closes the visit by updating exitDate with current timestamp
+-- =============================================
+CREATE OR ALTER PROCEDURE closeVisit
+
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(9), @entryDate datetime
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE VISIT SET ExitDate = CURRENT_TIMESTAMP WHERE PatientId = @patientId AND EntryDate = @entryDate
+
+END
 GO
