@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RADGSHAProject
 {
-    public partial class MainPage : Form
+    public partial class MainPage : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
 

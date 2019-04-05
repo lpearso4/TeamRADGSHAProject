@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RADGSHAProject
 {
-    public partial class DiagnosisWizard : Form
+    public partial class DiagnosisWizard : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
 

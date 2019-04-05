@@ -11,7 +11,7 @@ using RADGSHALibrary;
 
 namespace RADGSHAProject
 {
-    public partial class SearchPatient : Form
+    public partial class SearchPatient : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
 

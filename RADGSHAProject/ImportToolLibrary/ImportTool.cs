@@ -16,7 +16,7 @@ namespace ImportToolLibrary
             conn = DBConnectionObject.getInstance();
         }
 
-        public Boolean importPatientData(string url)
+        public async void importPatientData(string url)
         {
             int numberOfLines = getFileLineLength(url);
             int currentLineNumber = 0;
@@ -28,6 +28,9 @@ namespace ImportToolLibrary
                 new System.IO.StreamReader(url);
             while ((line = file.ReadLine()) != null)
             {
+                // This "await Task.Delay(0);" line may look useless, but it allows the form to act asynchronous.
+                await Task.Delay(1);    
+
                 string patientLastName = line.Substring(0, 50).Trim(prohibitedChars).Replace("'", "’");
                 string patientFirstName = line.Substring(50, 25).Trim(prohibitedChars).Replace("'", "’");
 
@@ -85,7 +88,6 @@ namespace ImportToolLibrary
                 }
             }
             file.Close();
-            return true;
         }
 
         public int getFileLineLength(string url)

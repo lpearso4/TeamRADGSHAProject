@@ -12,7 +12,7 @@ namespace RADGSHAProject
 {
     
 
-    public partial class Patient : Form
+    public partial class Patient : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
         RADGSHALibrary.Patient selectedPatient;

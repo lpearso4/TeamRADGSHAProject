@@ -11,7 +11,7 @@ using ImportToolLibrary;
 
 namespace RADGSHAProject
 {
-    public partial class ImportTool : Form
+    public partial class ImportTool : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
 

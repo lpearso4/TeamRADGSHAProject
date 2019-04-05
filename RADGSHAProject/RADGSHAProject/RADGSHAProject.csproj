@@ -77,6 +77,12 @@
     <Compile Include="ImportTool.Designer.cs">
       <DependentUpon>ImportTool.cs</DependentUpon>
     </Compile>
+    <Compile Include="NavigationPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NavigationPage.Designer.cs">
+      <DependentUpon>NavigationPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Patient.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainPage.resx">
       <DependentUpon>MainPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NavigationPage.resx">
+      <DependentUpon>NavigationPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Patient.resx">
       <DependentUpon>Patient.cs</DependentUpon>
