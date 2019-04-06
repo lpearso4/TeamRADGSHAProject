@@ -105,10 +105,107 @@ namespace RADGSHALibrary
             // NOTE: doesn't do anything yet
             // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
         }
-/// <summary>
-/// Room DB methods below
-/// </summary>
-/// <param name="room"></param>
+        /// <summary>
+        /// Service DB methods below
+        /// </summary>
+        /// <param name="service"></param>
+        public void addService(Service service)
+        {
+            bool update = false; // add service
+            alterService(update, service);
+        }
+        public void updateService(Service service)
+        {
+            bool update = true; // update service
+            alterService(update, service);
+        }
+        private void alterService(bool update, Service service)
+        {
+            alterInventory(update, service);
+
+            string queryString = "addService";
+            if (update) queryString = "updateService";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@StockID",service.getStockID()));
+            
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+
+            
+        }
+
+        /// <summary>
+        /// Item DB methods below
+        /// </summary>
+        /// <param name="item"></param>
+        public void addItem(Item item)
+        {
+            bool update = false; // add item
+            alterItem(update, item);
+        }
+        public void updateItem(Item item)
+        {
+            bool update = true; // update item
+            alterItem(update, item);
+        }
+        private void alterItem(bool update, Item item)
+        {
+            alterInventory(update, item);
+
+            string queryString = "addItem";
+            if (update) queryString = "updateItem";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockId", item.getStockID()));
+            command.Parameters.Add(new SqlParameter("@Size", item.getSize()));
+            command.Parameters.Add(new SqlParameter("@Quantity", item.getQuantity()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+
+            
+        }
+
+            /// <summary>
+            /// Inventory DB methods below
+            /// </summary>
+            /// <param name="inventory"></param>
+        /*private void addInventory(Inventory inventory)
+        {
+            bool update = false; // add inventory
+            alterInventory(update, inventory);
+        }
+        private void updateInventory(Inventory inventory)
+        {
+            bool update = true; // update the inventory
+            alterInventory(update, inventory);
+        }*/
+        private void alterInventory(bool update, Inventory inventory)
+        {
+            string queryString = "addInventory";
+            if (update) queryString = "updateInventory";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID() ));          
+            command.Parameters.Add(new SqlParameter("@description",inventory.getDescription()));
+            command.Parameters.Add(new SqlParameter("@cost",inventory.getCost()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+
+
+        /// <summary>
+        /// Room DB methods below
+        /// </summary>
+        /// <param name="room"></param>
         public void addRoom (Room room)
         {
             bool update = false; // add room
@@ -142,6 +239,7 @@ namespace RADGSHALibrary
 
         public Room getRoom(string roomNumber, DateTime effectiveDate)
         {
+            // Need to rewrite getRoom
             string queryString = "getItems";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -280,15 +378,5 @@ namespace RADGSHALibrary
             return results;
         }
 
-   
-        private SqlDataReader getItem(string table, string fieldName, string query)
-        {
-            string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";
-            SqlCommand command = new SqlCommand(queryString);
-            command.Connection = conn;
-           
-            SqlDataReader reader = command.ExecuteReader();
-            return reader;
-        }
     }
 }

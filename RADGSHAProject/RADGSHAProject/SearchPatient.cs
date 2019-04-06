@@ -33,6 +33,7 @@ namespace RADGSHAProject
 
             //This should return the selected Patient
             Patient P = new Patient(this, p);
+     
             P.Show();
             Hide();
         }
