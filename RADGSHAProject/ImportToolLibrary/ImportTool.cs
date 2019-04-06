@@ -89,8 +89,62 @@ namespace ImportToolLibrary
             }
             file.Close();
         }
+        public async void importRoomData(string url)
+        {
+            int numberOfLines = getFileLineLength(url);
+            int currentLineNumber = 0;
 
-        public int getFileLineLength(string url)
+            int outputPercentTimer = 0;
+            string line;
+            Char[] prohibitedChars = { ' ', '*', '.' };
+            System.IO.StreamReader file =
+                new System.IO.StreamReader(url);
+            while ((line = file.ReadLine()) != null)
+            {
+
+                await Task.Delay(1);
+
+                const int ROOM_START_CHAR = 0;
+                const int ROOM_LEN = 9;
+                const int HOURLY_RATE_START = 9;
+                const int HOURLY_RATE_LEN = 5;
+                const int EFFECTIVE_DATETIME_START_CHAR = 14;
+                const int EFFECTIVE_DATETIME_LEN = 12;
+
+                string roomNumber = line.Substring(ROOM_START_CHAR, ROOM_LEN).Trim(prohibitedChars).Replace("'", "’"); ;
+
+                string hourlyRateString = line.Substring(HOURLY_RATE_START, HOURLY_RATE_LEN) ;
+                decimal hourlyRate = Decimal.Parse(hourlyRateString);
+                decimal hourlyCents = .01M;
+                hourlyRate *= hourlyCents; // convert from $$$$$ to $$$.cc as desired
+
+                string dateString = line.Substring(EFFECTIVE_DATETIME_START_CHAR, EFFECTIVE_DATETIME_LEN);
+                int month = Int32.Parse(dateString.Substring(0, 2));
+                int day = Int32.Parse(dateString.Substring(2, 2));
+                int year = Int32.Parse(dateString.Substring(4, 4));
+                int hour = Int32.Parse(dateString.Substring(8, 2));
+                int minute = Int32.Parse(dateString.Substring(10, 2));
+                const int SECOND = 0;
+                DateTime effectiveDate = new DateTime(year, month, day, hour, minute, SECOND);
+
+                Room r = new Room(roomNumber, hourlyRate, effectiveDate);
+               
+                conn.addRoom(r); // this will fail if room is already present
+
+                currentLineNumber++;
+                outputPercentTimer++;
+                if (outputPercentTimer > 1000)
+                {
+                    outputPercentTimer = 0;
+                    Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
+                }
+            }
+            file.Close();
+        }
+
+
+
+    public int getFileLineLength(string url)
         {
             int numberOfLines = 0;
             string line;

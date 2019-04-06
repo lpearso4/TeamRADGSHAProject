@@ -18,6 +18,7 @@ namespace RADGSHAProject
         public ImportTool()//This constructor can probably be safely removed
         {
             InitializeComponent();
+            DataImportType.ItemCheck += DataImportType_ItemCheck;
         }
 
         public ImportTool(Form previousForm)
@@ -58,7 +59,43 @@ namespace RADGSHAProject
         private void importDataButton_Click(object sender, EventArgs e)
         {
             ImportToolLibrary.ImportTool IT = new ImportToolLibrary.ImportTool();
-            IT.importPatientData(DirectoryInputField.Text);
+            if (DataImportType.SelectedItems.Count==0)
+            {
+                string message = "Please select a file type to import!";
+                string caption = "Error!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+                return;
+            }
+            if (DirectoryInputField.Text.Trim() == "")
+            {
+                string message = "Please select a file to import!";
+                string caption = "Error!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+                return;
+            }
+            const int MED_RECORD_INDEX = 0; const int INV_RECORD_INDEX = 1; const int ROOM_RECORD_INDEX = 2;
+            if (DataImportType.SelectedIndex.Equals(MED_RECORD_INDEX))
+            {
+                // medical record
+                IT.importPatientData(DirectoryInputField.Text);
+            }
+            else if (DataImportType.SelectedIndex.Equals(INV_RECORD_INDEX))
+            {
+                //inventory
+            }
+            else if (DataImportType.SelectedIndex.Equals(ROOM_RECORD_INDEX))
+            {
+                // rooms
+                IT.importRoomData(DirectoryInputField.Text);
+            }
+
+        }
+
+        private void DataImportType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

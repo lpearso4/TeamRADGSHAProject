@@ -34,8 +34,8 @@ namespace RADGSHALibrary
             const string DBUSER = "teamRADGSHAUser";
             const string DBPASS = "123";
             const string DBNAME = "HRAS_RAD";
-            //private const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
-            const string DATASOURCE = "LAPTOP-CIDFKFS1"; // school computer
+            const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
+            //const string DATASOURCE = "LAPTOP-CIDFKFS1"; // school computer
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
@@ -105,76 +105,107 @@ namespace RADGSHALibrary
             // NOTE: doesn't do anything yet
             // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
         }
+/// <summary>
+/// Room DB methods below
+/// </summary>
+/// <param name="room"></param>
         public void addRoom (Room room)
         {
-            /* Change to stored procedure version */
-            string addString = "Room (HourlyRate, EffectiveDate, RoomNumber) VALUES ('" + room.getHourlyRate() + "','" + room.getEffectiveDate() + "','" + room.getRoomNumber() + "')";
-            add(addString);
+            bool update = false; // add room
+            alterRoom(update, room);
         }
-
-
-        public void addPatient(Patient patient)
+        public void updateRoom(Room room)
         {
-            /* Change to stored procedure version */
-       
-            string addString = "Patient (Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, Zipcode, InsurerId, DoNotResuscitate, OrganDonor) " +
-                                "VALUES ('" + patient.getGender() + "','" + patient.getSSN() + "','" + patient.getBirthDate() +"','" + patient.getFirstName() 
-                                 + "','" + patient.getMiddleInitial() + "','" + patient.getLastName() +"','" + patient.getAddressLine1() +"','" + patient.getAddressLine2() +"','" + patient.getState() 
-                                 +"','" + patient.getCity() +"','" + patient.getZipcode() + "','" + patient.getInsurer() + "','" + patient.getDoNotResuscitateStatus() + "','" + patient.getOrganDonorStatus() +"')";
-          
-            add(addString);
+            bool update = true; // update the room
+            alterRoom(update, room);
         }
-        private void add(string addString)
+        private void alterRoom(bool update, Room room)
         {
-            string insertString = "INSERT INTO ";
-            addString = insertString + addString;
-            SqlCommand command = new SqlCommand(addString);
+            string queryString = "addRoom";
+            if (update) queryString = "updateRoom";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@hourlyRate", room.getHourlyRate()));
+
+            if (update)
+                command.Parameters.Add(new SqlParameter("@dateTime", room.getEffectiveDate()));
+            else
+                command.Parameters.Add(new SqlParameter("@effectiveDate", room.getEffectiveDate()));
+
+            command.Parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+
             command.Connection = conn;
-            
+
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
+
+        public Room getRoom(string roomNumber, DateTime effectiveDate)
+        {
+            string queryString = "getItems";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@table", "Room"));
+            command.Parameters.Add(new SqlParameter("@feildName", "roomNumber"));
+            command.Parameters.Add(new SqlParameter("@query", roomNumber));
+            command.Connection = conn;
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+            string rNumber = reader.GetString((int)RoomCol.RoomNumber);
+            if (rNumber != roomNumber) throw new Exception("Exception: Room not found!");
+            DateTime eDate = reader.GetDateTime((int)RoomCol.EffectiveDate);
+            if (eDate != effectiveDate) throw new Exception("Exception: Room with given effective date not found!");
+            decimal hourlyRate=0;
+            if (!reader.IsDBNull((int)RoomCol.HourlyRate)) hourlyRate = reader.GetDecimal((int)RoomCol.HourlyRate);
+
+            Room room = new Room(rNumber,hourlyRate,eDate);
+
+            reader.Close();
+
+            return room;
+        }
+
+ /// <summary>
+/// Patient DB methods below
+/// </summary>
+/// <param name="patient"></param>
+        public void addPatient(Patient patient)
+        {
+            bool update = false; // we are adding a patient, not updating
+            alterPatient(update, patient);
+            
+        }
         public void updatePatient(Patient patient)
         {
-             string updateString = "UPDATE Patient SET LastName='" + patient.getLastName() + "', " +
-                                      "FirstName='" + patient.getFirstName() + "', " +
-                                      "MiddleInitial='" + patient.getMiddleInitial() + "', " +
-                                      "AddressLine1='" + patient.getAddressLine1() + "', " +
-                                      "AddressLine2='" + patient.getAddressLine2() + "', " +
-                                      "State='" + patient.getState() + "', " +
-                                      "City='" + patient.getCity() + "', " +
-                                      "Zipcode='" + patient.getZipcode() + "', " +
-                                      "InsurerId='" + patient.getInsurer() + "', " +
-                                      "DoNotResuscitate='" + patient.getDoNotResuscitateStatus() + "', " +
-                                      "OrganDonor='" + patient.getOrganDonorStatus() + "', " +
-                                      "BirthDate='" + patient.getBirthDate() + "', " +
-                                      "Gender='" + patient.getGender() + "' " +
-
-                                  "WHERE SSN='" + patient.getSSN() + "'";
-            SqlCommand command = new SqlCommand(updateString);
-
-            /* Change above to stored procedure version below (and finish stored procedure version below)
-           string queryString = "updatePatient";
-           SqlCommand command = new SqlCommand(queryString, conn);
-           command.CommandType = System.Data.CommandType.StoredProcedure;
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           */
+            bool update = true; // update the patient
+            alterPatient(update, patient);
+        }
+        private void alterPatient(bool update, Patient patient)
+        {
+            string queryString = "addPatient";
+            if (update) queryString = "updatePatient";
+               
+            //string queryString = "addPatient";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@gender", patient.getGender()));
+            command.Parameters.Add(new SqlParameter("@ssn", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@birthDate", patient.getBirthDate()));
+            command.Parameters.Add(new SqlParameter("@firstName", patient.getFirstName()));
+            command.Parameters.Add(new SqlParameter("@middleInitial", patient.getMiddleInitial()));
+            command.Parameters.Add(new SqlParameter("@lastName", patient.getLastName()));
+            command.Parameters.Add(new SqlParameter("@addressLine1", patient.getAddressLine1()));
+            command.Parameters.Add(new SqlParameter("@addressLine2", patient.getAddressLine2()));
+            command.Parameters.Add(new SqlParameter("@state", patient.getState()));
+            command.Parameters.Add(new SqlParameter("@city", patient.getCity()));
+            command.Parameters.Add(new SqlParameter("@zipcode", patient.getZipcode()));
+            command.Parameters.Add(new SqlParameter("@insurerId", patient.getInsurer()));
+            command.Parameters.Add(new SqlParameter("@doNotResuscitate", patient.getDoNotResuscitateStatus()));
+            command.Parameters.Add(new SqlParameter("@organDonor", patient.getOrganDonorStatus()));
 
             command.Connection = conn;
-           
+
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
@@ -221,19 +252,14 @@ namespace RADGSHALibrary
    
         public List<Patient> queryPatient(string ssn, string lastName, string firstName)
         {
-            // Query patient only returns the three fields we are looking for (firstname, lastname, ssn) You have to get patient to get the rest of the fields
-            string queryString = "SELECT * FROM Patient WHERE SSN LIKE '" + ssn + "%' AND LastName LIKE '" + lastName + "%' AND "
-                                 + " FirstName LIKE '" + firstName + "%'";
-            SqlCommand command = new SqlCommand(queryString);
-           
-            /* We will replace the above with the stored procedure version below: (may have to be modified)
+
             string queryString = "queryPatient";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@ssn", ssn));
             command.Parameters.Add(new SqlParameter("@lastName", lastName));
             command.Parameters.Add(new SqlParameter("@firstName", firstName));
-            */
+            
 
             command.Connection = conn;
            
@@ -254,6 +280,7 @@ namespace RADGSHALibrary
             return results;
         }
 
+   
         private SqlDataReader getItem(string table, string fieldName, string query)
         {
             string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";

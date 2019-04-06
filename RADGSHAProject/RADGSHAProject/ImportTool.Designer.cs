@@ -37,10 +37,10 @@
             // 
             // chooseFileButton
             // 
-            this.chooseFileButton.Location = new System.Drawing.Point(617, 50);
-            this.chooseFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chooseFileButton.Location = new System.Drawing.Point(463, 41);
+            this.chooseFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.chooseFileButton.Name = "chooseFileButton";
-            this.chooseFileButton.Size = new System.Drawing.Size(99, 25);
+            this.chooseFileButton.Size = new System.Drawing.Size(74, 20);
             this.chooseFileButton.TabIndex = 0;
             this.chooseFileButton.Text = "Choose File";
             this.chooseFileButton.UseVisualStyleBackColor = true;
@@ -48,18 +48,19 @@
             // 
             // DirectoryInputField
             // 
-            this.DirectoryInputField.Location = new System.Drawing.Point(204, 50);
-            this.DirectoryInputField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DirectoryInputField.Location = new System.Drawing.Point(153, 41);
+            this.DirectoryInputField.Margin = new System.Windows.Forms.Padding(2);
             this.DirectoryInputField.Name = "DirectoryInputField";
-            this.DirectoryInputField.Size = new System.Drawing.Size(407, 22);
+            this.DirectoryInputField.ReadOnly = true;
+            this.DirectoryInputField.Size = new System.Drawing.Size(306, 20);
             this.DirectoryInputField.TabIndex = 1;
             // 
             // importDataButton
             // 
-            this.importDataButton.Location = new System.Drawing.Point(722, 238);
-            this.importDataButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.importDataButton.Location = new System.Drawing.Point(542, 193);
+            this.importDataButton.Margin = new System.Windows.Forms.Padding(2);
             this.importDataButton.Name = "importDataButton";
-            this.importDataButton.Size = new System.Drawing.Size(240, 50);
+            this.importDataButton.Size = new System.Drawing.Size(180, 41);
             this.importDataButton.TabIndex = 2;
             this.importDataButton.Text = "IMPORT DATA";
             this.importDataButton.UseVisualStyleBackColor = true;
@@ -67,17 +68,19 @@
             // 
             // DataImportType
             // 
+            this.DataImportType.CausesValidation = false;
             this.DataImportType.CheckOnClick = true;
             this.DataImportType.FormattingEnabled = true;
             this.DataImportType.Items.AddRange(new object[] {
             "Medical Records",
             "Inventory",
             "Rooms"});
-            this.DataImportType.Location = new System.Drawing.Point(722, 50);
-            this.DataImportType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DataImportType.Location = new System.Drawing.Point(542, 41);
+            this.DataImportType.Margin = new System.Windows.Forms.Padding(2);
             this.DataImportType.Name = "DataImportType";
-            this.DataImportType.Size = new System.Drawing.Size(240, 174);
+            this.DataImportType.Size = new System.Drawing.Size(181, 139);
             this.DataImportType.TabIndex = 3;
+            this.DataImportType.SelectedIndexChanged += new System.EventHandler(this.DataImportType_SelectedIndexChanged);
             // 
             // openFileDialog1
             // 
@@ -86,14 +89,14 @@
             // 
             // ImportTool
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(977, 469);
+            this.ClientSize = new System.Drawing.Size(733, 381);
             this.Controls.Add(this.DataImportType);
             this.Controls.Add(this.importDataButton);
             this.Controls.Add(this.DirectoryInputField);
             this.Controls.Add(this.chooseFileButton);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(3);
             this.Name = "ImportTool";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImportTool";
