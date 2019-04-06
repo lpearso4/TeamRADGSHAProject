@@ -34,8 +34,8 @@ namespace RADGSHALibrary
             const string DBUSER = "teamRADGSHAUser";
             const string DBPASS = "123";
             const string DBNAME = "HRAS_RAD";
-            const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
-            //const string DATASOURCE = "LAPTOP-CIDFKFS1"; // school computer
+            //const string DATASOURCE = "LAPTOP-CIDFKFS1"; // change to your server name
+            const string DATASOURCE = "database\\csci3400011030"; // school computer
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
