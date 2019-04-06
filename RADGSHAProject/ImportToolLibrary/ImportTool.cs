@@ -87,6 +87,7 @@ namespace ImportToolLibrary
                     Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
                 }
             }
+            Console.WriteLine("Import Completed.");
             file.Close();
         }
         public async void importRoomData(string url)
@@ -139,12 +140,78 @@ namespace ImportToolLibrary
                     Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
                 }
             }
+            Console.WriteLine("Import Completed.");
+            file.Close();
+        }
+        public async void importInventoryData(string url)
+        {
+            // currently throws an error if you attempt to add the same data twice
+            int numberOfLines = getFileLineLength(url);
+            int currentLineNumber = 0;
+
+            int outputPercentTimer = 0;
+            string line;
+            Char[] prohibitedChars = { '*', '.' };
+            System.IO.StreamReader file =
+                new System.IO.StreamReader(url);
+            while ((line = file.ReadLine()) != null)
+            {
+
+                await Task.Delay(1);
+
+                const int STOCKID_START_CHAR = 0;
+                const int STOCKID_LEN = 5;
+                const int QUANTITY_START_CHAR = 5;
+                const int QUANTITY_LEN = 5;
+                const int DESCRIPTION_START_CHAR = 10;
+                const int DESCRIPTION_LEN = 35;
+                const int SIZE_START_CHAR = 45;
+                const int SIZE_LEN = 3;
+                const int COST_START_CHAR = 48;
+                const int COST_LEN = 8;
+
+                string stockID = line.Substring(STOCKID_START_CHAR, STOCKID_LEN).Trim(prohibitedChars).Replace("'", "’");
+                string quantity = line.Substring(QUANTITY_START_CHAR, QUANTITY_LEN).Trim(prohibitedChars).Replace("'", "’");
+                string description = line.Substring(DESCRIPTION_START_CHAR, DESCRIPTION_LEN).Trim(prohibitedChars).Replace("'", "’");
+                string size = line.Substring(SIZE_START_CHAR, SIZE_LEN).Trim(prohibitedChars).Replace("'", "’");
+                string stringCost = line.Substring(COST_START_CHAR, COST_LEN).Trim(prohibitedChars).Replace("'", "’");
+
+                decimal cost = Decimal.Parse(stringCost);
+                decimal addCents = .01M;
+                cost *= addCents; // shift values 2 below the decimal $$$$$$$$ to $$$$$$.cc
+
+                if (quantity=="VIRTL") // create a new service
+                {
+                    Service service = new Service(stockID, description, cost);
+
+                    conn.addService(service);
+                }
+                else // create a new item
+                {
+                    Item item = new Item(stockID, description, cost);
+
+                    int intQuantity = Int32.Parse(quantity);
+                    item.setQuantity(intQuantity);
+                    int intSize = Int32.Parse(size);
+                    item.setSize(intSize);
+                    conn.addItem(item);
+                }
+
+                currentLineNumber++;
+                outputPercentTimer++;
+                if (outputPercentTimer > 1000)
+                {
+                    outputPercentTimer = 0;
+                    Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
+                }
+            }
+            Console.WriteLine("Import Completed.");
             file.Close();
         }
 
 
 
-    public int getFileLineLength(string url)
+        public int getFileLineLength(string url)
         {
             int numberOfLines = 0;
             string line;

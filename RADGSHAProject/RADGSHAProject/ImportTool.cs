@@ -84,6 +84,7 @@ namespace RADGSHAProject
             else if (DataImportType.SelectedIndex.Equals(INV_RECORD_INDEX))
             {
                 //inventory
+                IT.importInventoryData(DirectoryInputField.Text);
             }
             else if (DataImportType.SelectedIndex.Equals(ROOM_RECORD_INDEX))
             {
@@ -94,6 +95,11 @@ namespace RADGSHAProject
         }
 
         private void DataImportType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ImportTool_Load(object sender, EventArgs e)
         {
 
         }

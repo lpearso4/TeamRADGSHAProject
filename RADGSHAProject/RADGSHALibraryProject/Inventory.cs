@@ -26,7 +26,11 @@ namespace RADGSHALibrary
         {
             return cost;
         }
-            public void useQuantity(int amountUsed)
+        public string getStockID()
+        {
+            return stockID;
+        }
+        public void useQuantity(int amountUsed)
         {
         }
 
