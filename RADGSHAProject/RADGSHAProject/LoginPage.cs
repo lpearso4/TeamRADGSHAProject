@@ -17,6 +17,7 @@ namespace RADGSHAProject
         public LoginPage()
         {
             InitializeComponent();
+           
         }
 
         private void loginButton_Click(object sender, EventArgs e)
@@ -45,6 +46,14 @@ namespace RADGSHAProject
             Hide();
         }
 
+        private void usernameTextBox_Clicked(object sender, EventArgs e)
+        {
+            if (usernameTextBox.Text == "Username") usernameTextBox.Text = "";
+        }
 
+        private void passwordTextBox_Clicked(object sender, EventArgs e)
+        {
+            if (passwordTextBox.Text == "Password") passwordTextBox.Text = "";
+        }
     }
 }
