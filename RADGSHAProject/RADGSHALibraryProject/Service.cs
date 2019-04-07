@@ -8,7 +8,7 @@ namespace RADGSHALibrary
 {
     public class Service : Inventory
     {
-        public Service(string newStockID, string newDescription, decimal newCost) : base(newStockID, newStockID, newCost)
+        public Service(string newStockID, string newDescription, decimal newCost) : base(newStockID, newDescription, newCost)
         {
             
         }

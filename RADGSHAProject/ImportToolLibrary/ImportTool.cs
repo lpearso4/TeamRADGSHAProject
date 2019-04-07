@@ -129,8 +129,15 @@ namespace ImportToolLibrary
                 DateTime effectiveDate = new DateTime(year, month, day, hour, minute, SECOND);
 
                 Room r = new Room(roomNumber, hourlyRate, effectiveDate);
-               
-                conn.addRoom(r); // this will fail if room is already present
+
+                if (conn.queryRoom(roomNumber).Count >= 1)
+                {
+                    conn.updateRoom(r);
+                }
+                else
+                {
+                    conn.addRoom(r);
+                }
 
                 currentLineNumber++;
                 outputPercentTimer++;
@@ -180,11 +187,18 @@ namespace ImportToolLibrary
                 decimal addCents = .01M;
                 cost *= addCents; // shift values 2 below the decimal $$$$$$$$ to $$$$$$.cc
 
+                bool update = false;
+                if (conn.queryInventory(description).Count >= 1)
+                {
+                    update = true;
+                }
+         
                 if (quantity=="VIRTL") // create a new service
                 {
                     Service service = new Service(stockID, description, cost);
 
-                    conn.addService(service);
+                    if (update) conn.updateService(service);
+                    else conn.addService(service);
                 }
                 else // create a new item
                 {
@@ -194,7 +208,8 @@ namespace ImportToolLibrary
                     item.setQuantity(intQuantity);
                     int intSize = Int32.Parse(size);
                     item.setSize(intSize);
-                    conn.addItem(item);
+                    if (update) conn.updateItem(item);
+                    else conn.addItem(item);
                 }
 
                 currentLineNumber++;

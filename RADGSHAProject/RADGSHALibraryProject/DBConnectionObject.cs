@@ -17,6 +17,7 @@ namespace RADGSHALibrary
         private enum RoomCol : int { HourlyRate, EffectiveDate, RoomNumber };
         private enum LogCol : int { StockID, UserName, Date, QuantityUsed };
         private enum ItemCol : int { StockID, Size, Quantity };
+        private enum InvCol : int { StockID, Description, Cost };
         private enum ServiceCol : int { StockID };
         private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
         private enum UserCol : int { Username, Password, UserType }; 
@@ -34,8 +35,8 @@ namespace RADGSHALibrary
             const string DBUSER = "teamRADGSHAUser";
             const string DBPASS = "123";
             const string DBNAME = "HRAS_RAD";
-            //const string DATASOURCE = "LAPTOP-CIDFKFS1"; // change to your server name
-            const string DATASOURCE = "database\\csci3400011030"; // school computer
+            const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
+            //const string DATASOURCE = "database\\csci3400011030"; // school computer
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
@@ -102,8 +103,29 @@ namespace RADGSHALibrary
         }
         public void addVisit(Visit visit, Patient patient)
         {
-            // NOTE: doesn't do anything yet
-            // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
+            bool update = false;
+            alterVisit(update, visit, patient);
+        }
+        public void updateVisit(Visit visit, Patient patient)
+        {
+            bool update = true;
+            alterVisit(update, visit, patient);
+        }
+        public void alterVisit(bool update, Visit visit, Patient patient)
+        {
+            string queryString = "addVisit";
+            if (update) queryString = "updateVisit";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@patientID", patient.getSSN()));
+            if (update) command.Parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
+            command.Parameters.Add(new SqlParameter("@attendingPhysician", visit.getAttendingPhysician()));
+            command.Parameters.Add(new SqlParameter("@diagnosis", visit.getDiagnosis()));
+   
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
         }
         /// <summary>
         /// Service DB methods below
@@ -124,17 +146,17 @@ namespace RADGSHALibrary
             alterInventory(update, service);
 
             string queryString = "addService";
-            if (update) queryString = "updateService";
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@StockID",service.getStockID()));
-            
-            command.Connection = conn;
+            if (!update)
+            {
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@StockID", service.getStockID()));
 
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Close();
+                command.Connection = conn;
 
-            
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+            }
         }
 
         /// <summary>
@@ -200,7 +222,34 @@ namespace RADGSHALibrary
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
+        public List<Inventory> queryInventory(string queryDescription)
+        {
+            string queryString = "queryInventory";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@description", queryDescription));
 
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Inventory> results = new List<Inventory>();
+
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                string stockID = reader.GetString((int)InvCol.StockID);
+                string description = reader.GetString((int)InvCol.Description);
+                decimal cost = reader.GetDecimal((int)InvCol.Cost);
+                Inventory inv = new Inventory(stockID,description,cost);
+
+                results.Add(inv);
+                count++;
+            }
+            reader.Close();
+
+            return results;
+        }
 
         /// <summary>
         /// Room DB methods below
@@ -240,12 +289,12 @@ namespace RADGSHALibrary
         public Room getRoom(string roomNumber, DateTime effectiveDate)
         {
             // Need to rewrite getRoom
-            string queryString = "getItems";
+            string queryString = "getRoom";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@table", "Room"));
-            command.Parameters.Add(new SqlParameter("@feildName", "roomNumber"));
-            command.Parameters.Add(new SqlParameter("@query", roomNumber));
+            command.Parameters.Add(new SqlParameter("@effectiveDate", effectiveDate));
+            command.Parameters.Add(new SqlParameter("@roomNumber", roomNumber));
+            
             command.Connection = conn;
             SqlDataReader reader = command.ExecuteReader();
 
@@ -263,11 +312,40 @@ namespace RADGSHALibrary
 
             return room;
         }
+        public List<Room> queryRoom(string roomNumber)
+        {
 
- /// <summary>
-/// Patient DB methods below
-/// </summary>
-/// <param name="patient"></param>
+            string queryString = "queryRoom";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@roomNumber", roomNumber));
+          
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Room> results = new List<Room>();
+
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                string roomNum = reader.GetString((int)RoomCol.RoomNumber);
+                DateTime effectiveDate = reader.GetDateTime((int)RoomCol.EffectiveDate);
+                decimal hourlyRate = reader.GetDecimal((int)RoomCol.HourlyRate);
+                Room room = new Room(roomNum, hourlyRate, effectiveDate);
+
+                results.Add(room);
+                count++;
+            }
+            reader.Close();
+
+            return results;
+        }
+
+        /// <summary>
+        /// Patient DB methods below
+        /// </summary>
+        /// <param name="patient"></param>
         public void addPatient(Patient patient)
         {
             bool update = false; // we are adding a patient, not updating
