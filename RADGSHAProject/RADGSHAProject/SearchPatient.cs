@@ -32,10 +32,10 @@ namespace RADGSHAProject
             RADGSHALibrary.Patient p = DBconnection.getPatient(PatientListView.SelectedItems[0].SubItems[2].Text);
 
             //This should return the selected Patient
+            this.Hide();
             Patient P = new Patient(this, p);
-     
+            P.Closed += (s, args) => this.Close();
             P.Show();
-            Hide();
         }
 
         private void FormClose(object sender, FormClosedEventArgs e)//shows the previous Form when closing this one

@@ -35,8 +35,8 @@ namespace RADGSHALibrary
             const string DBUSER = "teamRADGSHAUser";
             const string DBPASS = "123";
             const string DBNAME = "HRAS_RAD";
-            const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
-            //const string DATASOURCE = "database\\csci3400011030"; // school computer
+            //const string DATASOURCE = "LAPTOP-CIDFKFS1"; // change to your server name
+            const string DATASOURCE = "database\\csci3400011030"; // school computer
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
@@ -77,7 +77,7 @@ namespace RADGSHALibrary
             //patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
 
             //Change to use stored procedures
-            string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
+            string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "' ORDER BY EntryDate";
 
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
