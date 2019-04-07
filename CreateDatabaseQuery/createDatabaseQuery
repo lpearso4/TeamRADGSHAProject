@@ -1596,9 +1596,9 @@ GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 4/6/2019
--- Description:	takes variable description and returns items that contain with the given description
+-- Description:	takes variable description and returns inventory that contain with the given description
 -- =============================================
-CREATE OR ALTER PROCEDURE queryItem
+CREATE OR ALTER PROCEDURE queryInventory
 	-- Add the parameters for the stored procedure here
 	@description nvarchar(300)
 AS
@@ -1609,8 +1609,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	EXEC('SELECT * FROM Item WHERE Description LIKE ''%' + @description + '%''')
+	EXEC('SELECT * FROM Inventory WHERE Description LIKE ''%' + @description + '%''')
 
 END
 GO
-
