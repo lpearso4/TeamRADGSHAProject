@@ -50,6 +50,16 @@
             this.button1 = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.addressLine1Label = new System.Windows.Forms.Label();
+            this.addressLine2Label = new System.Windows.Forms.Label();
+            this.patientAddressLine1TextBox = new System.Windows.Forms.TextBox();
+            this.patientAddressLine2TextBox = new System.Windows.Forms.TextBox();
+            this.patientZipTextBox = new System.Windows.Forms.TextBox();
+            this.zipcodeLabel = new System.Windows.Forms.Label();
+            this.patientStateTextBox = new System.Windows.Forms.TextBox();
+            this.stateLabel = new System.Windows.Forms.Label();
+            this.cityLabel = new System.Windows.Forms.Label();
+            this.patientCityTextBox = new System.Windows.Forms.TextBox();
             this.PatientGroupBox.SuspendLayout();
             this.VisitGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +96,16 @@
             // 
             // PatientGroupBox
             // 
+            this.PatientGroupBox.Controls.Add(this.patientZipTextBox);
+            this.PatientGroupBox.Controls.Add(this.zipcodeLabel);
+            this.PatientGroupBox.Controls.Add(this.patientStateTextBox);
+            this.PatientGroupBox.Controls.Add(this.stateLabel);
+            this.PatientGroupBox.Controls.Add(this.cityLabel);
+            this.PatientGroupBox.Controls.Add(this.patientCityTextBox);
+            this.PatientGroupBox.Controls.Add(this.patientAddressLine1TextBox);
+            this.PatientGroupBox.Controls.Add(this.patientAddressLine2TextBox);
+            this.PatientGroupBox.Controls.Add(this.addressLine2Label);
+            this.PatientGroupBox.Controls.Add(this.addressLine1Label);
             this.PatientGroupBox.Controls.Add(this.patientLastNameTextBox);
             this.PatientGroupBox.Controls.Add(this.PatientLastNameLabel);
             this.PatientGroupBox.Controls.Add(this.PatientMiddleInitialTextBox);
@@ -93,9 +113,9 @@
             this.PatientGroupBox.Controls.Add(this.PatientFirstNameLabel);
             this.PatientGroupBox.Controls.Add(this.patientFirstNameTextBox);
             this.PatientGroupBox.Location = new System.Drawing.Point(166, 16);
-            this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.PatientGroupBox.Name = "PatientGroupBox";
-            this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(2);
             this.PatientGroupBox.Size = new System.Drawing.Size(626, 124);
             this.PatientGroupBox.TabIndex = 6;
             this.PatientGroupBox.TabStop = false;
@@ -104,7 +124,7 @@
             // patientLastNameTextBox
             // 
             this.patientLastNameTextBox.Location = new System.Drawing.Point(501, 26);
-            this.patientLastNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientLastNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.patientLastNameTextBox.Name = "patientLastNameTextBox";
             this.patientLastNameTextBox.Size = new System.Drawing.Size(116, 20);
             this.patientLastNameTextBox.TabIndex = 5;
@@ -121,16 +141,16 @@
             // 
             // PatientMiddleInitialTextBox
             // 
-            this.PatientMiddleInitialTextBox.Location = new System.Drawing.Point(299, 25);
-            this.PatientMiddleInitialTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientMiddleInitialTextBox.Location = new System.Drawing.Point(360, 27);
+            this.PatientMiddleInitialTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.PatientMiddleInitialTextBox.Name = "PatientMiddleInitialTextBox";
-            this.PatientMiddleInitialTextBox.Size = new System.Drawing.Size(116, 20);
+            this.PatientMiddleInitialTextBox.Size = new System.Drawing.Size(42, 20);
             this.PatientMiddleInitialTextBox.TabIndex = 3;
             // 
             // PatientMiddleInitialLabel
             // 
             this.PatientMiddleInitialLabel.AutoSize = true;
-            this.PatientMiddleInitialLabel.Location = new System.Drawing.Point(228, 28);
+            this.PatientMiddleInitialLabel.Location = new System.Drawing.Point(277, 30);
             this.PatientMiddleInitialLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PatientMiddleInitialLabel.Name = "PatientMiddleInitialLabel";
             this.PatientMiddleInitialLabel.Size = new System.Drawing.Size(68, 13);
@@ -149,10 +169,10 @@
             // 
             // patientFirstNameTextBox
             // 
-            this.patientFirstNameTextBox.Location = new System.Drawing.Point(82, 27);
-            this.patientFirstNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientFirstNameTextBox.Location = new System.Drawing.Point(98, 27);
+            this.patientFirstNameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.patientFirstNameTextBox.Name = "patientFirstNameTextBox";
-            this.patientFirstNameTextBox.Size = new System.Drawing.Size(116, 20);
+            this.patientFirstNameTextBox.Size = new System.Drawing.Size(149, 20);
             this.patientFirstNameTextBox.TabIndex = 0;
             // 
             // VisitGroupBox
@@ -166,9 +186,9 @@
             this.VisitGroupBox.Controls.Add(this.EntryDateLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDatePicker);
             this.VisitGroupBox.Location = new System.Drawing.Point(166, 154);
-            this.VisitGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VisitGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.VisitGroupBox.Name = "VisitGroupBox";
-            this.VisitGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VisitGroupBox.Padding = new System.Windows.Forms.Padding(2);
             this.VisitGroupBox.Size = new System.Drawing.Size(626, 133);
             this.VisitGroupBox.TabIndex = 7;
             this.VisitGroupBox.TabStop = false;
@@ -187,7 +207,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(81, 54);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(498, 45);
@@ -196,7 +216,7 @@
             // VisitDiagnosisTextBox
             // 
             this.VisitDiagnosisTextBox.Location = new System.Drawing.Point(82, 103);
-            this.VisitDiagnosisTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VisitDiagnosisTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.VisitDiagnosisTextBox.Name = "VisitDiagnosisTextBox";
             this.VisitDiagnosisTextBox.Size = new System.Drawing.Size(214, 20);
             this.VisitDiagnosisTextBox.TabIndex = 5;
@@ -216,7 +236,7 @@
             this.comboBox1.Enabled = false;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(429, 31);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(150, 21);
             this.comboBox1.TabIndex = 3;
@@ -245,7 +265,7 @@
             // 
             this.EntryDatePicker.Enabled = false;
             this.EntryDatePicker.Location = new System.Drawing.Point(82, 31);
-            this.EntryDatePicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EntryDatePicker.Margin = new System.Windows.Forms.Padding(2);
             this.EntryDatePicker.Name = "EntryDatePicker";
             this.EntryDatePicker.Size = new System.Drawing.Size(182, 20);
             this.EntryDatePicker.TabIndex = 0;
@@ -277,6 +297,92 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Previous Visit Info";
             // 
+            // addressLine1Label
+            // 
+            this.addressLine1Label.AutoSize = true;
+            this.addressLine1Label.Location = new System.Drawing.Point(16, 63);
+            this.addressLine1Label.Name = "addressLine1Label";
+            this.addressLine1Label.Size = new System.Drawing.Size(80, 13);
+            this.addressLine1Label.TabIndex = 6;
+            this.addressLine1Label.Text = "Address Line 1:";
+            // 
+            // addressLine2Label
+            // 
+            this.addressLine2Label.AutoSize = true;
+            this.addressLine2Label.Location = new System.Drawing.Point(277, 63);
+            this.addressLine2Label.Name = "addressLine2Label";
+            this.addressLine2Label.Size = new System.Drawing.Size(80, 13);
+            this.addressLine2Label.TabIndex = 7;
+            this.addressLine2Label.Text = "Address Line 2:";
+            // 
+            // patientAddressLine1TextBox
+            // 
+            this.patientAddressLine1TextBox.Location = new System.Drawing.Point(98, 57);
+            this.patientAddressLine1TextBox.Name = "patientAddressLine1TextBox";
+            this.patientAddressLine1TextBox.Size = new System.Drawing.Size(149, 20);
+            this.patientAddressLine1TextBox.TabIndex = 11;
+            // 
+            // patientAddressLine2TextBox
+            // 
+            this.patientAddressLine2TextBox.Location = new System.Drawing.Point(360, 57);
+            this.patientAddressLine2TextBox.Name = "patientAddressLine2TextBox";
+            this.patientAddressLine2TextBox.Size = new System.Drawing.Size(137, 20);
+            this.patientAddressLine2TextBox.TabIndex = 12;
+            // 
+            // patientZipTextBox
+            // 
+            this.patientZipTextBox.Location = new System.Drawing.Point(501, 86);
+            this.patientZipTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.patientZipTextBox.Name = "patientZipTextBox";
+            this.patientZipTextBox.Size = new System.Drawing.Size(116, 20);
+            this.patientZipTextBox.TabIndex = 18;
+            // 
+            // zipcodeLabel
+            // 
+            this.zipcodeLabel.AutoSize = true;
+            this.zipcodeLabel.Location = new System.Drawing.Point(436, 88);
+            this.zipcodeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.zipcodeLabel.Name = "zipcodeLabel";
+            this.zipcodeLabel.Size = new System.Drawing.Size(49, 13);
+            this.zipcodeLabel.TabIndex = 17;
+            this.zipcodeLabel.Text = "Zipcode:";
+            // 
+            // patientStateTextBox
+            // 
+            this.patientStateTextBox.Location = new System.Drawing.Point(360, 87);
+            this.patientStateTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.patientStateTextBox.Name = "patientStateTextBox";
+            this.patientStateTextBox.Size = new System.Drawing.Size(42, 20);
+            this.patientStateTextBox.TabIndex = 16;
+            // 
+            // stateLabel
+            // 
+            this.stateLabel.AutoSize = true;
+            this.stateLabel.Location = new System.Drawing.Point(277, 90);
+            this.stateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.stateLabel.Name = "stateLabel";
+            this.stateLabel.Size = new System.Drawing.Size(35, 13);
+            this.stateLabel.TabIndex = 15;
+            this.stateLabel.Text = "State:";
+            // 
+            // cityLabel
+            // 
+            this.cityLabel.AutoSize = true;
+            this.cityLabel.Location = new System.Drawing.Point(17, 89);
+            this.cityLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cityLabel.Name = "cityLabel";
+            this.cityLabel.Size = new System.Drawing.Size(27, 13);
+            this.cityLabel.TabIndex = 14;
+            this.cityLabel.Text = "City:";
+            // 
+            // patientCityTextBox
+            // 
+            this.patientCityTextBox.Location = new System.Drawing.Point(98, 87);
+            this.patientCityTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.patientCityTextBox.Name = "patientCityTextBox";
+            this.patientCityTextBox.Size = new System.Drawing.Size(149, 20);
+            this.patientCityTextBox.TabIndex = 13;
+            // 
             // Patient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,7 +396,7 @@
             this.Controls.Add(this.diagnosisWizardButton);
             this.Controls.Add(this.changeRoomButton);
             this.Controls.Add(this.useInventoryButton);
-            this.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Margin = new System.Windows.Forms.Padding(3);
             this.Name = "Patient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Patient";
@@ -337,5 +443,15 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox VisitDiagnosisTextBox;
         private System.Windows.Forms.Label DiagnosisLabel;
+        private System.Windows.Forms.TextBox patientZipTextBox;
+        private System.Windows.Forms.Label zipcodeLabel;
+        private System.Windows.Forms.TextBox patientStateTextBox;
+        private System.Windows.Forms.Label stateLabel;
+        private System.Windows.Forms.Label cityLabel;
+        private System.Windows.Forms.TextBox patientCityTextBox;
+        private System.Windows.Forms.TextBox patientAddressLine1TextBox;
+        private System.Windows.Forms.TextBox patientAddressLine2TextBox;
+        private System.Windows.Forms.Label addressLine2Label;
+        private System.Windows.Forms.Label addressLine1Label;
     }
 }

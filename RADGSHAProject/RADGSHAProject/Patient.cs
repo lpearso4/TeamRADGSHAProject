@@ -35,9 +35,19 @@ namespace RADGSHAProject
             this.previousForm = previousForm;
             this.selectedPatient = selectedPatient;
             //set the patient passed to this form as the active patient
-            patientFirstNameTextBox.Text = this.selectedPatient.getFirstName();
-            PatientMiddleInitialTextBox.Text = this.selectedPatient.getMiddleInitial().ToString();
-            patientLastNameTextBox.Text = this.selectedPatient.getLastName();
+            displayPatient();
+        }
+
+        private void displayPatient()
+        {
+            patientFirstNameTextBox.Text = selectedPatient.getFirstName();
+            PatientMiddleInitialTextBox.Text = selectedPatient.getMiddleInitial().ToString();
+            patientLastNameTextBox.Text = selectedPatient.getLastName();
+            patientAddressLine1TextBox.Text = selectedPatient.getAddressLine1();
+            patientAddressLine2TextBox.Text = selectedPatient.getAddressLine2();
+            patientCityTextBox.Text = selectedPatient.getCity();
+            patientStateTextBox.Text = selectedPatient.getState();
+            patientZipTextBox.Text = selectedPatient.getZipcode();
         }
 
         private void Patient_Load(object sender, EventArgs e)
