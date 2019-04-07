@@ -360,7 +360,7 @@ GO
 CREATE OR ALTER PROCEDURE addRoom
 	-- Add the parameters for the stored procedure here
 	@hourlyRate decimal(5,2), @effectiveDate datetime,
-	@roomNumber nvarchar(4)
+	@roomNumber nvarchar(10)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -480,7 +480,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	SELECT * FROM Patient WHERE SSN LIKE @ssn + '%'and LastName LIKE @lastName +'%' AND FirstName LIKE @firstName + '%'
+	EXEC('SELECT * FROM Patient WHERE SSN LIKE ''' + @ssn + '%'' AND LastName LIKE ''' + @lastName + '%'' AND FirstName LIKE ''' + @firstName +'%''')
 
 END
 GO
@@ -571,7 +571,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	
-	EXEC('SELECT * FROM @table WHERE @feildName = @query')
+	EXEC('SELECT * FROM [' + @table + '] WHERE ' + @feildName + ' = ''' + @query + '''')
 
 END
 GO
@@ -1340,8 +1340,8 @@ GO
 CREATE OR ALTER PROCEDURE updateVisit
 
 	-- Add the parameters for the stored procedure here
-	@patientId nvarchar(9), @attendingPhysician nvarchar(50),
-	@diagnosis nvarchar(50)
+	@patientId nvarchar(9), @entryDate datetime,
+	@attendingPhysician nvarchar(50), @diagnosis nvarchar(50)
 
 AS
 BEGIN
@@ -1351,7 +1351,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	UPDATE VISIT SET AttendingPhysician = @attendingPhysician, Diagnosis = @diagnosis WHERE PatientId = @patientId
+	UPDATE VISIT SET AttendingPhysician = @attendingPhysician, Diagnosis = @diagnosis WHERE PatientId = @patientId AND EntryDate = @entryDate
 
 END
 GO
@@ -1428,6 +1428,188 @@ BEGIN
     -- Insert statements for procedure here
 
 	UPDATE VISIT SET ExitDate = CURRENT_TIMESTAMP WHERE PatientId = @patientId AND EntryDate = @entryDate
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/6/2019
+-- Description:	takes variable roomNumber and returns rooms that begin with the room number given
+-- =============================================
+CREATE OR ALTER PROCEDURE queryRoom
+	-- Add the parameters for the stored procedure here
+	@roomNumber nvarchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	EXEC('SELECT * FROM Room WHERE RoomNumber LIKE ''' + @roomNumber + '%''')
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/6/2019
+-- Description:	takes room and effective date variables and returns that matching Room
+-- =============================================
+CREATE OR ALTER PROCEDURE getRoom
+	-- Add the parameters for the stored procedure here
+	@effectiveDate datetime, @roomNumber nvarchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Room WHERE EffectiveDate = @effectiveDate AND RoomNumber = @roomNumber
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/6/2019
+-- Description:	takes variable and inserts them into the Service table as a new row
+-- =============================================
+CREATE OR ALTER PROCEDURE addService
+
+	-- Add the parameters for the stored procedure here
+	@stockId nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	INSERT INTO Service(StockId) VALUES (@stockId)
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/6/2019
+-- Description:	takes variable and updates them in the Service table
+-- =============================================
+CREATE OR ALTER PROCEDURE updateService
+
+	-- Add the parameters for the stored procedure here
+	@stockId nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE Service SET StockId = @stockId
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/6/2019
+-- Description:	takes variable description and returns inventory that contain with the given description
+-- =============================================
+CREATE OR ALTER PROCEDURE queryInventory
+	-- Add the parameters for the stored procedure here
+	@description nvarchar(300)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	EXEC('SELECT * FROM Inventory WHERE Description LIKE ''%' + @description + '%''')
 
 END
 GO
