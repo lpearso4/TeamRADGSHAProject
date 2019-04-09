@@ -74,9 +74,9 @@ namespace RADGSHAProject
             Char[] prohibitedChars = { ' ', '*', '.', '\'' };
             DBConnectionObject DBconnection = DBConnectionObject.getInstance();
 
-            string patientSSN = PatientSSNField.Text.Trim(prohibitedChars);
-            string patientLastName = PatientLastNameField.Text.Trim(prohibitedChars);
-            string patientFirstName = PatientFirstNameField.Text.Trim(prohibitedChars);
+            string patientSSN = PatientSSNField.Text.Trim(prohibitedChars).Replace("'", "’");
+            string patientLastName = PatientLastNameField.Text.Trim(prohibitedChars).Replace("'", "’");
+            string patientFirstName = PatientFirstNameField.Text.Trim(prohibitedChars).Replace("'", "’");
 
             List<RADGSHALibrary.Patient> ResultingPatientList = new List<RADGSHALibrary.Patient>();
 
