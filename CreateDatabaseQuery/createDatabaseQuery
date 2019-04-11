@@ -1818,7 +1818,7 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes a stockId and returns 1 if the stockId is a service and 0 if otherwise
 -- =============================================
-CREATE OR ALTER PROCEDURE queryService
+CREATE OR ALTER PROCEDURE isService
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
 AS
@@ -1859,7 +1859,7 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes a stockId and returns 1 if the stockId is an item and 0 if otherwise
 -- =============================================
-CREATE OR ALTER PROCEDURE queryItem
+CREATE OR ALTER PROCEDURE isItem
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
 AS
