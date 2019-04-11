@@ -473,7 +473,7 @@ namespace RADGSHALibrary
             reader.Close();
         }
 
-        public void addUses(Inventory inventory, Patient patient)
+        public void addUses(Inventory inventory, Patient patient, Visit v)
         {
             string queryString = "addUses";
 
@@ -481,6 +481,7 @@ namespace RADGSHALibrary
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
             command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
            
             command.Connection = conn;
 
@@ -518,7 +519,7 @@ namespace RADGSHALibrary
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
-        public void addStaysIn(Room room, Patient patient)
+        public void addStaysIn(Room room, Patient patient, Visit v)
         {
             string queryString = "addStaysIn";
             
@@ -526,6 +527,8 @@ namespace RADGSHALibrary
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
             command.Parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+            command.Parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+            command.Parameters.Add(new SqlParameter("@visitEntrydate", v.getEntryDate()));
 
             command.Connection = conn;
 

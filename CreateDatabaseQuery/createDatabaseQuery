@@ -728,14 +728,8 @@ BEGIN
     -- Insert statements for procedure here
 
 	DECLARE @isValid BIT
-	IF EXISTS(SELECT * FROM [User] WHERE @username = Username AND @givenPW = Password)
-	BEGIN
-	SET @isValid = 1
-	END
-	ELSE
-	BEGIN
-	SET @isValid = 0
-	END
+	IF EXISTS(SELECT * FROM [User] WHERE @username = Username AND @givenPW = Password)	SET @isValid = 1
+	ELSE SET @isValid = 0
 	SELECT @isValid
 
 END
@@ -1143,8 +1137,8 @@ GO
 CREATE OR ALTER PROCEDURE addStaysIn
 
 	-- Add the parameters for the stored procedure here
-	@roomNumber nvarchar(10), @patientId nvarchar(9)
-
+	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
+	@patientId nvarchar(9), @visitEntryDate datetime
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1152,14 +1146,12 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	DECLARE @roomEffectiveDate datetime
-	DECLARE @visitEntryDate datetime
+	--DECLARE @roomEffectiveDate datetime
 
-	SET @roomEffectiveDate = (SELECT effectiveDate FROM Room WHERE RoomNumber = @roomNumber)
-	SET @visitEntryDate = (SELECT entryDate FROM Visit WHERE PatientId = @patientId)
+	--SET @roomEffectiveDate = (SELECT effectiveDate FROM Room WHERE RoomNumber = @roomNumber)
 
 	INSERT INTO StaysIn(RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime) 
-	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, CURRENT_TIMESTAMP)
+	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @visitEntryDate)
 
 END
 GO
@@ -1187,7 +1179,8 @@ GO
 CREATE OR ALTER PROCEDURE addSymptom
 
 	-- Add the parameters for the stored procedure here
-	@patientId nvarchar(9), @symptomName nvarchar(50)
+	@patientId nvarchar(9), @entryDate datetime,
+	@symptomName nvarchar(50)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1196,7 +1189,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Symptom(PatientId, EntryDate, SymptomName) VALUES (@patientId, CURRENT_TIMESTAMP, @symptomName)
+	INSERT INTO Symptom(PatientId, EntryDate, SymptomName) VALUES (@patientId, @entryDate, @symptomName)
 
 END
 GO
@@ -1262,8 +1255,8 @@ GO
 CREATE OR ALTER PROCEDURE addUses
 
 	-- Add the parameters for the stored procedure here
-	@stockId nvarchar(50), @patientId nvarchar(9)
-
+	@stockId nvarchar(50), @patientId nvarchar(9),
+	@entryDateTime datetime
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1272,7 +1265,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Uses(StockId, PatientId, EntryDateTime) VALUES (@stockId, @patientId, CURRENT_TIMESTAMP)
+	INSERT INTO Uses(StockId, PatientId, EntryDateTime) VALUES (@stockId, @patientId, @entryDateTime)
 
 END
 GO
@@ -1389,7 +1382,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	UPDATE StaysIn SET RoomExitDateTime = CURRENT_TIMESTAMP WHERE VisitEntryDate = @visitEntryDate 
+	UPDATE StaysIn SET RoomExitDateTime = CURRENT_TIMESTAMP WHERE VisitEntryDate = @visitEntryDate
 
 END
 GO
