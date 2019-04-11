@@ -38,7 +38,8 @@ namespace RADGSHAProject
 
             bool valid = db.validateLogin(user);
 
-            if (valid) Console.WriteLine("validated successfully");
+            if (valid)
+            Console.WriteLine("validated successfully");
             else Console.WriteLine("invalid login attempt");
 
             this.Hide();

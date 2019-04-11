@@ -502,14 +502,16 @@ namespace RADGSHALibrary
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
-        public void addSymptom(Patient patient, string symptom)
+        public void addSymptom(Patient patient, Visit v, string symptom)
         {
             string queryString = "addSymptom";
 
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
             command.Parameters.Add(new SqlParameter("@symptomName", symptom));
+            
 
             command.Connection = conn;
 
