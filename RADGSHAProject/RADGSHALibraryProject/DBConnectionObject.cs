@@ -55,7 +55,6 @@ namespace RADGSHALibrary
             }
         }
 
-
         public static DBConnectionObject getInstance()
         {
             if (instance == null) instance = new DBConnectionObject();
@@ -74,15 +73,25 @@ namespace RADGSHALibrary
             //List<Visit> visits = patient.getVisitList();
             //visits.Clear();
 
-            //patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
+            patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
+
+            string queryString = "getVisits";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@ssn", patient.getSSN()));
+           
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+           // reader.Close();
 
             //Change to use stored procedures
-            string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
+           /* string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
 
             SqlCommand command = new SqlCommand(queryString);
             command.Connection = conn;
             
-            SqlDataReader reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();*/
 
             while (reader.Read())
             {
@@ -95,12 +104,14 @@ namespace RADGSHALibrary
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
                 //visit.addSymptom(); 
                 
+
                 patient.addVisit(visit);
               
             }
             reader.Close();
            
         }
+        
         public void addVisit(Visit visit, Patient patient)
         {
             bool update = false;
@@ -158,7 +169,6 @@ namespace RADGSHALibrary
                 reader.Close();
             }
         }
-
         /// <summary>
         /// Item DB methods below
         /// </summary>
@@ -188,16 +198,14 @@ namespace RADGSHALibrary
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();
-            reader.Close();
-
-            
+            reader.Close();                      
         }
-
             /// <summary>
             /// Inventory DB methods below
             /// </summary>
             /// <param name="inventory"></param>
-        /*private void addInventory(Inventory inventory)
+        /* I don't think that we'll need add or update inventory methods, it'll be through add or update item or service
+         * private void addInventory(Inventory inventory)
         {
             bool update = false; // add inventory
             alterInventory(update, inventory);
@@ -349,8 +357,7 @@ namespace RADGSHALibrary
         public void addPatient(Patient patient)
         {
             bool update = false; // we are adding a patient, not updating
-            alterPatient(update, patient);
-            
+            alterPatient(update, patient); 
         }
         public void updatePatient(Patient patient)
         {
@@ -361,8 +368,7 @@ namespace RADGSHALibrary
         {
             string queryString = "addPatient";
             if (update) queryString = "updatePatient";
-               
-            //string queryString = "addPatient";
+       
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@gender", patient.getGender()));
@@ -388,9 +394,6 @@ namespace RADGSHALibrary
 
         public Patient getPatient(string ssn)
         {
-            // stored procedure version
-          
-          
             string queryString = "getPatient";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -403,7 +406,6 @@ namespace RADGSHALibrary
             if (patientSSN != ssn) throw new Exception("Exception: Patient not found!");
             Patient patient = new Patient(patientSSN);
 
-            // An exception will be thrown if we attempt to retrieve a null column
             if (!reader.IsDBNull((int)PCol.LastName)) patient.setLastName(reader.GetString((int)PCol.LastName));
             if (!reader.IsDBNull((int)PCol.FirstName)) patient.setFirstName(reader.GetString((int)PCol.FirstName));
             if (!reader.IsDBNull((int)PCol.MiddleInitial)) patient.setMiddleInitial(reader.GetString((int)PCol.MiddleInitial)[0]);
@@ -435,7 +437,6 @@ namespace RADGSHALibrary
             command.Parameters.Add(new SqlParameter("@ssn", ssn));
             command.Parameters.Add(new SqlParameter("@lastName", lastName));
             command.Parameters.Add(new SqlParameter("@firstName", firstName));
-            
 
             command.Connection = conn;
            
