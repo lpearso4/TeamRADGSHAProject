@@ -41,9 +41,10 @@ namespace RADGSHAProject
             if (valid) Console.WriteLine("validated successfully");
             else Console.WriteLine("invalid login attempt");
 
-            MainPage M = new MainPage(this);
+            this.Hide();
+            MainPage M = new MainPage();
+            M.Closed += (s, args) => this.Close();
             M.Show();
-            Hide();
         }
 
         private void usernameTextBox_Clicked(object sender, EventArgs e)

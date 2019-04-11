@@ -10,14 +10,15 @@ namespace RADGSHALibrary
     {
         private Visit currentVisit;
 
-        public DiagnosisWizard(Visit setCurrentVisit)
+        public DiagnosisWizard(ref Visit setCurrentVisit)
         {
             currentVisit = setCurrentVisit;
         }
 
-        public void runDiagnosisWizard()
+        public string runDiagnosisWizard()
         {
-
+            // this will take the current visits symptoms, and decide what next symptom should be asked.
+            return "Excessive reflection";
         }
 
         public void applyDiagnosisToVisit()

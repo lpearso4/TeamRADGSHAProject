@@ -16,6 +16,7 @@ namespace RADGSHAProject
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
         RADGSHALibrary.Patient selectedPatient;
+        RADGSHALibrary.Visit selectedVisit;
 
         public Patient()//This constructor can probably be safely removed
         {
@@ -36,6 +37,12 @@ namespace RADGSHAProject
             this.selectedPatient = selectedPatient;
             //set the patient passed to this form as the active patient
             displayPatient();
+
+            //selectedVisit = selectedPatient.getCurrentVisit();
+            selectedVisit = new RADGSHALibrary.Visit();
+            selectedVisit.setPatientId(selectedPatient.getSSN());
+
+            checkInOutButton.Text = (selectedVisit.getExitDate() == null) ? "Check Out" : "Check In";
         }
 
         private void displayPatient()
@@ -57,33 +64,53 @@ namespace RADGSHAProject
 
         private void useInventoryButton_Click(object sender, EventArgs e)
         {
-            UseInventory U = new UseInventory(this);
+            this.Hide();
+            UseInventory U = new UseInventory();
+            U.Closed += (s, args) => this.Close();
             U.Show();
-            Hide();
         }
 
         private void changeRoomButton_Click(object sender, EventArgs e)
         {
-            ChangeRoom C = new ChangeRoom(this);
+            this.Hide();
+            ChangeRoom C = new ChangeRoom();
+            C.Closed += (s, args) => this.Close();
             C.Show();
-            Hide();
         }
 
         private void diagnosisWizardButton_Click(object sender, EventArgs e)
         {
             // Open diagnosis wizard
-            DiagnosisWizard D = new DiagnosisWizard(this);
+            this.Hide();
+            DiagnosisWizard D = new DiagnosisWizard(selectedPatient, selectedVisit);
+            D.Closed += (s, args) => this.Close();
             D.Show();
-            Hide();
         }
 
         private void FormClose(object sender, FormClosedEventArgs e)//shows the previous form after closing this one
         {
-            if (previousForm != null)
-            {
-                previousForm.Show();
-            }
             Dispose();
+        }
+
+        private void checkInOutButton_Click(object sender, EventArgs e)
+        {
+            if (selectedVisit.getExitDate() == null)
+            {
+                //the patient must be checking out, as they never exited their last visit.
+                selectedVisit.setExitDate(DateTime.Now);
+                RADGSHALibrary.DBConnectionObject conn = RADGSHALibrary.DBConnectionObject.getInstance();
+                conn.addVisit(selectedVisit, selectedPatient);
+                checkInOutButton.Text = "Check In";
+            }
+            else
+            {
+                //The patient has already finished their last visit, must be checking into a new visit.
+                this.Hide();
+                ChangeRoom C = new ChangeRoom(selectedPatient, selectedVisit);
+                C.Closed += (s, args) => this.Close();
+                C.Show();
+                checkInOutButton.Text = "Check Out";
+            }
         }
     }
 }

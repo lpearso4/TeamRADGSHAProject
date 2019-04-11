@@ -32,10 +32,10 @@ namespace RADGSHAProject
             RADGSHALibrary.Patient p = DBconnection.getPatient(PatientListView.SelectedItems[0].SubItems[2].Text);
 
             //This should return the selected Patient
+            this.Hide();
             Patient P = new Patient(this, p);
-     
+            P.Closed += (s, args) => this.Close();
             P.Show();
-            Hide();
         }
 
         private void FormClose(object sender, FormClosedEventArgs e)//shows the previous Form when closing this one
@@ -74,9 +74,9 @@ namespace RADGSHAProject
             Char[] prohibitedChars = { ' ', '*', '.', '\'' };
             DBConnectionObject DBconnection = DBConnectionObject.getInstance();
 
-            string patientSSN = PatientSSNField.Text.Trim(prohibitedChars);
-            string patientLastName = PatientLastNameField.Text.Trim(prohibitedChars);
-            string patientFirstName = PatientFirstNameField.Text.Trim(prohibitedChars);
+            string patientSSN = PatientSSNField.Text.Trim(prohibitedChars).Replace("'", "’");
+            string patientLastName = PatientLastNameField.Text.Trim(prohibitedChars).Replace("'", "’");
+            string patientFirstName = PatientFirstNameField.Text.Trim(prohibitedChars).Replace("'", "’");
 
             List<RADGSHALibrary.Patient> ResultingPatientList = new List<RADGSHALibrary.Patient>();
 
