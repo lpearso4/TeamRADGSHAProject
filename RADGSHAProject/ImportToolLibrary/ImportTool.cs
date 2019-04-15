@@ -79,6 +79,67 @@ namespace ImportToolLibrary
                     conn.addPatient(p);
                 }
 
+                string[] symptom = new string[6];
+                symptom[0] = line.Substring(132, 25).Trim();
+                symptom[1] = line.Substring(157, 25).Trim();
+                symptom[2] = line.Substring(182, 25).Trim();
+                symptom[3] = line.Substring(207, 25).Trim();
+                symptom[4] = line.Substring(232, 25).Trim();
+                symptom[5] = line.Substring(257, 25).Trim();
+                string diagnosis = line.Substring(282, 75).Trim();
+                string attendingPhys = line.Substring(118, 5).Trim(prohibitedChars);
+                string note = line.Substring(357, 100).Trim();
+                DateTime entryDate;
+
+                string entryMonth = line.Substring(94,2);
+                string entryDay = line.Substring(96, 2);
+                string entryYear = line.Substring(98, 4);
+                string entryHour = line.Substring(102, 2);
+                string entryMinute = line.Substring(104, 2);
+                entryDate = DateTime.Parse(entryMonth + "/" + entryDay + "/" + entryYear + " " + entryHour + ":" + entryMinute);
+
+                DateTime exitDate;
+                string exitMonth = line.Substring(106, 2);
+                string exitDay = line.Substring(108, 2);
+                string exitYear = line.Substring(110, 4);
+                string exitHour = line.Substring(114, 2);
+                string exitMinute = line.Substring(116, 2);
+                exitDate = DateTime.Parse(exitMonth + "/" + exitDay + "/" + exitYear + " " + exitHour + ":" + exitMinute);
+
+                string roomNumber = line.Substring(123, 9);
+
+                Visit v = new Visit();
+                v.setEntryDate(entryDate);
+                v.setExitDate(exitDate);
+                v.setAttendingPhysician(attendingPhys);
+                v.setNote(note);
+       
+                v.changeDiagnosis(diagnosis);
+                conn.addVisit(v, p);
+
+
+                for (int i = 0; i < 6; i++)
+                {
+                    List<string> l = conn.querySymptoms(p,v, symptom[i]);
+                    Console.WriteLine("Matching symptoms for " + symptom[i] +" : " + l.Count());
+                    if (l.Count == 0) conn.addSymptom(p, v, symptom[i]); // if this patient doesn't have the symptom, add it
+                }
+                conn.closeVisit(p, v);
+
+                List<Room> rooms = conn.queryRoom(roomNumber);
+
+                int bestIndex = -1;
+                for(int i = 0; i<rooms.Count;i++)
+                {
+                    if (v.getEntryDate() < rooms[i].getEffectiveDate())
+                    {
+                        bestIndex = i;
+                    }
+                }
+                if (bestIndex != -1) conn.addStaysIn(rooms[bestIndex],p,v);
+
+                conn.closeStaysIn(p, v, rooms[bestIndex], v.getExitDate());
+
                 currentLineNumber++;
                 outputPercentTimer++;
                 if (outputPercentTimer > 1000)

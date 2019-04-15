@@ -72,9 +72,9 @@
             this.DataImportType.CheckOnClick = true;
             this.DataImportType.FormattingEnabled = true;
             this.DataImportType.Items.AddRange(new object[] {
-            "Medical Records",
+            "Rooms",
             "Inventory",
-            "Rooms"});
+            "Medical Records"});
             this.DataImportType.Location = new System.Drawing.Point(542, 41);
             this.DataImportType.Margin = new System.Windows.Forms.Padding(2);
             this.DataImportType.Name = "DataImportType";

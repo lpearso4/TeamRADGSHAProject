@@ -32,14 +32,17 @@ namespace RADGSHALibrary
         protected DBConnectionObject()
         {
             // move some of these to properties file
+                                   
             const string DBUSER = "teamRADGSHAUser";
             const string DBPASS = "123";
             const string DBNAME = "HRAS_RAD";
-            //const string DATASOURCE = "LAPTOP-CIDFKFS1"; // change to your server name
-            const string DATASOURCE = "database\\csci3400011030"; // school computer
+            const string DATASOURCE = "DESKTOP-C7M3ROB\\SQLEXPRESS"; // change to your server name
+            //const string DATASOURCE = "database\\csci3400011030"; // school computer
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
+            // If you want to use integrated security for some reason
+            //string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=True;";
             conn = new SqlConnection(connectionString);
             conn.Open(); // TODO: add error handling in case connection fails
         }
@@ -62,6 +65,23 @@ namespace RADGSHALibrary
             return instance;
         }
 
+        private SqlDataReader executeStoredProcedure(string procedureName, List<SqlParameter> parameterList)
+        {
+            string queryString = procedureName;
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+
+            foreach (SqlParameter parameter in parameterList)
+            {
+                command.Parameters.Add(parameter);
+            }
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            return reader;
+        }
+
         public void getVisits(ref Patient patient)
         {
             // This attaches a list of visits to patient. 
@@ -69,9 +89,6 @@ namespace RADGSHALibrary
             //   and room list should be pulled from StaysIn table
             //   Items used and services should be pulled from respective tables
             //   (Or should they be added somewhere else?)
-
-            //List<Visit> visits = patient.getVisitList();
-            //visits.Clear();
 
             patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
 
@@ -83,16 +100,7 @@ namespace RADGSHALibrary
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();
-           // reader.Close();
-
-            //Change to use stored procedures
-           /* string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
-
-            SqlCommand command = new SqlCommand(queryString);
-            command.Connection = conn;
-            
-            SqlDataReader reader = command.ExecuteReader();*/
-
+          
             while (reader.Read())
             {
                 Visit visit = new Visit();
@@ -129,7 +137,7 @@ namespace RADGSHALibrary
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@patientID", patient.getSSN()));
-            if (update) command.Parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
+            command.Parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
             command.Parameters.Add(new SqlParameter("@attendingPhysician", visit.getAttendingPhysician()));
             command.Parameters.Add(new SqlParameter("@diagnosis", visit.getDiagnosis()));
    
@@ -431,7 +439,9 @@ namespace RADGSHALibrary
         public List<Patient> queryPatient(string ssn, string lastName, string firstName)
         {
 
-            string queryString = "queryPatient";
+            string procedureName = "queryPatient";
+
+            /*
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@ssn", ssn));
@@ -441,6 +451,13 @@ namespace RADGSHALibrary
             command.Connection = conn;
            
             SqlDataReader reader = command.ExecuteReader();
+            */
+            //executeStoredProcedure(string procedureName, Dictionary<string,string> parameterList)
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@ssn", ssn));
+            parameters.Add(new SqlParameter("@lastName", lastName));
+            parameters.Add(new SqlParameter("@firstName", firstName));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             List<Patient> results = new List<Patient>();
             
@@ -453,7 +470,9 @@ namespace RADGSHALibrary
                 results.Add(patient);
                 count++;
             }
-            reader.Close();
+
+            closeReader(ref reader);
+
             return results;
         }
 
@@ -519,6 +538,54 @@ namespace RADGSHALibrary
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
+
+        /*
+         * 	@patientId nvarchar(9), @entryDate datetime,
+	     *@symptomName nvarchar(50
+         * )
+         */
+        public List<string> querySymptoms (string patientSSN="", string symptomName="")
+        {
+            string procedureName = "querySymptoms";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patientSSN));
+            parameters.Add(new SqlParameter("@entryDate", ""));
+            parameters.Add(new SqlParameter("@symptomName", symptomName));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            List<string> results = new List<string>();
+
+            while (reader.Read()) // no query limit on symptoms
+            {
+                results.Add(reader.GetString((int)SymCol.SymptomName));
+            }
+            closeReader(ref reader);
+
+            return results;
+        }
+        public List<string> querySymptoms(Patient patient, Visit visit, string symptomName="")
+        {
+
+            string procedureName = "querySymptoms";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
+            parameters.Add(new SqlParameter("@symptomName", symptomName));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            List<string> results = new List<string>();
+
+            while (reader.Read()) // no query limit on symptoms
+            {
+                results.Add(reader.GetString((int)SymCol.SymptomName));
+            }
+            closeReader(ref reader);
+
+            return results;
+        }
+
         public void addStaysIn(Room room, Patient patient, Visit v)
         {
             string queryString = "addStaysIn";
@@ -577,6 +644,127 @@ namespace RADGSHALibrary
             return isAdmin;
         }
 
+        public void closeVisit(Patient patient, Visit v)
+        {
+            //Visit 3v = patient.getCurrentVisit();
+
+            string procedureName = "closeVisit";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();           
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@exitDate", v.getExitDate()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            closeReader(ref reader);
+
+        }
+
+        public void getStaysIn(string patientSSN, string roomNumber) 
+        {
+            getStaysIn(patientSSN, roomNumber, DateTime.MinValue, DateTime.MinValue);
+        }
+        public void getStaysIn(string patientSSN, string roomNumber, DateTime visitEntryDate) 
+        {
+            getStaysIn(patientSSN, roomNumber, visitEntryDate, DateTime.MinValue);
+        }
+
+        public void getStaysIn(string patientSSN, string roomNumber, DateTime visitEntryDate, DateTime roomEffectiveDate) // I'm not sure exactly what this will look like yet
+        // This will probably return something at some point. The other methods send DateTime.MinValue as an argument as a way of saying, we don't want to use that as a parameter
+        // Yeah, I know that's a bad hack
+        {
+            string procedureName = "getStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@roomNumber", roomNumber));
+            if (roomEffectiveDate == DateTime.MinValue)
+                parameters.Add(new SqlParameter("@roomEffectiveDate", ""));
+            else
+                parameters.Add(new SqlParameter("@roomEffectiveDate", roomEffectiveDate));
+            parameters.Add(new SqlParameter("@patientId", patientSSN));
+            if (visitEntryDate == DateTime.MinValue)
+                parameters.Add(new SqlParameter("@visitEntryDate", ""));
+            else
+                parameters.Add(new SqlParameter("@visitEntryDate", visitEntryDate));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            // Now we need to do something with the values that we retreive...
+            // private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                Console.WriteLine("Room Number: " + reader.GetString((int)staysInCol.RoomNumber)
+                                + "Room Effective Date: " + reader.GetDateTime((int)staysInCol.RoomEffectiveDate)
+                                + "Patient SSN: " + reader.GetString((int)staysInCol.PatientId));
+                Console.WriteLine("\tVisit Entry Date: " + reader.GetDateTime((int)staysInCol.VisitEntryDate)
+                                + "Room Entry Date: " + reader.GetDateTime((int)staysInCol.RoomEntryDateTime)
+                                + "Room Exit Date: " + reader.GetDateTime((int)staysInCol.RoomExitDateTime));
+                
+                count++;
+            }
+            closeReader(ref reader);
+        }
+        public void closeStaysIn(Patient patient, Visit visit, Room room, DateTime roomExitDate)
+        {
+            /* CREATE OR ALTER PROCEDURE closeStaysIn
+
+	-- Add the parameters for the stored procedure here
+	@PatientId nvarchar(10), @visitEntryDate datetime, @roomNumber nvarchar(10), @roomEffectiveDate datetime,
+		@roomExitDate datetime
+        */
+            string procedureName = "closeStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@PatientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@visitEntryDate", visit.getEntryDate()));
+            parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+            parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+            parameters.Add(new SqlParameter("@roomExitDate", roomExitDate));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+                      
+            closeReader(ref reader);
+        }
+        public bool isService(Inventory stock)
+        {
+            string procedureName = "isService";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            bool service = reader.GetBoolean(0);
+
+            closeReader(ref reader);
+
+            return service;
+        }
+        public bool isItem(Inventory stock)
+        {
+            string procedureName = "isItem";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            bool item = reader.GetBoolean(0);
+
+            closeReader(ref reader);
+
+            return item;
+        }
+
+        public void closeReader(ref SqlDataReader reader)
+        {
+            try
+            {
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error closing reader: " + e.Message); // it's not crucial to do anything... usually when there is an error closing reader
+                                                                         // it means it didn't open correctly in the first place
+            }
+        }
 
     }
 }

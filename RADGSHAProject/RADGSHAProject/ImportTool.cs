@@ -75,7 +75,7 @@ namespace RADGSHAProject
                 MessageBox.Show(message, caption, buttons);
                 return;
             }
-            const int MED_RECORD_INDEX = 0; const int INV_RECORD_INDEX = 1; const int ROOM_RECORD_INDEX = 2;
+            const int MED_RECORD_INDEX = 2; const int INV_RECORD_INDEX = 1; const int ROOM_RECORD_INDEX = 0;
             if (DataImportType.SelectedIndex.Equals(MED_RECORD_INDEX))
             {
                 // medical record

@@ -8,7 +8,7 @@ namespace RADGSHALibrary
 {
     public class Visit
     {
-        private string patientId;
+        //private string patientId; // No
         private DateTime entryDate;
         private DateTime exitDate;
         private List<Room> rooms;
@@ -24,14 +24,14 @@ namespace RADGSHALibrary
             symptoms = new List<string>();
             rooms = new List<Room>();
         }
-        public void setPatientId(string newPatientId)
+        /*public void setPatientId(string newPatientId)
         {
             patientId = newPatientId;
         }
         public string getPatientId()
         {
             return patientId;
-        }
+        }*/
         public void setEntryDate(DateTime newEntryDate)
         {
             entryDate = newEntryDate;

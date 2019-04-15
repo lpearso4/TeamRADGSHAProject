@@ -1293,7 +1293,7 @@ GO
 CREATE OR ALTER PROCEDURE addVisit
 
 	-- Add the parameters for the stored procedure here
-	@patientId nvarchar(9), @attendingPhysician nvarchar(50),
+	@patientId nvarchar(9), @entryDate datetime, @attendingPhysician nvarchar(50),
 	@diagnosis nvarchar(50)
 
 AS
@@ -1304,8 +1304,8 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Visit(PatientId, EntryDate, AttendingPhysician, Diagnosis) VALUES (@patientId, CURRENT_TIMESTAMP,
-	@attendingPhysician, @diagnosis)
+	INSERT INTO Visit(PatientId, EntryDate, AttendingPhysician, Diagnosis) VALUES (@patientId, @entryDate,
+	@attendingPhysician, @diagnosis) 
 
 END
 GO
@@ -1367,12 +1367,15 @@ GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 4/4/2019
--- Description:	closes the staysIn by updating roomexitDate with current timestamp
+-- Description:	closes the staysIn by updating roomexitDate
+-- RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate
 -- =============================================
 CREATE OR ALTER PROCEDURE closeStaysIn
 
 	-- Add the parameters for the stored procedure here
-	@visitEntryDate datetime
+	@PatientId nvarchar(10), @visitEntryDate datetime, @roomNumber nvarchar(10), @roomEffectiveDate datetime,
+		@roomExitDate datetime
+
 
 AS
 BEGIN
@@ -1382,7 +1385,8 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	UPDATE StaysIn SET RoomExitDateTime = CURRENT_TIMESTAMP WHERE VisitEntryDate = @visitEntryDate
+	UPDATE StaysIn SET RoomExitDateTime = @roomExitDate WHERE PatientId = @PatientId AND VisitEntryDate = @visitEntryDate
+			AND RoomNumber = @roomNumber AND roomEffectiveDate = @roomEffectiveDate
 
 END
 GO
@@ -1405,12 +1409,12 @@ GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 4/4/2019
--- Description:	closes the visit by updating exitDate with current timestamp
+-- Description:	closes the visit by updating exitDate
 -- =============================================
 CREATE OR ALTER PROCEDURE closeVisit
 
 	-- Add the parameters for the stored procedure here
-	@patientId nvarchar(9), @entryDate datetime
+	@patientId nvarchar(9), @entryDate datetime, @exitDate datetime
 
 AS
 BEGIN
@@ -1420,7 +1424,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	UPDATE VISIT SET ExitDate = CURRENT_TIMESTAMP WHERE PatientId = @patientId AND EntryDate = @entryDate
+	UPDATE VISIT SET ExitDate = @exitDate WHERE PatientId = @patientId AND EntryDate = @entryDate
 
 END
 GO
@@ -1753,7 +1757,7 @@ BEGIN
     -- Insert statements for procedure here
 
 	EXEC('SELECT * FROM Symptom 
-	WHERE PatientId LIKE ''' + @patientId + '%'' AND EntryDate62 LIKE ''' + @entryDate 
+	WHERE PatientId LIKE ''' + @patientId + '%'' AND EntryDate LIKE ''' + @entryDate 
 	+ '%'' AND SymptomName LIKE ''' + @symptomName + '%''')
 
 END

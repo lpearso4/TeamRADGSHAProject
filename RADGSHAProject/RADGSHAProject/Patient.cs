@@ -40,7 +40,7 @@ namespace RADGSHAProject
 
             //selectedVisit = selectedPatient.getCurrentVisit();
             selectedVisit = new RADGSHALibrary.Visit();
-            selectedVisit.setPatientId(selectedPatient.getSSN());
+            //selectedVisit.setPatientId(selectedPatient.getSSN());
 
             checkInOutButton.Text = (selectedVisit.getExitDate() == null) ? "Check Out" : "Check In";
         }
