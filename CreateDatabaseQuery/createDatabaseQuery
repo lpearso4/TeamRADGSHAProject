@@ -480,7 +480,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	EXEC('SELECT * FROM Patient WHERE SSN LIKE ''' + @ssn + '%'' AND LastName LIKE ''' + @lastName + '%'' AND FirstName LIKE ''' + @firstName +'%''')
+	EXEC('SELECT * FROM Patient WHERE SSN LIKE ''' + @ssn + '%'' AND LastName LIKE ''' + @lastName + '%'' AND FirstName LIKE ''' + @firstName +'%'' ORDER BY LastName, FirstName, MiddleInitial')
 
 END
 GO

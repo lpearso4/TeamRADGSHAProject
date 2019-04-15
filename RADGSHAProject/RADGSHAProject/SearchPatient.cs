@@ -94,6 +94,7 @@ namespace RADGSHAProject
                 patientResult.SubItems.Add(p.getLastName());
                 patientResult.SubItems.Add(p.getSSN());
                 PatientListView.Items.Add(patientResult);
+               
             }
 
             if (PatientListView.SelectedItems.Count != 1)

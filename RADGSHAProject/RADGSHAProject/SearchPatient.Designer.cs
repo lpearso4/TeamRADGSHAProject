@@ -47,10 +47,10 @@
             // viewPatientButton
             // 
             this.viewPatientButton.Enabled = false;
-            this.viewPatientButton.Location = new System.Drawing.Point(611, 389);
-            this.viewPatientButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.viewPatientButton.Location = new System.Drawing.Point(458, 316);
+            this.viewPatientButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.viewPatientButton.Name = "viewPatientButton";
-            this.viewPatientButton.Size = new System.Drawing.Size(139, 39);
+            this.viewPatientButton.Size = new System.Drawing.Size(104, 32);
             this.viewPatientButton.TabIndex = 0;
             this.viewPatientButton.Text = "Submit";
             this.viewPatientButton.UseVisualStyleBackColor = true;
@@ -58,28 +58,28 @@
             // 
             // PatientFirstNameField
             // 
-            this.PatientFirstNameField.Location = new System.Drawing.Point(309, 33);
-            this.PatientFirstNameField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PatientFirstNameField.Location = new System.Drawing.Point(232, 27);
+            this.PatientFirstNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientFirstNameField.Name = "PatientFirstNameField";
-            this.PatientFirstNameField.Size = new System.Drawing.Size(284, 22);
+            this.PatientFirstNameField.Size = new System.Drawing.Size(214, 20);
             this.PatientFirstNameField.TabIndex = 1;
             this.PatientFirstNameField.TextChanged += new System.EventHandler(this.PatientNameField_TextChanged);
             // 
             // PatientSSNField
             // 
-            this.PatientSSNField.Location = new System.Drawing.Point(309, 110);
-            this.PatientSSNField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PatientSSNField.Location = new System.Drawing.Point(232, 89);
+            this.PatientSSNField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientSSNField.Name = "PatientSSNField";
-            this.PatientSSNField.Size = new System.Drawing.Size(284, 22);
+            this.PatientSSNField.Size = new System.Drawing.Size(214, 20);
             this.PatientSSNField.TabIndex = 2;
             this.PatientSSNField.TextChanged += new System.EventHandler(this.PatientSSNField_TextChanged);
             // 
             // VisitRoomNumberField
             // 
-            this.VisitRoomNumberField.Location = new System.Drawing.Point(309, 146);
-            this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.VisitRoomNumberField.Location = new System.Drawing.Point(232, 119);
+            this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.VisitRoomNumberField.Name = "VisitRoomNumberField";
-            this.VisitRoomNumberField.Size = new System.Drawing.Size(284, 22);
+            this.VisitRoomNumberField.Size = new System.Drawing.Size(214, 20);
             this.VisitRoomNumberField.TabIndex = 3;
             this.VisitRoomNumberField.TextChanged += new System.EventHandler(this.VisitRoomNumberField_TextChanged);
             // 
@@ -93,11 +93,11 @@
             this.RoomNumber});
             this.PatientListView.FullRowSelect = true;
             this.PatientListView.GridLines = true;
-            this.PatientListView.Location = new System.Drawing.Point(195, 185);
-            this.PatientListView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PatientListView.Location = new System.Drawing.Point(146, 150);
+            this.PatientListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientListView.Name = "PatientListView";
-            this.PatientListView.Size = new System.Drawing.Size(577, 187);
-            this.PatientListView.Sorting = System.Windows.Forms.SortOrder.Descending;
+            this.PatientListView.Size = new System.Drawing.Size(434, 153);
+            this.PatientListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.PatientListView.TabIndex = 1;
             this.PatientListView.Tag = "";
             this.PatientListView.TileSize = new System.Drawing.Size(20, 1);
@@ -132,53 +132,57 @@
             // PatientFirstNameLabel
             // 
             this.PatientFirstNameLabel.AutoSize = true;
-            this.PatientFirstNameLabel.Location = new System.Drawing.Point(192, 33);
+            this.PatientFirstNameLabel.Location = new System.Drawing.Point(144, 27);
+            this.PatientFirstNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PatientFirstNameLabel.Name = "PatientFirstNameLabel";
-            this.PatientFirstNameLabel.Size = new System.Drawing.Size(80, 17);
+            this.PatientFirstNameLabel.Size = new System.Drawing.Size(60, 13);
             this.PatientFirstNameLabel.TabIndex = 6;
             this.PatientFirstNameLabel.Text = "First Name:";
             // 
             // PatientSSNLabel
             // 
             this.PatientSSNLabel.AutoSize = true;
-            this.PatientSSNLabel.Location = new System.Drawing.Point(192, 110);
+            this.PatientSSNLabel.Location = new System.Drawing.Point(144, 89);
+            this.PatientSSNLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PatientSSNLabel.Name = "PatientSSNLabel";
-            this.PatientSSNLabel.Size = new System.Drawing.Size(88, 17);
+            this.PatientSSNLabel.Size = new System.Drawing.Size(68, 13);
             this.PatientSSNLabel.TabIndex = 7;
             this.PatientSSNLabel.Text = "Patient SSN:";
             // 
             // VisitRoomNumberLabel
             // 
             this.VisitRoomNumberLabel.AutoSize = true;
-            this.VisitRoomNumberLabel.Location = new System.Drawing.Point(192, 146);
+            this.VisitRoomNumberLabel.Location = new System.Drawing.Point(144, 119);
+            this.VisitRoomNumberLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.VisitRoomNumberLabel.Name = "VisitRoomNumberLabel";
-            this.VisitRoomNumberLabel.Size = new System.Drawing.Size(103, 17);
+            this.VisitRoomNumberLabel.Size = new System.Drawing.Size(78, 13);
             this.VisitRoomNumberLabel.TabIndex = 8;
             this.VisitRoomNumberLabel.Text = "Room Number:";
             // 
             // PatientLastNameLabel
             // 
             this.PatientLastNameLabel.AutoSize = true;
-            this.PatientLastNameLabel.Location = new System.Drawing.Point(192, 70);
+            this.PatientLastNameLabel.Location = new System.Drawing.Point(144, 57);
+            this.PatientLastNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PatientLastNameLabel.Name = "PatientLastNameLabel";
-            this.PatientLastNameLabel.Size = new System.Drawing.Size(80, 17);
+            this.PatientLastNameLabel.Size = new System.Drawing.Size(61, 13);
             this.PatientLastNameLabel.TabIndex = 10;
             this.PatientLastNameLabel.Text = "Last Name:";
             // 
             // PatientLastNameField
             // 
-            this.PatientLastNameField.Location = new System.Drawing.Point(309, 70);
-            this.PatientLastNameField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PatientLastNameField.Location = new System.Drawing.Point(232, 57);
+            this.PatientLastNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientLastNameField.Name = "PatientLastNameField";
-            this.PatientLastNameField.Size = new System.Drawing.Size(284, 22);
+            this.PatientLastNameField.Size = new System.Drawing.Size(214, 20);
             this.PatientLastNameField.TabIndex = 9;
             this.PatientLastNameField.TextChanged += new System.EventHandler(this.PatientLastNameField_TextChanged);
             // 
             // SearchPatient
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.PatientLastNameLabel);
             this.Controls.Add(this.PatientLastNameField);
             this.Controls.Add(this.VisitRoomNumberLabel);
@@ -189,11 +193,20 @@
             this.Controls.Add(this.PatientSSNField);
             this.Controls.Add(this.PatientFirstNameField);
             this.Controls.Add(this.viewPatientButton);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "SearchPatient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchPatient";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
+            this.Controls.SetChildIndex(this.viewPatientButton, 0);
+            this.Controls.SetChildIndex(this.PatientFirstNameField, 0);
+            this.Controls.SetChildIndex(this.PatientSSNField, 0);
+            this.Controls.SetChildIndex(this.VisitRoomNumberField, 0);
+            this.Controls.SetChildIndex(this.PatientListView, 0);
+            this.Controls.SetChildIndex(this.PatientFirstNameLabel, 0);
+            this.Controls.SetChildIndex(this.PatientSSNLabel, 0);
+            this.Controls.SetChildIndex(this.VisitRoomNumberLabel, 0);
+            this.Controls.SetChildIndex(this.PatientLastNameField, 0);
+            this.Controls.SetChildIndex(this.PatientLastNameLabel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

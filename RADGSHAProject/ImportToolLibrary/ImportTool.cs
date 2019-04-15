@@ -121,7 +121,7 @@ namespace ImportToolLibrary
                 for (int i = 0; i < 6; i++)
                 {
                     List<string> l = conn.querySymptoms(p,v, symptom[i]);
-                    Console.WriteLine("Matching symptoms for " + symptom[i] +" : " + l.Count());
+                    //Console.WriteLine("Matching symptoms for " + symptom[i] +" : " + l.Count());
                     if (l.Count == 0) conn.addSymptom(p, v, symptom[i]); // if this patient doesn't have the symptom, add it
                 }
                 conn.closeVisit(p, v);
