@@ -55,6 +55,13 @@ namespace RADGSHAProject
             Console.WriteLine("validated successfully");
             else Console.WriteLine("invalid login attempt");
 
+            if (valid)
+            {
+                bool isAdmin = db.validateUserType(user);
+                if (isAdmin) Console.Write("User is admin user");
+                else Console.WriteLine("User is not admin user");
+            }
+
             this.Hide();
             MainPage M = new MainPage();
             M.Closed += (s, args) => this.Close();
