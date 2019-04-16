@@ -42,16 +42,13 @@
             this.VisitRoomNumberLabel = new System.Windows.Forms.Label();
             this.PatientLastNameLabel = new System.Windows.Forms.Label();
             this.PatientLastNameField = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.addPatientButton = new System.Windows.Forms.Button();
-            this.importToolButton = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // viewPatientButton
             // 
+            this.viewPatientButton.Enabled = false;
             this.viewPatientButton.Location = new System.Drawing.Point(458, 316);
-            this.viewPatientButton.Margin = new System.Windows.Forms.Padding(2);
+            this.viewPatientButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.viewPatientButton.Name = "viewPatientButton";
             this.viewPatientButton.Size = new System.Drawing.Size(104, 32);
             this.viewPatientButton.TabIndex = 0;
@@ -62,7 +59,7 @@
             // PatientFirstNameField
             // 
             this.PatientFirstNameField.Location = new System.Drawing.Point(232, 27);
-            this.PatientFirstNameField.Margin = new System.Windows.Forms.Padding(2);
+            this.PatientFirstNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientFirstNameField.Name = "PatientFirstNameField";
             this.PatientFirstNameField.Size = new System.Drawing.Size(214, 20);
             this.PatientFirstNameField.TabIndex = 1;
@@ -71,7 +68,7 @@
             // PatientSSNField
             // 
             this.PatientSSNField.Location = new System.Drawing.Point(232, 89);
-            this.PatientSSNField.Margin = new System.Windows.Forms.Padding(2);
+            this.PatientSSNField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientSSNField.Name = "PatientSSNField";
             this.PatientSSNField.Size = new System.Drawing.Size(214, 20);
             this.PatientSSNField.TabIndex = 2;
@@ -80,7 +77,7 @@
             // VisitRoomNumberField
             // 
             this.VisitRoomNumberField.Location = new System.Drawing.Point(232, 119);
-            this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(2);
+            this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.VisitRoomNumberField.Name = "VisitRoomNumberField";
             this.VisitRoomNumberField.Size = new System.Drawing.Size(214, 20);
             this.VisitRoomNumberField.TabIndex = 3;
@@ -96,18 +93,18 @@
             this.RoomNumber});
             this.PatientListView.FullRowSelect = true;
             this.PatientListView.GridLines = true;
-            this.PatientListView.HoverSelection = true;
             this.PatientListView.Location = new System.Drawing.Point(146, 150);
-            this.PatientListView.Margin = new System.Windows.Forms.Padding(2);
+            this.PatientListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientListView.Name = "PatientListView";
             this.PatientListView.Size = new System.Drawing.Size(434, 153);
-            this.PatientListView.Sorting = System.Windows.Forms.SortOrder.Descending;
+            this.PatientListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.PatientListView.TabIndex = 1;
             this.PatientListView.Tag = "";
             this.PatientListView.TileSize = new System.Drawing.Size(20, 1);
             this.PatientListView.UseCompatibleStateImageBehavior = false;
             this.PatientListView.View = System.Windows.Forms.View.Details;
             this.PatientListView.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.PatientListView.Leave += new System.EventHandler(this.PatientListView_Leave);
             // 
             // FirstNameColumn
             // 
@@ -175,48 +172,17 @@
             // PatientLastNameField
             // 
             this.PatientLastNameField.Location = new System.Drawing.Point(232, 57);
-            this.PatientLastNameField.Margin = new System.Windows.Forms.Padding(2);
+            this.PatientLastNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientLastNameField.Name = "PatientLastNameField";
             this.PatientLastNameField.Size = new System.Drawing.Size(214, 20);
             this.PatientLastNameField.TabIndex = 9;
             this.PatientLastNameField.TextChanged += new System.EventHandler(this.PatientLastNameField_TextChanged);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.addPatientButton);
-            this.groupBox1.Controls.Add(this.importToolButton);
-            this.groupBox1.Location = new System.Drawing.Point(5, 9);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(136, 339);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            // 
-            // addPatientButton
-            // 
-            this.addPatientButton.Location = new System.Drawing.Point(9, 57);
-            this.addPatientButton.Margin = new System.Windows.Forms.Padding(2);
-            this.addPatientButton.Name = "addPatientButton";
-            this.addPatientButton.Size = new System.Drawing.Size(111, 24);
-            this.addPatientButton.TabIndex = 1;
-            this.addPatientButton.Text = "Add Patient";
-            this.addPatientButton.UseVisualStyleBackColor = true;
-            // 
-            // importToolButton
-            // 
-            this.importToolButton.Location = new System.Drawing.Point(9, 284);
-            this.importToolButton.Margin = new System.Windows.Forms.Padding(2);
-            this.importToolButton.Name = "importToolButton";
-            this.importToolButton.Size = new System.Drawing.Size(111, 24);
-            this.importToolButton.TabIndex = 0;
-            this.importToolButton.Text = "Import Tool";
-            this.importToolButton.UseVisualStyleBackColor = true;
             // 
             // SearchPatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.PatientLastNameLabel);
             this.Controls.Add(this.PatientLastNameField);
             this.Controls.Add(this.VisitRoomNumberLabel);
@@ -227,12 +193,20 @@
             this.Controls.Add(this.PatientSSNField);
             this.Controls.Add(this.PatientFirstNameField);
             this.Controls.Add(this.viewPatientButton);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SearchPatient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchPatient";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
-            this.groupBox1.ResumeLayout(false);
+            this.Controls.SetChildIndex(this.viewPatientButton, 0);
+            this.Controls.SetChildIndex(this.PatientFirstNameField, 0);
+            this.Controls.SetChildIndex(this.PatientSSNField, 0);
+            this.Controls.SetChildIndex(this.VisitRoomNumberField, 0);
+            this.Controls.SetChildIndex(this.PatientListView, 0);
+            this.Controls.SetChildIndex(this.PatientFirstNameLabel, 0);
+            this.Controls.SetChildIndex(this.PatientSSNLabel, 0);
+            this.Controls.SetChildIndex(this.VisitRoomNumberLabel, 0);
+            this.Controls.SetChildIndex(this.PatientLastNameField, 0);
+            this.Controls.SetChildIndex(this.PatientLastNameLabel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,8 +228,5 @@
         private System.Windows.Forms.ColumnHeader RoomNumber;
         private System.Windows.Forms.Label PatientLastNameLabel;
         private System.Windows.Forms.TextBox PatientLastNameField;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button addPatientButton;
-        private System.Windows.Forms.Button importToolButton;
     }
 }

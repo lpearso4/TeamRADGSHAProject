@@ -17,6 +17,7 @@ namespace RADGSHALibrary
         private enum RoomCol : int { HourlyRate, EffectiveDate, RoomNumber };
         private enum LogCol : int { StockID, UserName, Date, QuantityUsed };
         private enum ItemCol : int { StockID, Size, Quantity };
+        private enum InvCol : int { StockID, Description, Cost };
         private enum ServiceCol : int { StockID };
         private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
         private enum UserCol : int { Username, Password, UserType }; 
@@ -31,14 +32,17 @@ namespace RADGSHALibrary
         protected DBConnectionObject()
         {
             // move some of these to properties file
+                                   
             const string DBUSER = "teamRADGSHAUser";
             const string DBPASS = "123";
             const string DBNAME = "HRAS_RAD";
-            //private const string DATASOURCE = "DESKTOP-54U85N3\\SQLEXPRESS"; // change to your server name
-            const string DATASOURCE = "database\\csci3400011030"; // school computer
+            const string DATASOURCE = "DESKTOP-C7M3ROB\\SQLEXPRESS"; // change to your server name
+            //const string DATASOURCE = "database\\csci3400011030"; // school computer
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
+            // If you want to use integrated security for some reason
+            //string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=True;";
             conn = new SqlConnection(connectionString);
             conn.Open(); // TODO: add error handling in case connection fails
         }
@@ -54,12 +58,28 @@ namespace RADGSHALibrary
             }
         }
 
-
         public static DBConnectionObject getInstance()
         {
             if (instance == null) instance = new DBConnectionObject();
            
             return instance;
+        }
+
+        private SqlDataReader executeStoredProcedure(string procedureName, List<SqlParameter> parameterList)
+        {
+            string queryString = procedureName;
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+
+            foreach (SqlParameter parameter in parameterList)
+            {
+                command.Parameters.Add(parameter);
+            }
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            return reader;
         }
 
         public void getVisits(ref Patient patient)
@@ -70,19 +90,17 @@ namespace RADGSHALibrary
             //   Items used and services should be pulled from respective tables
             //   (Or should they be added somewhere else?)
 
-            //List<Visit> visits = patient.getVisitList();
-            //visits.Clear();
+            patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
 
-            //patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
-
-            //Change to use stored procedures
-            string queryString = "SELECT * FROM Visit WHERE PatientId = '" + patient.getSSN() + "'";
-
-            SqlCommand command = new SqlCommand(queryString);
+            string queryString = "getVisits";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@ssn", patient.getSSN()));
+           
             command.Connection = conn;
-            
-            SqlDataReader reader = command.ExecuteReader();
 
+            SqlDataReader reader = command.ExecuteReader();
+          
             while (reader.Read())
             {
                 Visit visit = new Visit();
@@ -94,96 +112,296 @@ namespace RADGSHALibrary
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
                 //visit.addSymptom(); 
                 
+
                 patient.addVisit(visit);
               
             }
             reader.Close();
            
         }
+        
         public void addVisit(Visit visit, Patient patient)
         {
-            // NOTE: doesn't do anything yet
-            // string addString = "Visit (PatientID, EntryDate, ExitDate, AttendingPhysician, Diagnosis)";
+            bool update = false;
+            alterVisit(update, visit, patient);
         }
-        public void addRoom (Room room)
+        public void updateVisit(Visit visit, Patient patient)
         {
-            /* Change to stored procedure version */
-            string addString = "Room (HourlyRate, EffectiveDate, RoomNumber) VALUES ('" + room.getHourlyRate() + "','" + room.getEffectiveDate() + "','" + room.getRoomNumber() + "')";
-            add(addString);
+            bool update = true;
+            alterVisit(update, visit, patient);
         }
-
-
-        public void addPatient(Patient patient)
+        public void alterVisit(bool update, Visit visit, Patient patient)
         {
-            /* Change to stored procedure version */
-       
-            string addString = "Patient (Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, Zipcode, InsurerId, DoNotResuscitate, OrganDonor) " +
-                                "VALUES ('" + patient.getGender() + "','" + patient.getSSN() + "','" + patient.getBirthDate() +"','" + patient.getFirstName() 
-                                 + "','" + patient.getMiddleInitial() + "','" + patient.getLastName() +"','" + patient.getAddressLine1() +"','" + patient.getAddressLine2() +"','" + patient.getState() 
-                                 +"','" + patient.getCity() +"','" + patient.getZipcode() + "','" + patient.getInsurer() + "','" + patient.getDoNotResuscitateStatus() + "','" + patient.getOrganDonorStatus() +"')";
-          
-            add(addString);
-        }
-        private void add(string addString)
-        {
-            string insertString = "INSERT INTO ";
-            addString = insertString + addString;
-            SqlCommand command = new SqlCommand(addString);
+            string queryString = "addVisit";
+            if (update) queryString = "updateVisit";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@patientID", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
+            command.Parameters.Add(new SqlParameter("@attendingPhysician", visit.getAttendingPhysician()));
+            command.Parameters.Add(new SqlParameter("@diagnosis", visit.getDiagnosis()));
+   
             command.Connection = conn;
-            
+
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
-        public void updatePatient(Patient patient)
+        /// <summary>
+        /// Service DB methods below
+        /// </summary>
+        /// <param name="service"></param>
+        public void addService(Service service)
         {
-             string updateString = "UPDATE Patient SET LastName='" + patient.getLastName() + "', " +
-                                      "FirstName='" + patient.getFirstName() + "', " +
-                                      "MiddleInitial='" + patient.getMiddleInitial() + "', " +
-                                      "AddressLine1='" + patient.getAddressLine1() + "', " +
-                                      "AddressLine2='" + patient.getAddressLine2() + "', " +
-                                      "State='" + patient.getState() + "', " +
-                                      "City='" + patient.getCity() + "', " +
-                                      "Zipcode='" + patient.getZipcode() + "', " +
-                                      "InsurerId='" + patient.getInsurer() + "', " +
-                                      "DoNotResuscitate='" + patient.getDoNotResuscitateStatus() + "', " +
-                                      "OrganDonor='" + patient.getOrganDonorStatus() + "', " +
-                                      "BirthDate='" + patient.getBirthDate() + "', " +
-                                      "Gender='" + patient.getGender() + "' " +
+            bool update = false; // add service
+            alterService(update, service);
+        }
+        public void updateService(Service service)
+        {
+            bool update = true; // update service
+            alterService(update, service);
+        }
+        private void alterService(bool update, Service service)
+        {
+            alterInventory(update, service);
 
-                                  "WHERE SSN='" + patient.getSSN() + "'";
-            SqlCommand command = new SqlCommand(updateString);
+            string queryString = "addService";
+            if (!update)
+            {
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@StockID", service.getStockID()));
 
-            /* Change above to stored procedure version below (and finish stored procedure version below)
-           string queryString = "updatePatient";
-           SqlCommand command = new SqlCommand(queryString, conn);
-           command.CommandType = System.Data.CommandType.StoredProcedure;
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           command.Parameters.Add(new SqlParameter("@ssn", ssn));
-           */
+                command.Connection = conn;
+
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+            }
+        }
+        /// <summary>
+        /// Item DB methods below
+        /// </summary>
+        /// <param name="item"></param>
+        public void addItem(Item item)
+        {
+            bool update = false; // add item
+            alterItem(update, item);
+        }
+        public void updateItem(Item item)
+        {
+            bool update = true; // update item
+            alterItem(update, item);
+        }
+        private void alterItem(bool update, Item item)
+        {
+            alterInventory(update, item);
+
+            string queryString = "addItem";
+            if (update) queryString = "updateItem";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockId", item.getStockID()));
+            command.Parameters.Add(new SqlParameter("@Size", item.getSize()));
+            command.Parameters.Add(new SqlParameter("@Quantity", item.getQuantity()));
 
             command.Connection = conn;
-           
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();                      
+        }
+            /// <summary>
+            /// Inventory DB methods below
+            /// </summary>
+            /// <param name="inventory"></param>
+        /* I don't think that we'll need add or update inventory methods, it'll be through add or update item or service
+         * private void addInventory(Inventory inventory)
+        {
+            bool update = false; // add inventory
+            alterInventory(update, inventory);
+        }
+        private void updateInventory(Inventory inventory)
+        {
+            bool update = true; // update the inventory
+            alterInventory(update, inventory);
+        }*/
+        private void alterInventory(bool update, Inventory inventory)
+        {
+            string queryString = "addInventory";
+            if (update) queryString = "updateInventory";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID() ));          
+            command.Parameters.Add(new SqlParameter("@description",inventory.getDescription()));
+            command.Parameters.Add(new SqlParameter("@cost",inventory.getCost()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+        public List<Inventory> queryInventory(string queryDescription)
+        {
+            string queryString = "queryInventory";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@description", queryDescription));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Inventory> results = new List<Inventory>();
+
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                string stockID = reader.GetString((int)InvCol.StockID);
+                string description = reader.GetString((int)InvCol.Description);
+                decimal cost = reader.GetDecimal((int)InvCol.Cost);
+                Inventory inv = new Inventory(stockID,description,cost);
+
+                results.Add(inv);
+                count++;
+            }
+            reader.Close();
+
+            return results;
+        }
+
+        /// <summary>
+        /// Room DB methods below
+        /// </summary>
+        /// <param name="room"></param>
+        public void addRoom (Room room)
+        {
+            bool update = false; // add room
+            alterRoom(update, room);
+        }
+        public void updateRoom(Room room)
+        {
+            bool update = true; // update the room
+            alterRoom(update, room);
+        }
+        private void alterRoom(bool update, Room room)
+        {
+            string queryString = "addRoom";
+            if (update) queryString = "updateRoom";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@hourlyRate", room.getHourlyRate()));
+
+            if (update)
+                command.Parameters.Add(new SqlParameter("@dateTime", room.getEffectiveDate()));
+            else
+                command.Parameters.Add(new SqlParameter("@effectiveDate", room.getEffectiveDate()));
+
+            command.Parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+
+        public Room getRoom(string roomNumber, DateTime effectiveDate)
+        {
+            // Need to rewrite getRoom
+            string queryString = "getRoom";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@effectiveDate", effectiveDate));
+            command.Parameters.Add(new SqlParameter("@roomNumber", roomNumber));
+            
+            command.Connection = conn;
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+            string rNumber = reader.GetString((int)RoomCol.RoomNumber);
+            if (rNumber != roomNumber) throw new Exception("Exception: Room not found!");
+            DateTime eDate = reader.GetDateTime((int)RoomCol.EffectiveDate);
+            if (eDate != effectiveDate) throw new Exception("Exception: Room with given effective date not found!");
+            decimal hourlyRate=0;
+            if (!reader.IsDBNull((int)RoomCol.HourlyRate)) hourlyRate = reader.GetDecimal((int)RoomCol.HourlyRate);
+
+            Room room = new Room(rNumber,hourlyRate,eDate);
+
+            reader.Close();
+
+            return room;
+        }
+        public List<Room> queryRoom(string roomNumber)
+        {
+
+            string queryString = "queryRoom";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@roomNumber", roomNumber));
+          
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Room> results = new List<Room>();
+
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                string roomNum = reader.GetString((int)RoomCol.RoomNumber);
+                DateTime effectiveDate = reader.GetDateTime((int)RoomCol.EffectiveDate);
+                decimal hourlyRate = reader.GetDecimal((int)RoomCol.HourlyRate);
+                Room room = new Room(roomNum, hourlyRate, effectiveDate);
+
+                results.Add(room);
+                count++;
+            }
+            reader.Close();
+
+            return results;
+        }
+
+        /// <summary>
+        /// Patient DB methods below
+        /// </summary>
+        /// <param name="patient"></param>
+        public void addPatient(Patient patient)
+        {
+            bool update = false; // we are adding a patient, not updating
+            alterPatient(update, patient); 
+        }
+        public void updatePatient(Patient patient)
+        {
+            bool update = true; // update the patient
+            alterPatient(update, patient);
+        }
+        private void alterPatient(bool update, Patient patient)
+        {
+            string queryString = "addPatient";
+            if (update) queryString = "updatePatient";
+       
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@gender", patient.getGender()));
+            command.Parameters.Add(new SqlParameter("@ssn", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@birthDate", patient.getBirthDate()));
+            command.Parameters.Add(new SqlParameter("@firstName", patient.getFirstName()));
+            command.Parameters.Add(new SqlParameter("@middleInitial", patient.getMiddleInitial()));
+            command.Parameters.Add(new SqlParameter("@lastName", patient.getLastName()));
+            command.Parameters.Add(new SqlParameter("@addressLine1", patient.getAddressLine1()));
+            command.Parameters.Add(new SqlParameter("@addressLine2", patient.getAddressLine2()));
+            command.Parameters.Add(new SqlParameter("@state", patient.getState()));
+            command.Parameters.Add(new SqlParameter("@city", patient.getCity()));
+            command.Parameters.Add(new SqlParameter("@zipcode", patient.getZipcode()));
+            command.Parameters.Add(new SqlParameter("@insurerId", patient.getInsurer()));
+            command.Parameters.Add(new SqlParameter("@doNotResuscitate", patient.getDoNotResuscitateStatus()));
+            command.Parameters.Add(new SqlParameter("@organDonor", patient.getOrganDonorStatus()));
+
+            command.Connection = conn;
+
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
 
         public Patient getPatient(string ssn)
         {
-            // stored procedure version
-          
-          
             string queryString = "getPatient";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -196,7 +414,6 @@ namespace RADGSHALibrary
             if (patientSSN != ssn) throw new Exception("Exception: Patient not found!");
             Patient patient = new Patient(patientSSN);
 
-            // An exception will be thrown if we attempt to retrieve a null column
             if (!reader.IsDBNull((int)PCol.LastName)) patient.setLastName(reader.GetString((int)PCol.LastName));
             if (!reader.IsDBNull((int)PCol.FirstName)) patient.setFirstName(reader.GetString((int)PCol.FirstName));
             if (!reader.IsDBNull((int)PCol.MiddleInitial)) patient.setMiddleInitial(reader.GetString((int)PCol.MiddleInitial)[0]);
@@ -221,23 +438,26 @@ namespace RADGSHALibrary
    
         public List<Patient> queryPatient(string ssn, string lastName, string firstName)
         {
-            // Query patient only returns the three fields we are looking for (firstname, lastname, ssn) You have to get patient to get the rest of the fields
-            string queryString = "SELECT * FROM Patient WHERE SSN LIKE '" + ssn + "%' AND LastName LIKE '" + lastName + "%' AND "
-                                 + " FirstName LIKE '" + firstName + "%'";
-            SqlCommand command = new SqlCommand(queryString);
-           
-            /* We will replace the above with the stored procedure version below: (may have to be modified)
-            string queryString = "queryPatient";
+
+            string procedureName = "queryPatient";
+
+            /*
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@ssn", ssn));
             command.Parameters.Add(new SqlParameter("@lastName", lastName));
             command.Parameters.Add(new SqlParameter("@firstName", firstName));
-            */
 
             command.Connection = conn;
            
             SqlDataReader reader = command.ExecuteReader();
+            */
+            //executeStoredProcedure(string procedureName, Dictionary<string,string> parameterList)
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@ssn", ssn));
+            parameters.Add(new SqlParameter("@lastName", lastName));
+            parameters.Add(new SqlParameter("@firstName", firstName));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             List<Patient> results = new List<Patient>();
             
@@ -250,18 +470,301 @@ namespace RADGSHALibrary
                 results.Add(patient);
                 count++;
             }
-            reader.Close();
+
+            closeReader(ref reader);
+
             return results;
         }
 
-        private SqlDataReader getItem(string table, string fieldName, string query)
+        public void addUser(User user)
         {
-            string queryString = "SELECT * FROM " + table + " WHERE " + fieldName + "='" + query + "'";
-            SqlCommand command = new SqlCommand(queryString);
+            string queryString = "addUser";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@userName", user.getUsername()));
+            command.Parameters.Add(new SqlParameter("@password", user.getPassword()));
+            command.Parameters.Add(new SqlParameter("@userType", user.isAdmin()));
+
             command.Connection = conn;
-           
+
             SqlDataReader reader = command.ExecuteReader();
-            return reader;
+            reader.Close();
         }
+
+        public void addUses(Inventory inventory, Patient patient, Visit v)
+        {
+            string queryString = "addUses";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
+            command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
+           
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+
+        public void addToLog(Inventory inventory, User user, decimal quantityUsed)
+        {
+            string queryString = "addToLog";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
+            command.Parameters.Add(new SqlParameter("@userName", user.getUsername()));
+            command.Parameters.Add(new SqlParameter("@quantityUsed", quantityUsed));
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+        public void addSymptom(Patient patient, Visit v, string symptom)
+        {
+            string queryString = "addSymptom";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
+            command.Parameters.Add(new SqlParameter("@symptomName", symptom));
+            
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+
+        /*
+         * 	@patientId nvarchar(9), @entryDate datetime,
+	     *@symptomName nvarchar(50
+         * )
+         */
+        public List<string> querySymptoms (string patientSSN="", string symptomName="")
+        {
+            string procedureName = "querySymptoms";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patientSSN));
+            parameters.Add(new SqlParameter("@entryDate", ""));
+            parameters.Add(new SqlParameter("@symptomName", symptomName));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            List<string> results = new List<string>();
+
+            while (reader.Read()) // no query limit on symptoms
+            {
+                results.Add(reader.GetString((int)SymCol.SymptomName));
+            }
+            closeReader(ref reader);
+
+            return results;
+        }
+        public List<string> querySymptoms(Patient patient, Visit visit, string symptomName="")
+        {
+
+            string procedureName = "querySymptoms";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
+            parameters.Add(new SqlParameter("@symptomName", symptomName));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            List<string> results = new List<string>();
+
+            while (reader.Read()) // no query limit on symptoms
+            {
+                results.Add(reader.GetString((int)SymCol.SymptomName));
+            }
+            closeReader(ref reader);
+
+            return results;
+        }
+
+        public void addStaysIn(Room room, Patient patient, Visit v)
+        {
+            string queryString = "addStaysIn";
+            
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            command.Parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+            command.Parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+            command.Parameters.Add(new SqlParameter("@visitEntrydate", v.getEntryDate()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Close();
+        }
+        public bool validateLogin(User user)
+        {
+            string queryString = "validateLogin";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@userName", user.getUsername()));
+            command.Parameters.Add(new SqlParameter("@givenPW", user.getPassword()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+
+            bool isValid = reader.GetBoolean(0);
+
+            reader.Close();
+
+            return isValid;
+        }
+        public bool validateUserType(User user)
+        {
+            string queryString = "validateUserType";
+
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@UserName", user.getUsername()));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+
+            bool isAdmin = reader.GetBoolean(0);
+
+            reader.Close();
+
+            return isAdmin;
+        }
+
+        public void closeVisit(Patient patient, Visit v)
+        {
+            //Visit 3v = patient.getCurrentVisit();
+
+            string procedureName = "closeVisit";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();           
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@exitDate", v.getExitDate()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            closeReader(ref reader);
+
+        }
+
+        public void getStaysIn(string patientSSN, string roomNumber) 
+        {
+            getStaysIn(patientSSN, roomNumber, DateTime.MinValue, DateTime.MinValue);
+        }
+        public void getStaysIn(string patientSSN, string roomNumber, DateTime visitEntryDate) 
+        {
+            getStaysIn(patientSSN, roomNumber, visitEntryDate, DateTime.MinValue);
+        }
+
+        public void getStaysIn(string patientSSN, string roomNumber, DateTime visitEntryDate, DateTime roomEffectiveDate) // I'm not sure exactly what this will look like yet
+        // This will probably return something at some point. The other methods send DateTime.MinValue as an argument as a way of saying, we don't want to use that as a parameter
+        // Yeah, I know that's a bad hack
+        {
+            string procedureName = "getStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@roomNumber", roomNumber));
+            if (roomEffectiveDate == DateTime.MinValue)
+                parameters.Add(new SqlParameter("@roomEffectiveDate", ""));
+            else
+                parameters.Add(new SqlParameter("@roomEffectiveDate", roomEffectiveDate));
+            parameters.Add(new SqlParameter("@patientId", patientSSN));
+            if (visitEntryDate == DateTime.MinValue)
+                parameters.Add(new SqlParameter("@visitEntryDate", ""));
+            else
+                parameters.Add(new SqlParameter("@visitEntryDate", visitEntryDate));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            // Now we need to do something with the values that we retreive...
+            // private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                Console.WriteLine("Room Number: " + reader.GetString((int)staysInCol.RoomNumber)
+                                + "Room Effective Date: " + reader.GetDateTime((int)staysInCol.RoomEffectiveDate)
+                                + "Patient SSN: " + reader.GetString((int)staysInCol.PatientId));
+                Console.WriteLine("\tVisit Entry Date: " + reader.GetDateTime((int)staysInCol.VisitEntryDate)
+                                + "Room Entry Date: " + reader.GetDateTime((int)staysInCol.RoomEntryDateTime)
+                                + "Room Exit Date: " + reader.GetDateTime((int)staysInCol.RoomExitDateTime));
+                
+                count++;
+            }
+            closeReader(ref reader);
+        }
+        public void closeStaysIn(Patient patient, Visit visit, Room room, DateTime roomExitDate)
+        {
+            /* CREATE OR ALTER PROCEDURE closeStaysIn
+
+	-- Add the parameters for the stored procedure here
+	@PatientId nvarchar(10), @visitEntryDate datetime, @roomNumber nvarchar(10), @roomEffectiveDate datetime,
+		@roomExitDate datetime
+        */
+            string procedureName = "closeStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@PatientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@visitEntryDate", visit.getEntryDate()));
+            parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+            parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+            parameters.Add(new SqlParameter("@roomExitDate", roomExitDate));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+                      
+            closeReader(ref reader);
+        }
+        public bool isService(Inventory stock)
+        {
+            string procedureName = "isService";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            bool service = reader.GetBoolean(0);
+
+            closeReader(ref reader);
+
+            return service;
+        }
+        public bool isItem(Inventory stock)
+        {
+            string procedureName = "isItem";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            bool item = reader.GetBoolean(0);
+
+            closeReader(ref reader);
+
+            return item;
+        }
+
+        public void closeReader(ref SqlDataReader reader)
+        {
+            try
+            {
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error closing reader: " + e.Message); // it's not crucial to do anything... usually when there is an error closing reader
+                                                                         // it means it didn't open correctly in the first place
+            }
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RADGSHALibrary
 {
-    public abstract class Inventory
+    public class Inventory
     {
         private string stockID;
         private string description;
@@ -26,7 +26,11 @@ namespace RADGSHALibrary
         {
             return cost;
         }
-            public void useQuantity(int amountUsed)
+        public string getStockID()
+        {
+            return stockID;
+        }
+        public void useQuantity(int amountUsed)
         {
         }
 

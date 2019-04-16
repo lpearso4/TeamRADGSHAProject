@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RADGSHAProject
 {
-    public partial class MainPage : Form
+    public partial class MainPage : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
 
@@ -25,26 +25,7 @@ namespace RADGSHAProject
             this.previousForm = previousForm;
         }
 
-        private void ImportTool_Click(object sender, EventArgs e)//consider checking if the user is an admin in the method, or just hide this button from regular users
-        {
-            ImportTool I = new ImportTool(this);
-            I.Show();
-            Hide();
-        }
-
         private void MainPage_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SearchPatient_Click(object sender, EventArgs e)
-        {
-            SearchPatient S = new SearchPatient(this);
-            S.Show();
-            Hide();
-        }
-
-        private void addPatientButton_Click(object sender, EventArgs e)//as of right now, there is not Add Patient form in the project
         {
 
         }

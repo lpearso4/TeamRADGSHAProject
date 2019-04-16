@@ -52,16 +52,20 @@
             this.usernameTextBox.Size = new System.Drawing.Size(120, 20);
             this.usernameTextBox.TabIndex = 1;
             this.usernameTextBox.Text = "Username";
+            this.usernameTextBox.Click += new System.EventHandler(this.usernameTextBox_Clicked);
+
             // 
             // passwordTextBox
             // 
             this.passwordTextBox.Location = new System.Drawing.Point(238, 130);
             this.passwordTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.passwordTextBox.Name = "passwordTextBox";
+            this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(120, 20);
             this.passwordTextBox.TabIndex = 2;
             this.passwordTextBox.Text = "Password";
-            // 
+            this.passwordTextBox.Click += new System.EventHandler(this.passwordTextBox_Clicked);
+
             // LoginPage
             // 
             this.AcceptButton = this.loginButton;

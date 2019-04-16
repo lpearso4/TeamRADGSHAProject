@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using RADGSHALibrary;
 
 namespace RADGSHAProject
 {
-    public partial class DiagnosisWizard : Form
+    public partial class DiagnosisWizard : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
-
-        public DiagnosisWizard()
+        Visit selectedVisit;
+        RADGSHALibrary.Patient selectedPatient;
+        string currentSymptom = "Lack there of";
+        public DiagnosisWizard(RADGSHALibrary.Patient p, Visit v)
         {
+            selectedVisit = v;
+            selectedPatient = p;
             InitializeComponent();
+            RADGSHALibrary.DiagnosisWizard wizard = new RADGSHALibrary.DiagnosisWizard(ref selectedVisit);
+            currentSymptom = wizard.runDiagnosisWizard();
+            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
         }
 
         public DiagnosisWizard(Form previousForm)
@@ -32,6 +34,29 @@ namespace RADGSHAProject
                 previousForm.Show();
             }
             Dispose();
+        }
+
+        private void SymptomListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReturnToPatient_Click(object sender, EventArgs e)
+        {
+            returnToPatient();
+        }
+
+        private void AddResultsToPatientButton_Click(object sender, EventArgs e)
+        {
+            returnToPatient();
+        }
+
+        private void returnToPatient()
+        {
+            this.Hide();
+            Patient P = new Patient(this, selectedPatient);
+            P.Closed += (s, args) => this.Close();
+            P.Show();
         }
     }
 }
