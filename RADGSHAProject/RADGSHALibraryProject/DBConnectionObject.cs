@@ -31,20 +31,29 @@ namespace RADGSHALibrary
         
         protected DBConnectionObject()
         {
-            // move some of these to properties file
-                                   
-            const string DBUSER = "teamRADGSHAUser";
-            const string DBPASS = "123";
-            const string DBNAME = "HRAS_RAD";
-            const string DATASOURCE = "DESKTOP-C7M3ROB\\SQLEXPRESS"; // change to your server name
-            //const string DATASOURCE = "database\\csci3400011030"; // school computer
+
+            // Get connection details from settings file
+            string dbuser = RADGSHALibraryProject.Properties.db.Default.dbuser;
+            string dbpass = RADGSHALibraryProject.Properties.db.Default.dbpass;
+            string dbname = RADGSHALibraryProject.Properties.db.Default.dbname;
+            string datasource = RADGSHALibraryProject.Properties.db.Default.datasource;
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
-            string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=False; User Id=" + DBUSER + "; Password=" + DBPASS + ";";
+            string connectionString = "Initial Catalog=" + dbname + "; Data Source=" + datasource + "; Integrated Security=False; User Id=" + dbuser + "; Password=" + dbpass + ";";
             // If you want to use integrated security for some reason
             //string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=True;";
             conn = new SqlConnection(connectionString);
-            conn.Open(); // TODO: add error handling in case connection fails
+
+            bool success_connecting = true;
+            try
+            {
+                conn.Open();
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                success_connecting = false;
+            }
+            if (!success_connecting) throw new Exception("Error: Unable to connect to database!");
         }
         ~DBConnectionObject()
         {

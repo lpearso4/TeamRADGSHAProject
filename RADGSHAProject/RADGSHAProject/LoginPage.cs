@@ -34,7 +34,20 @@ namespace RADGSHAProject
             Console.WriteLine(hashedPassword);
 
             RADGSHALibrary.User user = new RADGSHALibrary.User(username, hashedPassword);
-            DBConnectionObject db = DBConnectionObject.getInstance();
+
+            DBConnectionObject db;
+            try
+            {
+                db = DBConnectionObject.getInstance();
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                string caption = "Error!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+                return;
+            }
 
             bool valid = db.validateLogin(user);
 

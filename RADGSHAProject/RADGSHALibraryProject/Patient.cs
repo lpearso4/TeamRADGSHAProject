@@ -29,10 +29,20 @@ namespace RADGSHALibrary
         
         public Patient(string newSSN)
         {
-            // Maybe throw an error if SSN is malformed
+           const int SSN_LENGTH = 9;
+           if (!Int32.TryParse(newSSN, out int i))
+           {
+                throw new Exception("Patient error: SSN must be numerical!");
+           }
+           else if (newSSN.Length!=SSN_LENGTH)
+           {
+                throw new Exception("Patient error: SSN must be nine digits!");
+           }
+
             ssn = newSSN;
             visits = new List<Visit>();
         }
+       
         public string getSSN()
         {
             return ssn;
