@@ -1,1 +1,29 @@
+Project Name: HRAS
+Test Case Number:
+Brief Description:
+Relevent section of SRS doc:
 
+Input Assumptions:
+Relevant state of DB: “SELECT * FROM [User] WHERE …”
+
+Other relevant environmental assumptions (if any): 
+(system config, etc.)
+
+User Actions:
+1.	Do this
+2.	Do that
+3.	Type this
+4.	Push that button
+
+Expected Results
+Describe the results.
+
+Actual Result:
+Ditto
+
+Result matches expected result? Yes / No
+
+If not then, fill out the information below:
+
+Defect Report Number:
+Assigned to:
