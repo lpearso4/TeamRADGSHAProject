@@ -37,23 +37,23 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.searchPatientButton);
             this.groupBox1.Controls.Add(this.addPatientButton);
             this.groupBox1.Controls.Add(this.importToolButton);
-            this.groupBox1.Location = new System.Drawing.Point(13, 20);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(10, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(181, 417);
+            this.groupBox1.Size = new System.Drawing.Size(136, 339);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
             // searchPatientButton
             // 
-            this.searchPatientButton.Location = new System.Drawing.Point(12, 20);
-            this.searchPatientButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.searchPatientButton.Location = new System.Drawing.Point(9, 16);
+            this.searchPatientButton.Margin = new System.Windows.Forms.Padding(2);
             this.searchPatientButton.Name = "searchPatientButton";
-            this.searchPatientButton.Size = new System.Drawing.Size(148, 32);
+            this.searchPatientButton.Size = new System.Drawing.Size(111, 26);
             this.searchPatientButton.TabIndex = 2;
             this.searchPatientButton.Text = "Search Patient";
             this.searchPatientButton.UseVisualStyleBackColor = true;
@@ -61,20 +61,21 @@
             // 
             // addPatientButton
             // 
-            this.addPatientButton.Location = new System.Drawing.Point(12, 70);
-            this.addPatientButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.addPatientButton.Location = new System.Drawing.Point(9, 57);
+            this.addPatientButton.Margin = new System.Windows.Forms.Padding(2);
             this.addPatientButton.Name = "addPatientButton";
-            this.addPatientButton.Size = new System.Drawing.Size(148, 30);
+            this.addPatientButton.Size = new System.Drawing.Size(111, 24);
             this.addPatientButton.TabIndex = 1;
             this.addPatientButton.Text = "Add Patient";
             this.addPatientButton.UseVisualStyleBackColor = true;
             // 
             // importToolButton
             // 
-            this.importToolButton.Location = new System.Drawing.Point(12, 350);
-            this.importToolButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.importToolButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.importToolButton.Location = new System.Drawing.Point(9, 284);
+            this.importToolButton.Margin = new System.Windows.Forms.Padding(2);
             this.importToolButton.Name = "importToolButton";
-            this.importToolButton.Size = new System.Drawing.Size(148, 30);
+            this.importToolButton.Size = new System.Drawing.Size(111, 24);
             this.importToolButton.TabIndex = 0;
             this.importToolButton.Text = "Import Tool";
             this.importToolButton.UseVisualStyleBackColor = true;
@@ -82,10 +83,11 @@
             // 
             // NavigationPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "NavigationPage";
             this.Text = "NavigationPage";
             this.Load += new System.EventHandler(this.NavigationPage_Load);
