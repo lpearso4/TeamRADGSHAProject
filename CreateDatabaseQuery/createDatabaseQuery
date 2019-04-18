@@ -307,7 +307,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes variables and inserts them into the Patient table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addPatient
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addPatient]'))
+   exec('CREATE PROCEDURE [dbo].[addPatient] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addPatient
 
 	-- Add the parameters for the stored procedure here
 	@gender nvarchar(1), @ssn nvarchar(50), 
@@ -357,7 +361,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes 3 variables and stores them into the Room table
 -- =============================================
-CREATE OR ALTER PROCEDURE addRoom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addRoom]'))
+   exec('CREATE PROCEDURE [dbo].[addRoom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addRoom
 	-- Add the parameters for the stored procedure here
 	@hourlyRate decimal(5,2), @effectiveDate datetime,
 	@roomNumber nvarchar(10)
@@ -395,7 +403,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes a ssn variable and returns patients where SSN matches
 -- =============================================
-CREATE OR ALTER PROCEDURE getPatient
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getPatient]'))
+   exec('CREATE PROCEDURE [dbo].[getPatient] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getPatient
 	-- Add the parameters for the stored procedure here
 	@ssn nvarchar(9)
 AS
@@ -431,7 +443,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes a ssn variable and returns visits where SSN matches
 -- =============================================
-CREATE OR ALTER PROCEDURE getVisits
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getVisits]'))
+   exec('CREATE PROCEDURE [dbo].[getVisits] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getVisits
 	-- Add the parameters for the stored procedure here
 	@ssn nvarchar(9)
 AS
@@ -468,7 +484,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes 3 variables and returns patients that begin with the given variables
 -- =============================================
-CREATE OR ALTER PROCEDURE queryPatient
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryPatient]'))
+   exec('CREATE PROCEDURE [dbo].[queryPatient] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE queryPatient
 	-- Add the parameters for the stored procedure here
 	@ssn nvarchar(9), @lastName nvarchar(50), 
 	@firstName nvarchar(50)
@@ -506,7 +526,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes in variables and updates them to the patient table with the ssn given
 -- =============================================
-CREATE OR ALTER PROCEDURE updatePatient
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updatePatient]'))
+   exec('CREATE PROCEDURE [dbo].[updatePatient] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updatePatient
 
 	-- Add the parameters for the stored procedure here
 	@gender nvarchar(1), @ssn nvarchar(50), 
@@ -559,7 +583,11 @@ GO
 -- Create date: 3/28/2019
 -- Description:	takes a ssn variable and returns visits where SSN matches
 -- =============================================
-CREATE OR ALTER PROCEDURE getItems
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getItems]'))
+   exec('CREATE PROCEDURE [dbo].[getItems] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getItems
 	-- Add the parameters for the stored procedure here
 	@table nvarchar(20), @feildName nvarchar(20),
 	@query nvarchar(50)
@@ -597,7 +625,11 @@ GO
 -- Create date: 3/29/2019
 -- Description:	takes variables and inserts them into the Item table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addItem
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addItem]'))
+   exec('CREATE PROCEDURE [dbo].[addItem] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addItem
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @size int,
@@ -636,7 +668,12 @@ GO
 -- Create date: 3/29/2019
 -- Description:	takes stockId and removes the row from the table
 -- =============================================
-CREATE OR ALTER PROCEDURE removeItem
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[removeItem]'))
+   exec('CREATE PROCEDURE [dbo].[removeItem] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+
+ALTER PROCEDURE removeItem
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
@@ -675,7 +712,11 @@ GO
 -- Create date: 3/29/2019
 -- Description:	takes variables and updates them in the Item table
 -- =============================================
-CREATE OR ALTER PROCEDURE updateItem
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updateItem]'))
+   exec('CREATE PROCEDURE [dbo].[updateItem] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updateItem
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @size int,
@@ -715,7 +756,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	verifies login
 -- =============================================
-CREATE OR ALTER PROCEDURE validateLogin
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[validateLogin]'))
+   exec('CREATE PROCEDURE [dbo].[validateLogin] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE validateLogin
 
 	-- Add the parameters for the stored procedure here
 	@userName nvarchar(50), @givenPW nvarchar(50)
@@ -755,7 +800,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes a variables and inserts them into the Log table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addToLog
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addToLog]'))
+   exec('CREATE PROCEDURE [dbo].[addToLog] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addToLog
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @userName nvarchar(50),
@@ -793,7 +842,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes a variables and inserts them into the Inventory table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addInventory
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addInventory]'))
+   exec('CREATE PROCEDURE [dbo].[addInventory] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addInventory
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @description nvarchar(300),
@@ -831,7 +884,11 @@ GO
 -- Create date: 3/29/2019
 -- Description:	takes variables and updates them in the Inventory table
 -- =============================================
-CREATE OR ALTER PROCEDURE updateInventory
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updateInventory]'))
+   exec('CREATE PROCEDURE [dbo].[updateInventory] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updateInventory
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @description nvarchar(300),
@@ -870,7 +927,11 @@ GO
 -- Create date: 3/29/2019
 -- Description:	takes stockId and removes the row from the table
 -- =============================================
-CREATE OR ALTER PROCEDURE removeInventory
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[removeInventory]'))
+   exec('CREATE PROCEDURE [dbo].[removeInventory] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE removeInventory
 
 	-- Add the parameters for the stored procedure here
 	@StockId nvarchar(50)
@@ -908,7 +969,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes variables and updates them in the Room table
 -- =============================================
-CREATE OR ALTER PROCEDURE updateRoom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updateRoom]'))
+   exec('CREATE PROCEDURE [dbo].[updateRoom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updateRoom
 	-- Add the parameters for the stored procedure here
 	@hourlyRate nvarchar(50), @dateTime datetime,
 	@roomNumber nvarchar(10)
@@ -946,7 +1011,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes roomNumber and removes the row from the table
 -- =============================================
-CREATE OR ALTER PROCEDURE removeRoom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[removeRoom]'))
+   exec('CREATE PROCEDURE [dbo].[removeRoom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE removeRoom
 
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10)
@@ -984,7 +1053,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes variables and inserts them into the User table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addUser
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addUser]'))
+   exec('CREATE PROCEDURE [dbo].[addUser] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addUser
 
 	-- Add the parameters for the stored procedure here
 	@userName nvarchar(50), @password nvarchar(50),
@@ -1022,7 +1095,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	removes user from User table
 -- =============================================
-CREATE OR ALTER PROCEDURE removeUser
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[removeUser]'))
+   exec('CREATE PROCEDURE [dbo].[removeUser] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE removeUser
 
 	-- Add the parameters for the stored procedure here
 	@userName nvarchar(50)
@@ -1060,7 +1137,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	updates password of userGiven from User table
 -- =============================================
-CREATE OR ALTER PROCEDURE updatePassword
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updatePassword]'))
+   exec('CREATE PROCEDURE [dbo].[updatePassword] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updatePassword
 
 	-- Add the parameters for the stored procedure here
 	@userGiven nvarchar(50), @password nvarchar(50)
@@ -1097,7 +1178,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	verifies login
 -- =============================================
-CREATE OR ALTER PROCEDURE validateUserType
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[validateUserType]'))
+   exec('CREATE PROCEDURE [dbo].[validateUserType] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE validateUserType
 
 	-- Add the parameters for the stored procedure here
 	@UserName nvarchar(50)
@@ -1134,7 +1219,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes variables and inserts them into the StaysIn table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addStaysIn
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[addStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addStaysIn
 
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
@@ -1176,7 +1265,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes variables and inserts them into the Symptom table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addSymptom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addSymptom]'))
+   exec('CREATE PROCEDURE [dbo].[addSymptom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addSymptom
 
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9), @entryDate datetime,
@@ -1214,7 +1307,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	removes symptom from Symptom for patient given
 -- =============================================
-CREATE OR ALTER PROCEDURE removeSymptom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[removeSymptom]'))
+   exec('CREATE PROCEDURE [dbo].[removeSymptom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE removeSymptom
 
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9)
@@ -1252,7 +1349,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes variables and inserts them into the Uses table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addUses
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addUses]'))
+   exec('CREATE PROCEDURE [dbo].[addUses] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addUses
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @patientId nvarchar(9),
@@ -1290,11 +1391,15 @@ GO
 -- Create date: 4/4/2019
 -- Description:	takes variables and inserts them into the Visit table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addVisit
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addVisit]'))
+   exec('CREATE PROCEDURE [dbo].[addVisit] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addVisit
 
 	-- Add the parameters for the stored procedure here
-	@patientId nvarchar(9), @entryDate datetime, @attendingPhysician nvarchar(50),
-	@diagnosis nvarchar(50)
+	@patientId nvarchar(9), @entryDate datetime, 
+	@attendingPhysician nvarchar(50), @diagnosis nvarchar(50)
 
 AS
 BEGIN
@@ -1330,7 +1435,11 @@ GO
 -- Create date: 4/4/2019
 -- Description:	updates visits based on parameters given
 -- =============================================
-CREATE OR ALTER PROCEDURE updateVisit
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updateVisit]'))
+   exec('CREATE PROCEDURE [dbo].[updateVisit] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updateVisit
 
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9), @entryDate datetime,
@@ -1370,11 +1479,16 @@ GO
 -- Description:	closes the staysIn by updating roomexitDate
 -- RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate
 -- =============================================
-CREATE OR ALTER PROCEDURE closeStaysIn
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[closeStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[closeStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE closeStaysIn
 
 	-- Add the parameters for the stored procedure here
-	@PatientId nvarchar(10), @visitEntryDate datetime, @roomNumber nvarchar(10), @roomEffectiveDate datetime,
-		@roomExitDate datetime
+	@PatientId nvarchar(10), @visitEntryDate datetime, 
+	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
+	@roomExitDate datetime
 
 
 AS
@@ -1411,10 +1525,15 @@ GO
 -- Create date: 4/4/2019
 -- Description:	closes the visit by updating exitDate
 -- =============================================
-CREATE OR ALTER PROCEDURE closeVisit
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[closeVisit]'))
+   exec('CREATE PROCEDURE [dbo].[closeVisit] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE closeVisit
 
 	-- Add the parameters for the stored procedure here
-	@patientId nvarchar(9), @entryDate datetime, @exitDate datetime
+	@patientId nvarchar(9), @entryDate datetime, 
+	@exitDate datetime
 
 AS
 BEGIN
@@ -1449,7 +1568,12 @@ GO
 -- Create date: 4/6/2019
 -- Description:	takes variable roomNumber and returns rooms that begin with the room number given
 -- =============================================
-CREATE OR ALTER PROCEDURE queryRoom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryRoom]'))
+   exec('CREATE PROCEDURE [dbo].[queryRoom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+
+ALTER PROCEDURE queryRoom
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10)
 AS
@@ -1485,7 +1609,11 @@ GO
 -- Create date: 4/6/2019
 -- Description:	takes room and effective date variables and returns the matching Room
 -- =============================================
-CREATE OR ALTER PROCEDURE getRoom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getRoom]'))
+   exec('CREATE PROCEDURE [dbo].[getRoom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getRoom
 	-- Add the parameters for the stored procedure here
 	@effectiveDate datetime, @roomNumber nvarchar(10)
 AS
@@ -1521,7 +1649,11 @@ GO
 -- Create date: 4/6/2019
 -- Description:	takes variable and inserts them into the Service table as a new row
 -- =============================================
-CREATE OR ALTER PROCEDURE addService
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[addService]'))
+   exec('CREATE PROCEDURE [dbo].[addService] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE addService
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
@@ -1558,7 +1690,11 @@ GO
 -- Create date: 4/6/2019
 -- Description:	takes variable and updates them in the Service table
 -- =============================================
-CREATE OR ALTER PROCEDURE updateService
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[updateService]'))
+   exec('CREATE PROCEDURE [dbo].[updateService] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE updateService
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
@@ -1595,7 +1731,11 @@ GO
 -- Create date: 4/6/2019
 -- Description:	takes variable description and returns inventory that contain with the given description
 -- =============================================
-CREATE OR ALTER PROCEDURE queryInventory
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryInventory]'))
+   exec('CREATE PROCEDURE [dbo].[queryInventory] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE queryInventory
 	-- Add the parameters for the stored procedure here
 	@description nvarchar(300)
 AS
@@ -1631,7 +1771,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes 3 variables and returns the uses matching them
 -- =============================================
-CREATE OR ALTER PROCEDURE getUses
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getUses]'))
+   exec('CREATE PROCEDURE [dbo].[getUses] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getUses
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @patientId nvarchar(9),
 	@entryDateTime datetime
@@ -1668,7 +1812,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes 3 variables and returns the symptoms matching them
 -- =============================================
-CREATE OR ALTER PROCEDURE getSymptom
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getSymptom]'))
+   exec('CREATE PROCEDURE [dbo].[getSymptom] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getSymptom
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9), @entryDate datetime,
 	@symptomName nvarchar(50)
@@ -1705,7 +1853,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes 4 variables and returns the staysIn matching them
 -- =============================================
-CREATE OR ALTER PROCEDURE getStaysIn
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[getStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getStaysIn
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
 	@patientId nvarchar(9), @visitEntryDate datetime
@@ -1744,7 +1896,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes 3 variables and returns the symptom matching them
 -- =============================================
-CREATE OR ALTER PROCEDURE querySymptoms
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[querySymptoms]'))
+   exec('CREATE PROCEDURE [dbo].[querySymptoms] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE querySymptoms
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9), @entryDate datetime,
 	@symptomName nvarchar(50)
@@ -1783,7 +1939,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes 4 variables and returns the staysIn matching them
 -- =============================================
-CREATE OR ALTER PROCEDURE getStaysIn
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[getStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getStaysIn
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
 	@patientId nvarchar(9), @visitEntryDate datetime
@@ -1822,7 +1982,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes a stockId and returns 1 if the stockId is a service and 0 if otherwise
 -- =============================================
-CREATE OR ALTER PROCEDURE isService
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[isService]'))
+   exec('CREATE PROCEDURE [dbo].[isService] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE isService
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
 AS
@@ -1863,7 +2027,11 @@ GO
 -- Create date: 4/11/2019
 -- Description:	takes a stockId and returns 1 if the stockId is an item and 0 if otherwise
 -- =============================================
-CREATE OR ALTER PROCEDURE isItem
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[isItem]'))
+   exec('CREATE PROCEDURE [dbo].[isItem] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE isItem
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50)
 AS
@@ -1883,4 +2051,3 @@ BEGIN
 
 END
 GO
-
