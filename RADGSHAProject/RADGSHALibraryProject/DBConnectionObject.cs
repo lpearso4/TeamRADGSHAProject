@@ -9,8 +9,8 @@ namespace RADGSHALibrary
 {
     public class DBConnectionObject
     {
-     
-        private const int QUERY_LIMIT = 100; // set limit of search results ( move to properties file later )
+
+        private int QUERY_LIMIT = RADGSHALibraryProject.Properties.db.Default.query_limit; // Pull query limit for queries from properties file
 
         /* These just make it easier to find the column number for each attribute when using SqlDataReader */
         private enum PCol : int { Gender, SSN, BirthDate, FirstName, MiddleInitial, LastName, AddressLine1, AddressLine2, State, City, ZipCode, InsurerID, DnrStatus, OrganDonor };
@@ -32,7 +32,7 @@ namespace RADGSHALibrary
         protected DBConnectionObject()
         {
 
-            // Get connection details from settings file
+            // Get connection details from properties file
             string dbuser = RADGSHALibraryProject.Properties.db.Default.dbuser;
             string dbpass = RADGSHALibraryProject.Properties.db.Default.dbpass;
             string dbname = RADGSHALibraryProject.Properties.db.Default.dbname;
@@ -40,8 +40,7 @@ namespace RADGSHALibrary
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + dbname + "; Data Source=" + datasource + "; Integrated Security=False; User Id=" + dbuser + "; Password=" + dbpass + ";";
-            // If you want to use integrated security for some reason
-            //string connectionString = "Initial Catalog=" + DBNAME + "; Data Source=" + DATASOURCE + "; Integrated Security=True;";
+        
             conn = new SqlConnection(connectionString);
 
             bool success_connecting = true;
@@ -93,12 +92,13 @@ namespace RADGSHALibrary
 
         public void getVisits(ref Patient patient)
         {
-            // This attaches a list of visits to patient. 
-            // TODO: symptoms should be pulled from Symptom table and added to each visit
-            //   and room list should be pulled from StaysIn table
-            //   Items used and services should be pulled from respective tables
-            //   (Or should they be added somewhere else?)
-
+            /* This attaches a list of visits to patient. 
+             * Symptoms are pulled from the symptoms table and attached to visits
+             * Rooms are attached to visits
+             * TODO: Items and Services still need to be attached to the visit! 
+             *   
+             */
+            
             patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
 
             string queryString = "getVisits";
@@ -119,14 +119,42 @@ namespace RADGSHALibrary
                 if (!reader.IsDBNull((int)VisCol.ExitDate)) visit.setExitDate(reader.GetDateTime((int)VisCol.ExitDate));
                 if (!reader.IsDBNull((int)VisCol.AttendingPhysician)) visit.setAttendingPhysician(reader.GetString((int)VisCol.AttendingPhysician));
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
-                //visit.addSymptom(); 
-                
 
                 patient.addVisit(visit);
-              
+                             
             }
             reader.Close();
-           
+
+            // while we are getting patient visits, we might as well populate patient symptoms
+
+            List<Visit> visits = patient.getVisitList();
+            Console.WriteLine("Visits: " + visits.Count); 
+            for (int i = 0; i<visits.Count;i++)
+            {
+                
+                List<string> symptoms = querySymptoms(patient, visits[i]);
+                Console.WriteLine("Symptoms: " + symptoms.Count);
+                
+                foreach (string s in symptoms) // add symptoms
+                {
+                    Console.WriteLine(s);
+                    visits[i].addSymptom(s);
+                    Console.WriteLine("Symptoms LIst: " + patient.getVisitList()[i].getSymptomList().Count);
+                }
+                Visit v = visits[i];
+                
+                getRoomList(ref patient, ref v);
+
+                foreach (Room r in visits[i].getRoomList()) // add rooms
+                {
+                    Console.WriteLine("Patient " + patient.getFirstName() + " " + patient.getLastName() + " stayed in room " + r.getRoomNumber() + " which has an hourly rate of " + r.getHourlyRate());
+                    getRoomEntryExitDates(patient, visits[i], r, out DateTime entryDate, out DateTime exitDate, out bool stillInroom);
+                    Console.WriteLine("Patient stayed in room from " + entryDate + " to " + exitDate);
+                }
+            }
+
+
+
         }
         
         public void addVisit(Visit visit, Patient patient)
@@ -312,8 +340,7 @@ namespace RADGSHALibrary
         }
 
         public Room getRoom(string roomNumber, DateTime effectiveDate)
-        {
-            // Need to rewrite getRoom
+        {         
             string queryString = "getRoom";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -449,19 +476,7 @@ namespace RADGSHALibrary
         {
 
             string procedureName = "queryPatient";
-
-            /*
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@ssn", ssn));
-            command.Parameters.Add(new SqlParameter("@lastName", lastName));
-            command.Parameters.Add(new SqlParameter("@firstName", firstName));
-
-            command.Connection = conn;
-           
-            SqlDataReader reader = command.ExecuteReader();
-            */
-            //executeStoredProcedure(string procedureName, Dictionary<string,string> parameterList)
+                     
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@ssn", ssn));
             parameters.Add(new SqlParameter("@lastName", lastName));
@@ -548,11 +563,6 @@ namespace RADGSHALibrary
             reader.Close();
         }
 
-        /*
-         * 	@patientId nvarchar(9), @entryDate datetime,
-	     *@symptomName nvarchar(50
-         * )
-         */
         public List<string> querySymptoms (string patientSSN="", string symptomName="")
         {
             string procedureName = "querySymptoms";
@@ -655,8 +665,7 @@ namespace RADGSHALibrary
 
         public void closeVisit(Patient patient, Visit v)
         {
-            //Visit 3v = patient.getCurrentVisit();
-
+        
             string procedureName = "closeVisit";
 
             List<SqlParameter> parameters = new List<SqlParameter>();           
@@ -669,6 +678,8 @@ namespace RADGSHALibrary
 
         }
 
+        /*
+        // Possibly won't use "getStaysIn methods but specialized versions that I'm writing below, such as getRoomList, and getRoomEntryExitDate
         public void getStaysIn(string patientSSN, string roomNumber) 
         {
             getStaysIn(patientSSN, roomNumber, DateTime.MinValue, DateTime.MinValue);
@@ -678,6 +689,7 @@ namespace RADGSHALibrary
             getStaysIn(patientSSN, roomNumber, visitEntryDate, DateTime.MinValue);
         }
 
+ 
         public void getStaysIn(string patientSSN, string roomNumber, DateTime visitEntryDate, DateTime roomEffectiveDate) // I'm not sure exactly what this will look like yet
         // This will probably return something at some point. The other methods send DateTime.MinValue as an argument as a way of saying, we don't want to use that as a parameter
         // Yeah, I know that's a bad hack
@@ -701,26 +713,102 @@ namespace RADGSHALibrary
             // private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
             int count = 0;
             while (reader.Read() && count < QUERY_LIMIT)
-            {
-                Console.WriteLine("Room Number: " + reader.GetString((int)staysInCol.RoomNumber)
+            { */
+               /* Console.WriteLine("Room Number: " + reader.GetString((int)staysInCol.RoomNumber)
                                 + "Room Effective Date: " + reader.GetDateTime((int)staysInCol.RoomEffectiveDate)
                                 + "Patient SSN: " + reader.GetString((int)staysInCol.PatientId));
                 Console.WriteLine("\tVisit Entry Date: " + reader.GetDateTime((int)staysInCol.VisitEntryDate)
                                 + "Room Entry Date: " + reader.GetDateTime((int)staysInCol.RoomEntryDateTime)
-                                + "Room Exit Date: " + reader.GetDateTime((int)staysInCol.RoomExitDateTime));
-                
+                                + "Room Exit Date: " + reader.GetDateTime((int)staysInCol.RoomExitDateTime)); */
+             /*   
                 count++;
             }
             closeReader(ref reader);
-        }
-        public void closeStaysIn(Patient patient, Visit visit, Room room, DateTime roomExitDate)
-        {
-            /* CREATE OR ALTER PROCEDURE closeStaysIn
+        }*/
 
-	-- Add the parameters for the stored procedure here
-	@PatientId nvarchar(10), @visitEntryDate datetime, @roomNumber nvarchar(10), @roomEffectiveDate datetime,
-		@roomExitDate datetime
-        */
+        public void getRoomEntryExitDates(Patient patient, Visit visit, Room room, out DateTime roomEntryDate, out DateTime roomExitDate, out bool stillInRoom)
+        {
+            // When you are calculating a bill, and you know that a patient stayed in "room", call this method to return the dates the patient entered and exited the room
+            string procedureName = "getStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+           
+            parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+
+            parameters.Add(new SqlParameter("@visitEntryDate", visit.getEntryDate()));
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            roomEntryDate = DateTime.MinValue;
+            roomExitDate = DateTime.MinValue;
+            stillInRoom = false;
+            while (reader.Read())
+            {
+                Console.WriteLine("Reading entry and exit date values");
+                roomEntryDate = reader.GetDateTime((int)staysInCol.RoomEntryDateTime);
+                      
+         
+               if (!reader.IsDBNull((int)staysInCol.RoomExitDateTime))
+               {
+                   roomExitDate = reader.GetDateTime((int)staysInCol.RoomExitDateTime);
+               }
+               else
+               {
+                   stillInRoom = true;
+               }
+
+            }
+            closeReader(ref reader);
+        }
+
+        public void getRoomList(ref Patient patient, ref Visit visit) 
+        // Attaches the room(s) associated with this patient visit
+        {
+            string procedureName = "getStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@roomNumber", ""));
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@visitEntryDate", visit.getEntryDate()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            int count = 0;
+            List<Room> rooms = visit.getRoomList();
+            rooms.Clear(); // make sure we clear the room list, as we are adding room(s) back on
+
+            SortedList<string, DateTime> roomDataHolder = new SortedList<string, DateTime>();
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                string roomNum = reader.GetString((int)staysInCol.RoomNumber);
+                DateTime roomEffectiveDate = reader.GetDateTime((int)staysInCol.RoomEffectiveDate);
+
+                roomDataHolder.Add(roomNum, roomEffectiveDate);
+
+               
+                /* Console.WriteLine("Room Number: " + reader.GetString((int)staysInCol.RoomNumber)
+                                 + "Room Effective Date: " + reader.GetDateTime((int)staysInCol.RoomEffectiveDate)
+                                 + "Patient SSN: " + reader.GetString((int)staysInCol.PatientId));
+                 Console.WriteLine("\tVisit Entry Date: " + reader.GetDateTime((int)staysInCol.VisitEntryDate)
+                                 + "Room Entry Date: " + reader.GetDateTime((int)staysInCol.RoomEntryDateTime)
+                                 + "Room Exit Date: " + reader.GetDateTime((int)staysInCol.RoomExitDateTime)); */
+
+                count++;
+            }
+            closeReader(ref reader);
+
+            foreach (KeyValuePair<string,DateTime> kvp in roomDataHolder)
+            {
+                Room room = getRoom(kvp.Key, kvp.Value);
+
+                visit.addRoom(room);
+            }
+             
+        }
+
+        public void closeStaysIn(Patient patient, Visit visit, Room room, DateTime roomExitDate)
+        {        
             string procedureName = "closeStaysIn";
 
             List<SqlParameter> parameters = new List<SqlParameter>();

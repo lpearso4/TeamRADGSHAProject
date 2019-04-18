@@ -12,7 +12,7 @@ namespace RADGSHALibraryProject.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class db : global::System.Configuration.ApplicationSettingsBase {
         
         private static db defaultInstance = ((db)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new db())));
@@ -56,6 +56,15 @@ namespace RADGSHALibraryProject.Properties {
         public string datasource {
             get {
                 return ((string)(this["datasource"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int query_limit {
+            get {
+                return ((int)(this["query_limit"]));
             }
         }
     }

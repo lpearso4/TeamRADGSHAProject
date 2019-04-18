@@ -76,6 +76,7 @@ namespace RADGSHALibrary
 
         public void checkIn()
         {
+            if (curVisit != null) throw new Exception("Patient error: Patient is already checked in!");
             curVisit = new Visit();
             curVisit.setEntryDate(DateTime.Now);
             visits.Add(curVisit);
@@ -84,6 +85,7 @@ namespace RADGSHALibrary
 
         public void checkOut()
         {
+            if (curVisit == null) throw new Exception("Patient error: Can't check out patient! Patient is not checked in!");
             curVisit.setExitDate(DateTime.Now);
             curVisit = null;
             // what else?
