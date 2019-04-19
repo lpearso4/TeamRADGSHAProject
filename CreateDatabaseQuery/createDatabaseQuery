@@ -1,10 +1,11 @@
 USE [master]
 GO
-/*Create database*/
 
-CREATE DATABASE [HRAS_RAD]
- CONTAINMENT = NONE
- GO
+/*Create database*/
+IF NOT EXISTS (SELECT * FROM master.dbo.sysdatabases WHERE '[' + name + ']' = 'HRAS_RAD' OR name = 'HRAS_RAD')
+   exec('CREATE DATABASE [HRAS_RAD] CONTAINMENT = NONE')
+GO
+
 begin
 EXEC [HRAS_RAD].[dbo].[sp_fulltext_database] @action = 'enable'
 end
@@ -13,18 +14,17 @@ GO
 /* create User If possible */
 --create a login
 USE [master];
+
+--CREATE LOGIN teamRADGSHAUser
+IF NOT EXISTS (SELECT name FROM master.sys.server_principals WHERE name = 'teamRADGSHAUser')
+   exec('CREATE LOGIN teamRADGSHAUser WITH PASSWORD    = ''123'';')
 GO
-CREATE LOGIN teamRADGSHAUser
-    WITH PASSWORD    = '123';
-GO
---optional code to set login to dbcreator
---EXEC sp_addsrvrolemember 
---	@loginame = N'teamRADGSHAUser', 
---	@rolename = N'dbcreator';
 
 USE [HRAS_RAD]
+
 --create user
-CREATE USER [teamRADGSHAUser] FOR LOGIN [teamRADGSHAUser]
+IF USER_ID('teamRADGSHAUser') IS NULL CREATE USER [teamRADGSHAUser] FOR LOGIN [teamRADGSHAUser]
+GO
 
 --update roles
 EXEC sys.sp_addrolemember
@@ -39,11 +39,14 @@ EXEC sys.sp_addrolemember
 GO
 /* COMMENT OUT ABOVE IF USER CREATION PERMISSION IS NOT GRANTED */
 
-
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Inventory')
+--create table
 CREATE TABLE [dbo].[Inventory](
 	[StockId] [nvarchar](50) NOT NULL,
 	[Description] [nvarchar](300) NULL,
@@ -59,6 +62,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Item')
+--create table
 CREATE TABLE [dbo].[Item](
 	[StockId] [nvarchar](50) NOT NULL,
 	[Size] [int] NULL,
@@ -74,6 +82,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Log')
+--create table
 CREATE TABLE [dbo].[Log](
 	[StockId] [nvarchar](50) NOT NULL,
 	[UserName] [nvarchar](50) NOT NULL,
@@ -92,6 +105,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Patient')
+--create table
 CREATE TABLE [dbo].[Patient](
 	[Gender] [nvarchar](1) NULL,
 	[SSN] [nvarchar](9) NOT NULL,
@@ -118,6 +136,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Room')
+--create table
 CREATE TABLE [dbo].[Room](
 	[HourlyRate] [decimal](5, 2) NULL,
 	[EffectiveDate] [datetime] NOT NULL,
@@ -134,6 +157,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Service')
+--create table
 CREATE TABLE [dbo].[Service](
 	[StockId] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_Service] PRIMARY KEY CLUSTERED 
@@ -147,6 +175,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'StaysIn')
+--create table
 CREATE TABLE [dbo].[StaysIn](
 	[RoomNumber] [nvarchar](10) NOT NULL,
 	[RoomEffectiveDate] [datetime] NOT NULL,
@@ -168,6 +201,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Symptom')
+--create table
 CREATE TABLE [dbo].[Symptom](
 	[PatientId] [nvarchar](9) NOT NULL,
 	[EntryDate] [datetime] NOT NULL,
@@ -185,9 +223,14 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'User')
+--create table
 CREATE TABLE [dbo].[User](
 	[Username] [nvarchar](50) NOT NULL,
-	[Password] [nvarchar](50) NOT NULL,
+	[Password] [varchar](64) NOT NULL,
 	[UserType] [bit] NOT NULL,
  CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
 (
@@ -200,6 +243,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Uses')
+--create table
 CREATE TABLE [dbo].[Uses](
 	[StockId] [nvarchar](50) NOT NULL,
 	[PatientId] [nvarchar](9) NOT NULL,
@@ -217,6 +265,11 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+--check if table exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES
+           WHERE TABLE_NAME = 'Visit')
+--create table
 CREATE TABLE [dbo].[Visit](
 	[PatientId] [nvarchar](9) NOT NULL,
 	[EntryDate] [datetime] NOT NULL,
@@ -230,46 +283,55 @@ CREATE TABLE [dbo].[Visit](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Item_Inventory')
 ALTER TABLE [dbo].[Item]  WITH CHECK ADD  CONSTRAINT [FK_Item_Inventory] FOREIGN KEY([StockId])
 REFERENCES [dbo].[Inventory] ([StockId])
 GO
 ALTER TABLE [dbo].[Item] CHECK CONSTRAINT [FK_Item_Inventory]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Log_Inventory')
 ALTER TABLE [dbo].[Log]  WITH CHECK ADD  CONSTRAINT [FK_Log_Inventory] FOREIGN KEY([StockId])
 REFERENCES [dbo].[Inventory] ([StockId])
 GO
 ALTER TABLE [dbo].[Log] CHECK CONSTRAINT [FK_Log_Inventory]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Log_User')
 ALTER TABLE [dbo].[Log]  WITH CHECK ADD  CONSTRAINT [FK_Log_User] FOREIGN KEY([UserName])
 REFERENCES [dbo].[User] ([Username])
 GO
 ALTER TABLE [dbo].[Log] CHECK CONSTRAINT [FK_Log_User]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Service_Inventory')
 ALTER TABLE [dbo].[Service]  WITH CHECK ADD  CONSTRAINT [FK_Service_Inventory] FOREIGN KEY([StockId])
 REFERENCES [dbo].[Inventory] ([StockId])
 GO
 ALTER TABLE [dbo].[Service] CHECK CONSTRAINT [FK_Service_Inventory]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_StaysIn_Patient')
 ALTER TABLE [dbo].[StaysIn]  WITH CHECK ADD  CONSTRAINT [FK_StaysIn_Patient] FOREIGN KEY([PatientId])
 REFERENCES [dbo].[Patient] ([SSN])
 GO
 ALTER TABLE [dbo].[StaysIn] CHECK CONSTRAINT [FK_StaysIn_Patient]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_StaysIn_Room')
 ALTER TABLE [dbo].[StaysIn]  WITH CHECK ADD  CONSTRAINT [FK_StaysIn_Room] FOREIGN KEY([RoomEffectiveDate], [RoomNumber])
 REFERENCES [dbo].[Room] ([EffectiveDate], [RoomNumber])
 GO
 ALTER TABLE [dbo].[StaysIn] CHECK CONSTRAINT [FK_StaysIn_Room]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Symptom_Visit')
 ALTER TABLE [dbo].[Symptom]  WITH CHECK ADD  CONSTRAINT [FK_Symptom_Visit] FOREIGN KEY([PatientId], [EntryDate])
 REFERENCES [dbo].[Visit] ([PatientId], [EntryDate])
 GO
 ALTER TABLE [dbo].[Symptom] CHECK CONSTRAINT [FK_Symptom_Visit]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Uses_Inventory')
 ALTER TABLE [dbo].[Uses]  WITH CHECK ADD  CONSTRAINT [FK_Uses_Inventory] FOREIGN KEY([StockId])
 REFERENCES [dbo].[Inventory] ([StockId])
 GO
 ALTER TABLE [dbo].[Uses] CHECK CONSTRAINT [FK_Uses_Inventory]
 GO
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME='FK_Uses_Visit')
 ALTER TABLE [dbo].[Uses]  WITH CHECK ADD  CONSTRAINT [FK_Uses_Visit] FOREIGN KEY([PatientId], [EntryDateTime])
 REFERENCES [dbo].[Visit] ([PatientId], [EntryDate])
 GO
@@ -763,7 +825,7 @@ GO
 ALTER PROCEDURE validateLogin
 
 	-- Add the parameters for the stored procedure here
-	@userName nvarchar(50), @givenPW nvarchar(50)
+	@userName nvarchar(50), @givenPW varchar(64)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1060,7 +1122,7 @@ GO
 ALTER PROCEDURE addUser
 
 	-- Add the parameters for the stored procedure here
-	@userName nvarchar(50), @password nvarchar(50),
+	@userName nvarchar(50), @password varchar(64),
 	@userType bit
 AS
 BEGIN
@@ -1144,7 +1206,7 @@ GO
 ALTER PROCEDURE updatePassword
 
 	-- Add the parameters for the stored procedure here
-	@userGiven nvarchar(50), @password nvarchar(50)
+	@userGiven nvarchar(50), @password varchar(64)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1851,15 +1913,15 @@ GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 4/11/2019
--- Description:	takes 3 to 4 variables and returns the staysIn matching them, the roomEffectiveDate is optional
+-- Description:	takes 4 variables and returns the staysIn matching them
 -- =============================================
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getStaysIn]'))
    exec('CREATE PROCEDURE [dbo].[getStaysIn] AS BEGIN SET NOCOUNT ON; END')
 GO
 
 ALTER PROCEDURE getStaysIn
-		-- Add the parameters for the stored procedure here
-	@roomNumber nvarchar(10), @roomEffectiveDate datetime=NULL,
+	-- Add the parameters for the stored procedure here
+	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
 	@patientId nvarchar(9), @visitEntryDate datetime
 AS
 BEGIN
@@ -1868,16 +1930,11 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	IF (@roomEffectiveDate is null)
-		EXEC('SELECT * FROM StaysIn 
-		WHERE RoomNumber LIKE ''' + @roomNumber + '%''AND PatientId LIKE ''' + @patientId + '%'' AND VisitEntryDate LIKE ''' + @visitEntryDate + '%''');
-	
-	ELSE
-	
-		EXEC('SELECT * FROM StaysIn 
-		WHERE RoomNumber LIKE ''' + @roomNumber + '%'' AND RoomEffectiveDate LIKE ''' + @roomEffectiveDate 
-		+ '%'' AND PatientId LIKE ''' + @patientId + '%'' AND VisitEntryDate LIKE ''' + @visitEntryDate + '%''');
-	
+
+	SELECT * FROM StaysIn 
+	WHERE RoomNumber = @roomNumber AND RoomEffectiveDate = @roomEffectiveDate 
+	AND PatientId = @patientId AND VisitEntryDate = @visitEntryDate
+
 END
 GO
 
