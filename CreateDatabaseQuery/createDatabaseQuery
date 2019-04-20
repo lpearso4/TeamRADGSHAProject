@@ -1920,8 +1920,8 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT
 GO
 
 ALTER PROCEDURE getStaysIn
-	-- Add the parameters for the stored procedure here
-	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
+		-- Add the parameters for the stored procedure here
+	@roomNumber nvarchar(10), @roomEffectiveDate datetime=NULL,
 	@patientId nvarchar(9), @visitEntryDate datetime
 AS
 BEGIN
@@ -1930,11 +1930,16 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-
-	SELECT * FROM StaysIn 
-	WHERE RoomNumber = @roomNumber AND RoomEffectiveDate = @roomEffectiveDate 
-	AND PatientId = @patientId AND VisitEntryDate = @visitEntryDate
-
+	IF (@roomEffectiveDate is null)
+		EXEC('SELECT * FROM StaysIn 
+		WHERE RoomNumber LIKE ''' + @roomNumber + '%''AND PatientId LIKE ''' + @patientId + '%'' AND VisitEntryDate LIKE ''' + @visitEntryDate + '%''');
+	
+	ELSE
+	
+		EXEC('SELECT * FROM StaysIn 
+		WHERE RoomNumber LIKE ''' + @roomNumber + '%'' AND RoomEffectiveDate LIKE ''' + @roomEffectiveDate 
+		+ '%'' AND PatientId LIKE ''' + @patientId + '%'' AND VisitEntryDate LIKE ''' + @visitEntryDate + '%''');
+	
 END
 GO
 
