@@ -99,6 +99,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button searchPatientButton;
         private System.Windows.Forms.Button addPatientButton;
-        private System.Windows.Forms.Button importToolButton;
+        protected System.Windows.Forms.Button importToolButton;
     }
 }

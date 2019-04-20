@@ -25,13 +25,29 @@ namespace RADGSHAProject
             Login(usernameTextBox.Text, passwordTextBox.Text);
         }
 
+        string CreateHash(string password)
+        {
+             
+            using (SHA256 sha256Hash = SHA256.Create())
+            {                
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                string hashedPassword = "";
+                foreach (byte i in bytes)
+                {
+                    hashedPassword += i.ToString("x2");
+                }
+
+                return hashedPassword;
+            }
+        }
+
         private void Login(string username, string password)//Update for actual security checking
         {
+            string message;  // for any messageboxes to follow
+            string caption;
 
-            byte[] data = System.Text.Encoding.UTF8.GetBytes(password);
-            byte[] hash = SHA256.Create().ComputeHash(data);
-            string hashedPassword = Convert.ToBase64String(hash);
-            Console.WriteLine(hashedPassword);
+            string hashedPassword = CreateHash(password); // create sha256 hash of password
 
             RADGSHALibrary.User user = new RADGSHALibrary.User(username, hashedPassword);
 
@@ -42,8 +58,8 @@ namespace RADGSHAProject
             }
             catch (Exception e)
             {
-                string message = e.Message;
-                string caption = "Error!";
+                message = e.Message;
+                caption = "Error!";
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
                 MessageBox.Show(message, caption, buttons);
                 return;
@@ -60,12 +76,21 @@ namespace RADGSHAProject
                 bool isAdmin = db.validateUserType(user);
                 if (isAdmin) Console.Write("User is admin user");
                 else Console.WriteLine("User is not admin user");
+                user.setAdmin(isAdmin);
+                this.Hide();
+                MainPage M = new MainPage(user);
+                M.Closed += (s, args) => this.Close();
+                M.Show();
+            }
+            else
+            {
+                message = "Error: User name or password is not valid!";
+                caption = "Error!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
             }
 
-            this.Hide();
-            MainPage M = new MainPage();
-            M.Closed += (s, args) => this.Close();
-            M.Show();
+           
         }
 
         private void usernameTextBox_Clicked(object sender, EventArgs e)
@@ -76,6 +101,14 @@ namespace RADGSHAProject
         private void passwordTextBox_Clicked(object sender, EventArgs e)
         {
             if (passwordTextBox.Text == "Password") passwordTextBox.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MainPage M = new MainPage();
+            M.Closed += (s, args) => this.Close();
+            M.Show();
         }
     }
 }

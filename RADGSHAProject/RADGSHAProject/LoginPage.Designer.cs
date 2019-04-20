@@ -31,6 +31,7 @@
             this.loginButton = new System.Windows.Forms.Button();
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // loginButton
@@ -53,7 +54,6 @@
             this.usernameTextBox.TabIndex = 1;
             this.usernameTextBox.Text = "Username";
             this.usernameTextBox.Click += new System.EventHandler(this.usernameTextBox_Clicked);
-
             // 
             // passwordTextBox
             // 
@@ -65,13 +65,24 @@
             this.passwordTextBox.TabIndex = 2;
             this.passwordTextBox.Text = "Password";
             this.passwordTextBox.Click += new System.EventHandler(this.passwordTextBox_Clicked);
-
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(499, 316);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Bypass login";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // LoginPage
             // 
             this.AcceptButton = this.loginButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
             this.Controls.Add(this.loginButton);
@@ -89,11 +100,7 @@
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.TextBox usernameTextBox;
         private System.Windows.Forms.TextBox passwordTextBox;
-
-        
-
-
-
+        private System.Windows.Forms.Button button1;
     }
 }
 
