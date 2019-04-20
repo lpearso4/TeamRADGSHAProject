@@ -96,7 +96,7 @@
             this.PatientListView.Location = new System.Drawing.Point(146, 150);
             this.PatientListView.Margin = new System.Windows.Forms.Padding(2);
             this.PatientListView.Name = "PatientListView";
-            this.PatientListView.Size = new System.Drawing.Size(424, 148);
+            this.PatientListView.Size = new System.Drawing.Size(443, 148);
             this.PatientListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.PatientListView.TabIndex = 1;
             this.PatientListView.Tag = "";

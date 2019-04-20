@@ -30,8 +30,8 @@
         {
             this.label2 = new System.Windows.Forms.Label();
             this.submitButton = new System.Windows.Forms.Button();
-            this.searchRoom = new System.Windows.Forms.TextBox();
-            this.availableRoom = new System.Windows.Forms.ListView();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label2
@@ -46,7 +46,7 @@
             // submitButton
             // 
             this.submitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.submitButton.Location = new System.Drawing.Point(418, 281);
+            this.submitButton.Location = new System.Drawing.Point(288, 347);
             this.submitButton.Name = "submitButton";
             this.submitButton.Size = new System.Drawing.Size(101, 41);
             this.submitButton.TabIndex = 10;
@@ -54,34 +54,33 @@
             this.submitButton.UseVisualStyleBackColor = true;
             this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
-            // searchRoom
+            // cancelButton
             // 
-            this.searchRoom.Location = new System.Drawing.Point(373, 36);
-            this.searchRoom.Name = "searchRoom";
-            this.searchRoom.Size = new System.Drawing.Size(100, 20);
-            this.searchRoom.TabIndex = 11;
-            this.searchRoom.TextChanged += new System.EventHandler(this.searchRoom_TextChanged);
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Location = new System.Drawing.Point(395, 347);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(101, 41);
+            this.cancelButton.TabIndex = 11;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // availableRoom
+            // comboBox1
             // 
-            this.availableRoom.GridLines = true;
-            this.availableRoom.Location = new System.Drawing.Point(185, 73);
-            this.availableRoom.Name = "availableRoom";
-            this.availableRoom.Size = new System.Drawing.Size(288, 96);
-            this.availableRoom.TabIndex = 12;
-            this.availableRoom.TileSize = new System.Drawing.Size(20, 1);
-            this.availableRoom.UseCompatibleStateImageBehavior = false;
-            this.availableRoom.View = System.Windows.Forms.View.Details;
-            this.availableRoom.SelectedIndexChanged += new System.EventHandler(this.availableRoom_SelectedIndexChanged);
-            this.availableRoom.Leave += new System.EventHandler(this.availableRoom_Leave);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(371, 36);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 12;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // ChangeRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(531, 334);
-            this.Controls.Add(this.availableRoom);
-            this.Controls.Add(this.searchRoom);
+            this.ClientSize = new System.Drawing.Size(508, 400);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.label2);
             this.Name = "ChangeRoom";
@@ -90,8 +89,8 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.submitButton, 0);
-            this.Controls.SetChildIndex(this.searchRoom, 0);
-            this.Controls.SetChildIndex(this.availableRoom, 0);
+            this.Controls.SetChildIndex(this.cancelButton, 0);
+            this.Controls.SetChildIndex(this.comboBox1, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -100,7 +99,7 @@
         #endregion
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button submitButton;
-        private System.Windows.Forms.TextBox searchRoom;
-        private System.Windows.Forms.ListView availableRoom;
+        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

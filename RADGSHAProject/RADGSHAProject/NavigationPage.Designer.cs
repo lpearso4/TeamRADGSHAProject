@@ -37,8 +37,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.searchPatientButton);
             this.groupBox1.Controls.Add(this.addPatientButton);
             this.groupBox1.Controls.Add(this.importToolButton);
@@ -71,7 +69,6 @@
             // 
             // importToolButton
             // 
-            this.importToolButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.importToolButton.Location = new System.Drawing.Point(9, 284);
             this.importToolButton.Margin = new System.Windows.Forms.Padding(2);
             this.importToolButton.Name = "importToolButton";

@@ -53,6 +53,12 @@
     <Compile Include="ChangeRoom.Designer.cs">
       <DependentUpon>ChangeRoom.cs</DependentUpon>
     </Compile>
+    <Compile Include="CheckOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckOut.Designer.cs">
+      <DependentUpon>CheckOut.cs</DependentUpon>
+    </Compile>
     <Compile Include="DiagnosisWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,9 @@
     </Compile>
     <EmbeddedResource Include="ChangeRoom.resx">
       <DependentUpon>ChangeRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckOut.resx">
+      <DependentUpon>CheckOut.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DiagnosisWizard.resx">
       <DependentUpon>DiagnosisWizard.cs</DependentUpon>

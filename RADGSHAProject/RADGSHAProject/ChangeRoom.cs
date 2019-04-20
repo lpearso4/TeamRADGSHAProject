@@ -40,64 +40,21 @@ namespace RADGSHAProject
                 previousForm.Show();
             }
             Dispose();
-        }        
-
-        private void UpdateRoomList()
-        {
-            Char[] prohibitedChars = { ' ', '*', '.', '\'' };
-            DBConnectionObject DBconnection = DBConnectionObject.getInstance();
-
-            string roomNum = searchRoom.Text.Trim(prohibitedChars).Replace("'", "’");
-
-            List<RADGSHALibrary.Room> ResultingRoomList = new List<RADGSHALibrary.Room>();
-
-            if (roomNum != "")
-            {
-                ResultingRoomList = DBconnection.queryRoom(roomNum);
-            }
-
-            availableRoom.Items.Clear();
-
-            foreach (RADGSHALibrary.Room r in ResultingRoomList)
-            {
-                ListViewItem roomResult = new ListViewItem(r.getRoomNumber());
-                
-                availableRoom.Items.Add(roomResult);
-            }
-
-            if (availableRoom.SelectedItems.Count != 1)
-                submitButton.Enabled = false;
         }
 
-        private void searchRoom_TextChanged(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateRoomList();
-        }
 
-        private void availableRoom_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            submitButton.Enabled = true;
-            if (availableRoom.SelectedItems.Count != 1)
-                submitButton.Enabled = false;
-        }
-
-        private void availableRoom_Leave(object sender, EventArgs e)
-        {
-            if (availableRoom.SelectedItems.Count != 1)
-                submitButton.Enabled = false;
         }
 
         private void submitButton_Click(object sender, EventArgs e)
         {
-            /*
-            DBConnectionObject DBconnection = DBConnectionObject.getInstance();
-            RADGSHALibrary.Room r = DBconnection.getRoom(availableRoom.SelectedItems[0].SubItems[0].Text);
+            
+        }
 
-            this.Hide();
-            Room R = new Room(this, r);
-            R.Closed += (s, args) => this.Close();
-            R.Show();
-            */
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
