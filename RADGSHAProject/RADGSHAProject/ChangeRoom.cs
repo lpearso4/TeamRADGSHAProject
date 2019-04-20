@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RADGSHALibrary;
 
 namespace RADGSHAProject
 {
@@ -39,6 +40,21 @@ namespace RADGSHAProject
                 previousForm.Show();
             }
             Dispose();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void submitButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

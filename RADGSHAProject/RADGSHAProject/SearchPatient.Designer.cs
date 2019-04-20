@@ -48,7 +48,7 @@
             // 
             this.viewPatientButton.Enabled = false;
             this.viewPatientButton.Location = new System.Drawing.Point(458, 316);
-            this.viewPatientButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.viewPatientButton.Margin = new System.Windows.Forms.Padding(2);
             this.viewPatientButton.Name = "viewPatientButton";
             this.viewPatientButton.Size = new System.Drawing.Size(104, 32);
             this.viewPatientButton.TabIndex = 0;
@@ -59,7 +59,7 @@
             // PatientFirstNameField
             // 
             this.PatientFirstNameField.Location = new System.Drawing.Point(232, 27);
-            this.PatientFirstNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientFirstNameField.Margin = new System.Windows.Forms.Padding(2);
             this.PatientFirstNameField.Name = "PatientFirstNameField";
             this.PatientFirstNameField.Size = new System.Drawing.Size(214, 20);
             this.PatientFirstNameField.TabIndex = 1;
@@ -68,7 +68,7 @@
             // PatientSSNField
             // 
             this.PatientSSNField.Location = new System.Drawing.Point(232, 89);
-            this.PatientSSNField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientSSNField.Margin = new System.Windows.Forms.Padding(2);
             this.PatientSSNField.Name = "PatientSSNField";
             this.PatientSSNField.Size = new System.Drawing.Size(214, 20);
             this.PatientSSNField.TabIndex = 2;
@@ -77,7 +77,7 @@
             // VisitRoomNumberField
             // 
             this.VisitRoomNumberField.Location = new System.Drawing.Point(232, 119);
-            this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(2);
             this.VisitRoomNumberField.Name = "VisitRoomNumberField";
             this.VisitRoomNumberField.Size = new System.Drawing.Size(214, 20);
             this.VisitRoomNumberField.TabIndex = 3;
@@ -94,9 +94,9 @@
             this.PatientListView.FullRowSelect = true;
             this.PatientListView.GridLines = true;
             this.PatientListView.Location = new System.Drawing.Point(146, 150);
-            this.PatientListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientListView.Margin = new System.Windows.Forms.Padding(2);
             this.PatientListView.Name = "PatientListView";
-            this.PatientListView.Size = new System.Drawing.Size(434, 153);
+            this.PatientListView.Size = new System.Drawing.Size(443, 148);
             this.PatientListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.PatientListView.TabIndex = 1;
             this.PatientListView.Tag = "";
@@ -172,7 +172,7 @@
             // PatientLastNameField
             // 
             this.PatientLastNameField.Location = new System.Drawing.Point(232, 57);
-            this.PatientLastNameField.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientLastNameField.Margin = new System.Windows.Forms.Padding(2);
             this.PatientLastNameField.Name = "PatientLastNameField";
             this.PatientLastNameField.Size = new System.Drawing.Size(214, 20);
             this.PatientLastNameField.TabIndex = 9;

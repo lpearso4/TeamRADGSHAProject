@@ -33,5 +33,10 @@ namespace RADGSHAProject
             }
             this.Dispose();
         }
+
+        private void addFieldButton_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
