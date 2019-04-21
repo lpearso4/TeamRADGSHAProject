@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RADGSHALibrary;
+using System.Security.Cryptography;
 
 namespace ImportToolLibrary
 {
@@ -211,6 +212,119 @@ namespace ImportToolLibrary
             Console.WriteLine("Import Completed.");
             file.Close();
         }
+        string CreateHash(string password)
+        {
+
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                string hashedPassword = "";
+                foreach (byte i in bytes)
+                {
+                    hashedPassword += i.ToString("x2");
+                }
+
+                return hashedPassword;
+            }
+        }
+        public async void importUserData(string url)
+        {
+            /*
+             * ALTER PROCEDURE addUser
+	            -- Add the parameters for the stored procedure here
+	            @userName nvarchar(50), @password varchar(64),
+	            @userType bit
+            AS
+            BEGIN
+	            -- SET NOCOUNT ON added to prevent extra result sets from
+	            -- interfering with SELECT statements.
+	            SET NOCOUNT ON;
+
+                -- Insert statements for procedure here
+
+	            INSERT INTO [User] (Username, Password, UserType) VALUES (@userName, @password, @userType)
+
+            END
+            */
+            int numberOfLines = getFileLineLength(url);
+            int currentLineNumber = 0;
+
+            int outputPercentTimer = 0;
+            string line;
+            Char[] prohibitedChars = { '*', '.',' ' };
+            Char[] prohibitdPassChars = { ' ' };
+            System.IO.StreamReader file =
+                new System.IO.StreamReader(url);
+            while ((line = file.ReadLine()) != null)
+            { 
+                await Task.Delay(1);
+
+                const int USERNAME_START = 0;
+                const int USERNAME_LEN = 25;
+                const int PASSWORD_START = 25;
+                const int PASSWORD_LEN = 50;
+                const int USERTYPE_START = 75;
+                const int USERTYPE_LEN = 1;
+
+
+                string username;
+                string password;
+                string usertype;
+                try
+                {
+                     username = line.Substring(USERNAME_START, USERNAME_LEN).Trim(prohibitedChars);
+                     password = line.Substring(PASSWORD_START, PASSWORD_LEN).Trim(prohibitdPassChars);
+                     usertype = line.Substring(USERTYPE_START, USERTYPE_LEN);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("User input file error: Formatting error in file!");
+                }
+
+                bool isAdmin;
+                if (usertype=="R")
+                {
+                    isAdmin = false;
+                }
+                else if (usertype=="A")
+                {
+                    isAdmin = true;
+                }
+                else
+                {
+                    throw new Exception("User input file error: Invalid user type!");
+                }
+
+                string hashedPassword = CreateHash(password);
+
+                User user = new User(username, hashedPassword, isAdmin);
+
+                // if user is already in database, this will fail
+                try
+                {
+                    conn.addUser(user);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+           
+            
+
+                currentLineNumber++;
+                outputPercentTimer++;
+                if (outputPercentTimer > 1000)
+                {
+                    outputPercentTimer = 0;
+                    Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
+                }
+            }
+            Console.WriteLine("Import Completed.");
+            file.Close();
+        }
+
         public async void importInventoryData(string url)
         {
             // currently throws an error if you attempt to add the same data twice

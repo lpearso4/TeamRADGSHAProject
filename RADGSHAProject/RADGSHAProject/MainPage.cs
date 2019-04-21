@@ -21,6 +21,7 @@ namespace RADGSHAProject
         }
         public MainPage(User newUser)
         {
+            InitializeComponent();
             user = newUser;
             if (user.isAdmin())
             {
@@ -30,6 +31,7 @@ namespace RADGSHAProject
             {
                 importToolButton.Visible = false;
             }
+            lblUser.Text = user.getUsername();
         }
         public MainPage(Form previousForm)
         {

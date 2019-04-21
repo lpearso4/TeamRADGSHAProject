@@ -74,7 +74,8 @@
             this.DataImportType.Items.AddRange(new object[] {
             "Rooms",
             "Inventory",
-            "Medical Records"});
+            "Medical Records",
+            "Users"});
             this.DataImportType.Location = new System.Drawing.Point(542, 41);
             this.DataImportType.Margin = new System.Windows.Forms.Padding(2);
             this.DataImportType.Name = "DataImportType";
