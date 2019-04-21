@@ -37,7 +37,7 @@ namespace RADGSHAProject
             P.Closed += (s, args) => this.Close();
             P.Show();
         }
-
+        
         private void FormClose(object sender, FormClosedEventArgs e)//shows the previous Form when closing this one
         {
             if (previousForm != null)

@@ -37,5 +37,14 @@ namespace RADGSHAProject
         {
 
         }
+
+        private void logOutButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LoginPage L = new LoginPage();
+            L.Closed += (s, args) => this.Close();
+            this.Dispose();
+            L.Show();
+        }
     }
 }

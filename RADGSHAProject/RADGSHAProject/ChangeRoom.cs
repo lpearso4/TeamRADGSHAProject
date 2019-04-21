@@ -11,17 +11,18 @@ using RADGSHALibrary;
 
 namespace RADGSHAProject
 {
-    public partial class ChangeRoom : NavigationPage
+    public partial class ChangeRoom : Form
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
         RADGSHALibrary.Patient selectedPatient;
         RADGSHALibrary.Visit selectedVisit;
+        Room newRoom;
 
         public ChangeRoom()
         {
             InitializeComponent();
         }
-        public ChangeRoom(RADGSHALibrary.Patient p, RADGSHALibrary.Visit v)
+        public ChangeRoom(ref RADGSHALibrary.Patient p, ref RADGSHALibrary.Visit v)
         {
             selectedPatient = p;
             selectedVisit = v;
@@ -35,26 +36,28 @@ namespace RADGSHAProject
 
         private void FormClose(object sender, FormClosedEventArgs e)
         {
-            if (previousForm != null)
-            {
-                previousForm.Show();
-            }
-            Dispose();
+            this.Hide();
+            Patient P = new Patient(this, selectedPatient);
+            P.Closed += (s, args) => this.Close();
+            P.Show();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void submitButton_Click(object sender, EventArgs e)
         {
-            
+            selectedVisit.addRoom(newRoom);
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            
+            this.Hide();
+            Patient P = new Patient(this, selectedPatient);
+            P.Closed += (s, args) => this.Close();
+            P.Show();
         }
     }
 }

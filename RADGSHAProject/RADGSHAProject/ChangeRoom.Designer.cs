@@ -37,7 +37,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(182, 39);
+            this.label2.Location = new System.Drawing.Point(30, 36);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(183, 13);
             this.label2.TabIndex = 8;
@@ -46,7 +46,7 @@
             // submitButton
             // 
             this.submitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.submitButton.Location = new System.Drawing.Point(288, 347);
+            this.submitButton.Location = new System.Drawing.Point(176, 205);
             this.submitButton.Name = "submitButton";
             this.submitButton.Size = new System.Drawing.Size(101, 41);
             this.submitButton.TabIndex = 10;
@@ -57,7 +57,7 @@
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(395, 347);
+            this.cancelButton.Location = new System.Drawing.Point(283, 205);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(101, 41);
             this.cancelButton.TabIndex = 11;
@@ -68,7 +68,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(371, 36);
+            this.comboBox1.Location = new System.Drawing.Point(219, 33);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 12;
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(508, 400);
+            this.ClientSize = new System.Drawing.Size(396, 258);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.submitButton);
@@ -87,10 +87,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChangeRoom";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
-            this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.submitButton, 0);
-            this.Controls.SetChildIndex(this.cancelButton, 0);
-            this.Controls.SetChildIndex(this.comboBox1, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

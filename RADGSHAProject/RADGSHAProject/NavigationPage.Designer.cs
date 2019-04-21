@@ -17,7 +17,7 @@
             {
                 components.Dispose();
             }
-            base.Dispose(disposing);
+            base.Dispose(disposing); 
         }
 
         #region Windows Form Designer generated code
@@ -32,11 +32,13 @@
             this.searchPatientButton = new System.Windows.Forms.Button();
             this.addPatientButton = new System.Windows.Forms.Button();
             this.importToolButton = new System.Windows.Forms.Button();
+            this.logOutButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.logOutButton);
             this.groupBox1.Controls.Add(this.searchPatientButton);
             this.groupBox1.Controls.Add(this.addPatientButton);
             this.groupBox1.Controls.Add(this.importToolButton);
@@ -69,7 +71,7 @@
             // 
             // importToolButton
             // 
-            this.importToolButton.Location = new System.Drawing.Point(9, 284);
+            this.importToolButton.Location = new System.Drawing.Point(9, 178);
             this.importToolButton.Margin = new System.Windows.Forms.Padding(2);
             this.importToolButton.Name = "importToolButton";
             this.importToolButton.Size = new System.Drawing.Size(111, 24);
@@ -77,6 +79,18 @@
             this.importToolButton.Text = "Import Tool";
             this.importToolButton.UseVisualStyleBackColor = true;
             this.importToolButton.Click += new System.EventHandler(this.importToolButton_Click);
+            // 
+            // logOutButton
+            // 
+            this.logOutButton.BackColor = System.Drawing.Color.Red;
+            this.logOutButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.logOutButton.Location = new System.Drawing.Point(9, 286);
+            this.logOutButton.Name = "logOutButton";
+            this.logOutButton.Size = new System.Drawing.Size(111, 29);
+            this.logOutButton.TabIndex = 3;
+            this.logOutButton.Text = "Log Out";
+            this.logOutButton.UseVisualStyleBackColor = false;
+            this.logOutButton.Click += new System.EventHandler(this.logOutButton_Click);
             // 
             // NavigationPage
             // 
@@ -99,5 +113,6 @@
         private System.Windows.Forms.Button searchPatientButton;
         private System.Windows.Forms.Button addPatientButton;
         protected System.Windows.Forms.Button importToolButton;
+        private System.Windows.Forms.Button logOutButton;
     }
 }
