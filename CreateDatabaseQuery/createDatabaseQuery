@@ -1442,6 +1442,35 @@ BEGIN
 END
 GO
 
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/21/2019
+-- Description:	Checks if the user Exists
+-- =============================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[doesUserExist]'))
+   exec('CREATE PROCEDURE [dbo].[doesUserExist] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE doesUserExist
+
+	-- Add the parameters for the stored procedure here
+	@userName nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	DECLARE @exists BIT
+	IF EXISTS(SELECT * FROM [User] WHERE @username = Username)	SET @exists = 1
+	ELSE SET @exists = 0
+	SELECT @exists
+
+END
+GO
+
 
 --Leave this line on the bottom to scope back to master afterwards.
 USE [master]
