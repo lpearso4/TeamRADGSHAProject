@@ -1,0 +1,30 @@
+Project Name: HRAS
+Test Case Number: 3.5.2-1
+Brief Description: Serch field has a drop down list to show relevant results
+Relevent section of SRS doc: 3.5.2
+
+Input Assumptions:
+Relevant state of DB: DATABase is loaded with room, medical records, and user input files
+
+User Actions:
+1.	Type the username 'KnappM4625'
+2.	Type the password 'bjswiafdloothlk'
+3.	Click the login button
+4.	Click the search patient button
+5.	Type the name 'Jim' into the first name field
+6.	Click the top result in the results area
+7.	Click the change room button along the bottom
+8.	A dialog box should pop up at this point, type '0' in the search field
+
+Expected Results
+A list of all results that begin with 0 Should be displayed in the results field
+
+Actual Result:
+Not implemented just yet
+
+Result matches expected result? Yes / No
+
+If not then, fill out the information below:
+
+Defect Report Number:
+Assigned to:
