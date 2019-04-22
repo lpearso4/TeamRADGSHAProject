@@ -22,9 +22,9 @@ Clicking the cancel button should return back to the patient medical record prev
 with the current room not updated.
 
 Actual Result:
-Not implemented just yet
+Clickking the cancel button does in fact return to the medical record previously displayed with the current room not updated
 
-Result matches expected result? Yes / No
+Result matches expected result? Yes
 
 If not then, fill out the information below:
 
