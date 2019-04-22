@@ -54,10 +54,7 @@ namespace RADGSHAProject
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Patient P = new Patient(this, selectedPatient);
-            P.Closed += (s, args) => this.Close();
-            P.Show();
+            Close();
         }
     }
 }

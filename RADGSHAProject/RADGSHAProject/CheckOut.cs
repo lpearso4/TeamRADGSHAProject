@@ -17,5 +17,15 @@ namespace RADGSHAProject
         {
             InitializeComponent();
         }
+
+        private void returnButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkOutButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
