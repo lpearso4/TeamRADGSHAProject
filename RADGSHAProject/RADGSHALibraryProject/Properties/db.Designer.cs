@@ -52,7 +52,7 @@ namespace RADGSHALibraryProject.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("database\\csci3400011030")]
+        [global::System.Configuration.DefaultSettingValueAttribute("desktop-urn6nh1\\mySQLServer")]
         public string datasource {
             get {
                 return ((string)(this["datasource"]));

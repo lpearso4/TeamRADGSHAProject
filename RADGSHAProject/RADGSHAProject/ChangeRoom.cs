@@ -22,18 +22,22 @@ namespace RADGSHAProject
         {
             InitializeComponent();
         }
-        public ChangeRoom(ref RADGSHALibrary.Patient p, ref RADGSHALibrary.Visit v)
+        public ChangeRoom(Form previousForm, ref RADGSHALibrary.Patient p, ref RADGSHALibrary.Visit v)
         {
+            InitializeComponent();
             selectedPatient = p;
             selectedVisit = v;
+            this.previousForm = previousForm;
         }
-
-        public ChangeRoom(Form previousForm)
+        
+        /*
+        public ChangeRoom(Form previousForm)//obsolete
         {
             InitializeComponent();
             this.previousForm = previousForm;
         }
-
+        */
+        
         private void FormClose(object sender, FormClosedEventArgs e)
         {
             this.Hide();
@@ -41,7 +45,7 @@ namespace RADGSHAProject
             P.Closed += (s, args) => this.Close();
             P.Show();
         }
-
+        
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             
@@ -54,7 +58,13 @@ namespace RADGSHAProject
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            previousForm.Show();
             Close();
+        }
+
+        private void ChangeRoom_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

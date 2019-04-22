@@ -86,7 +86,7 @@
             this.Name = "ChangeRoom";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChangeRoom";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
+            this.Load += new System.EventHandler(this.ChangeRoom_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

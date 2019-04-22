@@ -72,7 +72,7 @@ namespace RADGSHAProject
 
         private void changeRoomButton_Click(object sender, EventArgs e)
         {
-            ChangeRoom C = new ChangeRoom();
+            ChangeRoom C = new ChangeRoom(this, ref selectedPatient, ref selectedVisit);
             C.Show();
         }
 
@@ -104,8 +104,8 @@ namespace RADGSHAProject
             {
                 //The patient has already finished their last visit, must be checking into a new visit.
                 this.Hide();
-                ChangeRoom C = new ChangeRoom(ref selectedPatient, ref selectedVisit);
-                C.Closed += (s, args) => this.Close();
+                ChangeRoom C = new ChangeRoom(this, ref selectedPatient, ref selectedVisit);
+                //C.Closed += (s, args) => this.Close();
                 C.Show();
                 checkInOutButton.Text = "Check Out";
             }

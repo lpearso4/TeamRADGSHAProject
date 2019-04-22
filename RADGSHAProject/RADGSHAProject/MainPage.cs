@@ -15,6 +15,9 @@ namespace RADGSHAProject
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
         User user;
+
+
+
         public MainPage()//This constructor can probably be safely removed
         {
             InitializeComponent();
