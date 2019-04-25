@@ -24,6 +24,7 @@ namespace RADGSHAProject
         {
             editingPatient = false;
             InitializeComponent();
+            disableCurrentPatientTextBoxes();
         }
 
         //This constructor is obsolete, and should only be used for testing purposes
@@ -32,15 +33,18 @@ namespace RADGSHAProject
             editingPatient = false;
             InitializeComponent();
             this.previousForm = previousForm;
+            disableCurrentPatientTextBoxes();
         }
 
         public Patient(Form previousForm, RADGSHALibrary.Patient selectedPatient)
         {
+            editingPatient = false;
             InitializeComponent();
             this.previousForm = previousForm;
             this.selectedPatient = selectedPatient;
             //set the patient passed to this form as the active patient
             displayPatient();
+            disableCurrentPatientTextBoxes();
 
             //selectedVisit = selectedPatient.getCurrentVisit();
             selectedVisit = new RADGSHALibrary.Visit();
@@ -63,64 +67,57 @@ namespace RADGSHAProject
 
         private void toggleEditPatient()
         {
-            if (editingPatient)
+            if (!editingPatient)
             {
-                editingPatient = false;
-
-                patientFirstNameTextBox.Enabled = true;
-                PatientMiddleInitialTextBox.Enabled = true;
-                patientLastNameTextBox.Enabled = true;
-                patientAddressLine1TextBox.Enabled = true;
-                patientAddressLine2TextBox.Enabled = true;
-                patientCityTextBox.Enabled = true;
-                patientStateTextBox.Enabled = true;
-                patientZipTextBox.Enabled = true;
+                enableCurrentPatientTextBoxes();
             }
             else
             {
-                editingPatient = true;
-
-                DBConnectionObject conn = DBConnectionObject.getInstance();
-
-                patientFirstNameTextBox.Enabled = false;
-                PatientMiddleInitialTextBox.Enabled = false;
-                patientLastNameTextBox.Enabled = false;
-                patientAddressLine1TextBox.Enabled = false;
-                patientAddressLine2TextBox.Enabled = false;
-                patientCityTextBox.Enabled = false;
-                patientStateTextBox.Enabled = false;
-                patientZipTextBox.Enabled = false;
-
-                selectedPatient.setFirstName(patientFirstNameTextBox.Text);
-                selectedPatient.setMiddleInitial(PatientMiddleInitialTextBox.Text[0]);
-                selectedPatient.setFirstName(patientFirstNameTextBox.Text);
-                selectedPatient.setLastName(patientLastNameTextBox.Text);
-                selectedPatient.setAddressLine1(patientAddressLine1TextBox.Text);
-                selectedPatient.setAddressLine2(patientAddressLine2TextBox.Text);
-                selectedPatient.setCity(patientCityTextBox.Text);
-                selectedPatient.setState(patientStateTextBox.Text);
-                selectedPatient.setZipcode(patientZipTextBox.Text);
-
-                conn.updatePatient(selectedPatient);
-
-
-
-
+                disableCurrentPatientTextBoxes();
+                saveCurrentPatient();
             }
+
+            editingPatient = !editingPatient;
+        }
+
+        private void enableCurrentPatientTextBoxes()
+        {
+            patientFirstNameTextBox.Enabled = true;
+            PatientMiddleInitialTextBox.Enabled = true;
+            patientLastNameTextBox.Enabled = true;
+            patientAddressLine1TextBox.Enabled = true;
+            patientAddressLine2TextBox.Enabled = true;
+            patientCityTextBox.Enabled = true;
+            patientStateTextBox.Enabled = true;
+            patientZipTextBox.Enabled = true;
+        }
+
+        private void disableCurrentPatientTextBoxes()
+        {
+            patientFirstNameTextBox.Enabled = false;
+            PatientMiddleInitialTextBox.Enabled = false;
+            patientLastNameTextBox.Enabled = false;
+            patientAddressLine1TextBox.Enabled = false;
+            patientAddressLine2TextBox.Enabled = false;
+            patientCityTextBox.Enabled = false;
+            patientStateTextBox.Enabled = false;
+            patientZipTextBox.Enabled = false;
         }
 
         private void saveCurrentPatient()
         {
+            DBConnectionObject conn = DBConnectionObject.getInstance();
             selectedPatient.setFirstName(patientFirstNameTextBox.Text);
-            
-            patientFirstNameTextBox.Text = selectedPatient.getFirstName();
-            PatientMiddleInitialTextBox.Text = selectedPatient.getMiddleInitial().ToString();
-            patientLastNameTextBox.Text = selectedPatient.getLastName();
-            patientAddressLine1TextBox.Text = selectedPatient.getAddressLine1();
-            patientAddressLine2TextBox.Text = selectedPatient.getAddressLine2();
-            patientCityTextBox.Text = selectedPatient.getCity();
-            patientStateTextBox.Text = selectedPatient.getState();
-            patientZipTextBox.Text = selectedPatient.getZipcode();
+            selectedPatient.setMiddleInitial(PatientMiddleInitialTextBox.Text[0]);
+            selectedPatient.setFirstName(patientFirstNameTextBox.Text);
+            selectedPatient.setLastName(patientLastNameTextBox.Text);
+            selectedPatient.setAddressLine1(patientAddressLine1TextBox.Text);
+            selectedPatient.setAddressLine2(patientAddressLine2TextBox.Text);
+            selectedPatient.setCity(patientCityTextBox.Text);
+            selectedPatient.setState(patientStateTextBox.Text);
+            selectedPatient.setZipcode(patientZipTextBox.Text);
+
+            conn.updatePatient(selectedPatient);
         }
 
         private void Patient_Load(object sender, EventArgs e)
@@ -180,7 +177,7 @@ namespace RADGSHAProject
         private void SaveButton_Click(object sender, EventArgs e)
         {
             toggleEditPatient();
-            SaveButton.Text = editingPatient ? "Edit" : "Save";
+            SaveButton.Text = editingPatient ? "Save" : "Edit";
         }
     }
 }

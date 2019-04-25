@@ -67,7 +67,7 @@
             // useInventoryButton
             // 
             this.useInventoryButton.Location = new System.Drawing.Point(468, 639);
-            this.useInventoryButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.useInventoryButton.Margin = new System.Windows.Forms.Padding(4);
             this.useInventoryButton.Name = "useInventoryButton";
             this.useInventoryButton.Size = new System.Drawing.Size(116, 28);
             this.useInventoryButton.TabIndex = 0;
@@ -78,7 +78,7 @@
             // changeRoomButton
             // 
             this.changeRoomButton.Location = new System.Drawing.Point(329, 639);
-            this.changeRoomButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.changeRoomButton.Margin = new System.Windows.Forms.Padding(4);
             this.changeRoomButton.Name = "changeRoomButton";
             this.changeRoomButton.Size = new System.Drawing.Size(113, 28);
             this.changeRoomButton.TabIndex = 1;
@@ -89,7 +89,7 @@
             // diagnosisWizardButton
             // 
             this.diagnosisWizardButton.Location = new System.Drawing.Point(608, 639);
-            this.diagnosisWizardButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.diagnosisWizardButton.Margin = new System.Windows.Forms.Padding(4);
             this.diagnosisWizardButton.Name = "diagnosisWizardButton";
             this.diagnosisWizardButton.Size = new System.Drawing.Size(135, 28);
             this.diagnosisWizardButton.TabIndex = 2;
@@ -178,7 +178,7 @@
             // patientAddressLine1TextBox
             // 
             this.patientAddressLine1TextBox.Location = new System.Drawing.Point(131, 70);
-            this.patientAddressLine1TextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.patientAddressLine1TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.patientAddressLine1TextBox.Name = "patientAddressLine1TextBox";
             this.patientAddressLine1TextBox.Size = new System.Drawing.Size(197, 22);
             this.patientAddressLine1TextBox.TabIndex = 11;
@@ -186,7 +186,7 @@
             // patientAddressLine2TextBox
             // 
             this.patientAddressLine2TextBox.Location = new System.Drawing.Point(480, 70);
-            this.patientAddressLine2TextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.patientAddressLine2TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.patientAddressLine2TextBox.Name = "patientAddressLine2TextBox";
             this.patientAddressLine2TextBox.Size = new System.Drawing.Size(181, 22);
             this.patientAddressLine2TextBox.TabIndex = 12;
@@ -356,7 +356,7 @@
             // checkInOutButton
             // 
             this.checkInOutButton.Location = new System.Drawing.Point(768, 639);
-            this.checkInOutButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkInOutButton.Margin = new System.Windows.Forms.Padding(4);
             this.checkInOutButton.Name = "checkInOutButton";
             this.checkInOutButton.Size = new System.Drawing.Size(128, 28);
             this.checkInOutButton.TabIndex = 8;
@@ -367,20 +367,20 @@
             // SaveButton
             // 
             this.SaveButton.Location = new System.Drawing.Point(919, 639);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SaveButton.Margin = new System.Windows.Forms.Padding(4);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(100, 28);
             this.SaveButton.TabIndex = 9;
-            this.SaveButton.Text = "Save";
+            this.SaveButton.Text = "Edit";
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.Location = new System.Drawing.Point(221, 439);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(835, 154);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
@@ -399,7 +399,7 @@
             this.Controls.Add(this.diagnosisWizardButton);
             this.Controls.Add(this.changeRoomButton);
             this.Controls.Add(this.useInventoryButton);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Patient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Patient";
