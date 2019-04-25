@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RADGSHALibrary;
 
 namespace RADGSHAProject
 {
@@ -17,15 +18,18 @@ namespace RADGSHAProject
         Form previousForm;//Used for displaying the previous Form when closing this one
         RADGSHALibrary.Patient selectedPatient;
         RADGSHALibrary.Visit selectedVisit;
+        Boolean editingPatient;
 
         public Patient()//This constructor can probably be safely removed
         {
+            editingPatient = false;
             InitializeComponent();
         }
 
         //This constructor is obsolete, and should only be used for testing purposes
         public Patient(Form previousForm)
         {
+            editingPatient = false;
             InitializeComponent();
             this.previousForm = previousForm;
         }
@@ -47,6 +51,68 @@ namespace RADGSHAProject
 
         private void displayPatient()
         {
+            patientFirstNameTextBox.Text = selectedPatient.getFirstName();
+            PatientMiddleInitialTextBox.Text = selectedPatient.getMiddleInitial().ToString();
+            patientLastNameTextBox.Text = selectedPatient.getLastName();
+            patientAddressLine1TextBox.Text = selectedPatient.getAddressLine1();
+            patientAddressLine2TextBox.Text = selectedPatient.getAddressLine2();
+            patientCityTextBox.Text = selectedPatient.getCity();
+            patientStateTextBox.Text = selectedPatient.getState();
+            patientZipTextBox.Text = selectedPatient.getZipcode();
+        }
+
+        private void toggleEditPatient()
+        {
+            if (editingPatient)
+            {
+                editingPatient = false;
+
+                patientFirstNameTextBox.Enabled = true;
+                PatientMiddleInitialTextBox.Enabled = true;
+                patientLastNameTextBox.Enabled = true;
+                patientAddressLine1TextBox.Enabled = true;
+                patientAddressLine2TextBox.Enabled = true;
+                patientCityTextBox.Enabled = true;
+                patientStateTextBox.Enabled = true;
+                patientZipTextBox.Enabled = true;
+            }
+            else
+            {
+                editingPatient = true;
+
+                DBConnectionObject conn = DBConnectionObject.getInstance();
+
+                patientFirstNameTextBox.Enabled = false;
+                PatientMiddleInitialTextBox.Enabled = false;
+                patientLastNameTextBox.Enabled = false;
+                patientAddressLine1TextBox.Enabled = false;
+                patientAddressLine2TextBox.Enabled = false;
+                patientCityTextBox.Enabled = false;
+                patientStateTextBox.Enabled = false;
+                patientZipTextBox.Enabled = false;
+
+                selectedPatient.setFirstName(patientFirstNameTextBox.Text);
+                selectedPatient.setMiddleInitial(PatientMiddleInitialTextBox.Text[0]);
+                selectedPatient.setFirstName(patientFirstNameTextBox.Text);
+                selectedPatient.setLastName(patientLastNameTextBox.Text);
+                selectedPatient.setAddressLine1(patientAddressLine1TextBox.Text);
+                selectedPatient.setAddressLine2(patientAddressLine2TextBox.Text);
+                selectedPatient.setCity(patientCityTextBox.Text);
+                selectedPatient.setState(patientStateTextBox.Text);
+                selectedPatient.setZipcode(patientZipTextBox.Text);
+
+                conn.updatePatient(selectedPatient);
+
+
+
+
+            }
+        }
+
+        private void saveCurrentPatient()
+        {
+            selectedPatient.setFirstName(patientFirstNameTextBox.Text);
+            
             patientFirstNameTextBox.Text = selectedPatient.getFirstName();
             PatientMiddleInitialTextBox.Text = selectedPatient.getMiddleInitial().ToString();
             patientLastNameTextBox.Text = selectedPatient.getLastName();
@@ -109,6 +175,12 @@ namespace RADGSHAProject
                 C.Show();
                 checkInOutButton.Text = "Check Out";
             }
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            toggleEditPatient();
+            SaveButton.Text = editingPatient ? "Edit" : "Save";
         }
     }
 }

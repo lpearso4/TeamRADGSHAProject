@@ -66,9 +66,10 @@
             // 
             // useInventoryButton
             // 
-            this.useInventoryButton.Location = new System.Drawing.Point(351, 519);
+            this.useInventoryButton.Location = new System.Drawing.Point(468, 639);
+            this.useInventoryButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.useInventoryButton.Name = "useInventoryButton";
-            this.useInventoryButton.Size = new System.Drawing.Size(87, 23);
+            this.useInventoryButton.Size = new System.Drawing.Size(116, 28);
             this.useInventoryButton.TabIndex = 0;
             this.useInventoryButton.Text = "Use Inventory";
             this.useInventoryButton.UseVisualStyleBackColor = true;
@@ -76,9 +77,10 @@
             // 
             // changeRoomButton
             // 
-            this.changeRoomButton.Location = new System.Drawing.Point(247, 519);
+            this.changeRoomButton.Location = new System.Drawing.Point(329, 639);
+            this.changeRoomButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.changeRoomButton.Name = "changeRoomButton";
-            this.changeRoomButton.Size = new System.Drawing.Size(85, 23);
+            this.changeRoomButton.Size = new System.Drawing.Size(113, 28);
             this.changeRoomButton.TabIndex = 1;
             this.changeRoomButton.Text = "Change Room";
             this.changeRoomButton.UseVisualStyleBackColor = true;
@@ -86,9 +88,10 @@
             // 
             // diagnosisWizardButton
             // 
-            this.diagnosisWizardButton.Location = new System.Drawing.Point(456, 519);
+            this.diagnosisWizardButton.Location = new System.Drawing.Point(608, 639);
+            this.diagnosisWizardButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.diagnosisWizardButton.Name = "diagnosisWizardButton";
-            this.diagnosisWizardButton.Size = new System.Drawing.Size(101, 23);
+            this.diagnosisWizardButton.Size = new System.Drawing.Size(135, 28);
             this.diagnosisWizardButton.TabIndex = 2;
             this.diagnosisWizardButton.Text = "Diagnosis Wizard";
             this.diagnosisWizardButton.UseVisualStyleBackColor = true;
@@ -112,153 +115,151 @@
             this.PatientGroupBox.Controls.Add(this.PatientMiddleInitialLabel);
             this.PatientGroupBox.Controls.Add(this.PatientFirstNameLabel);
             this.PatientGroupBox.Controls.Add(this.patientFirstNameTextBox);
-            this.PatientGroupBox.Location = new System.Drawing.Point(166, 16);
-            this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientGroupBox.Location = new System.Drawing.Point(221, 20);
+            this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PatientGroupBox.Name = "PatientGroupBox";
-            this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.PatientGroupBox.Size = new System.Drawing.Size(626, 124);
+            this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PatientGroupBox.Size = new System.Drawing.Size(835, 153);
             this.PatientGroupBox.TabIndex = 6;
             this.PatientGroupBox.TabStop = false;
             this.PatientGroupBox.Text = "Patient Info";
             // 
             // patientZipTextBox
             // 
-            this.patientZipTextBox.Location = new System.Drawing.Point(501, 86);
-            this.patientZipTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientZipTextBox.Location = new System.Drawing.Point(668, 106);
+            this.patientZipTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.patientZipTextBox.Name = "patientZipTextBox";
-            this.patientZipTextBox.Size = new System.Drawing.Size(116, 20);
+            this.patientZipTextBox.Size = new System.Drawing.Size(153, 22);
             this.patientZipTextBox.TabIndex = 18;
             // 
             // zipcodeLabel
             // 
             this.zipcodeLabel.AutoSize = true;
-            this.zipcodeLabel.Location = new System.Drawing.Point(436, 88);
-            this.zipcodeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.zipcodeLabel.Location = new System.Drawing.Point(581, 108);
             this.zipcodeLabel.Name = "zipcodeLabel";
-            this.zipcodeLabel.Size = new System.Drawing.Size(49, 13);
+            this.zipcodeLabel.Size = new System.Drawing.Size(63, 17);
             this.zipcodeLabel.TabIndex = 17;
             this.zipcodeLabel.Text = "Zipcode:";
             // 
             // patientStateTextBox
             // 
-            this.patientStateTextBox.Location = new System.Drawing.Point(360, 87);
-            this.patientStateTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientStateTextBox.Location = new System.Drawing.Point(480, 107);
+            this.patientStateTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.patientStateTextBox.Name = "patientStateTextBox";
-            this.patientStateTextBox.Size = new System.Drawing.Size(42, 20);
+            this.patientStateTextBox.Size = new System.Drawing.Size(55, 22);
             this.patientStateTextBox.TabIndex = 16;
             // 
             // stateLabel
             // 
             this.stateLabel.AutoSize = true;
-            this.stateLabel.Location = new System.Drawing.Point(277, 90);
-            this.stateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.stateLabel.Location = new System.Drawing.Point(369, 111);
             this.stateLabel.Name = "stateLabel";
-            this.stateLabel.Size = new System.Drawing.Size(35, 13);
+            this.stateLabel.Size = new System.Drawing.Size(45, 17);
             this.stateLabel.TabIndex = 15;
             this.stateLabel.Text = "State:";
             // 
             // cityLabel
             // 
             this.cityLabel.AutoSize = true;
-            this.cityLabel.Location = new System.Drawing.Point(17, 89);
-            this.cityLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cityLabel.Location = new System.Drawing.Point(23, 110);
             this.cityLabel.Name = "cityLabel";
-            this.cityLabel.Size = new System.Drawing.Size(27, 13);
+            this.cityLabel.Size = new System.Drawing.Size(35, 17);
             this.cityLabel.TabIndex = 14;
             this.cityLabel.Text = "City:";
             // 
             // patientCityTextBox
             // 
-            this.patientCityTextBox.Location = new System.Drawing.Point(98, 87);
-            this.patientCityTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientCityTextBox.Location = new System.Drawing.Point(131, 107);
+            this.patientCityTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.patientCityTextBox.Name = "patientCityTextBox";
-            this.patientCityTextBox.Size = new System.Drawing.Size(149, 20);
+            this.patientCityTextBox.Size = new System.Drawing.Size(197, 22);
             this.patientCityTextBox.TabIndex = 13;
             // 
             // patientAddressLine1TextBox
             // 
-            this.patientAddressLine1TextBox.Location = new System.Drawing.Point(98, 57);
+            this.patientAddressLine1TextBox.Location = new System.Drawing.Point(131, 70);
+            this.patientAddressLine1TextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.patientAddressLine1TextBox.Name = "patientAddressLine1TextBox";
-            this.patientAddressLine1TextBox.Size = new System.Drawing.Size(149, 20);
+            this.patientAddressLine1TextBox.Size = new System.Drawing.Size(197, 22);
             this.patientAddressLine1TextBox.TabIndex = 11;
             // 
             // patientAddressLine2TextBox
             // 
-            this.patientAddressLine2TextBox.Location = new System.Drawing.Point(360, 57);
+            this.patientAddressLine2TextBox.Location = new System.Drawing.Point(480, 70);
+            this.patientAddressLine2TextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.patientAddressLine2TextBox.Name = "patientAddressLine2TextBox";
-            this.patientAddressLine2TextBox.Size = new System.Drawing.Size(137, 20);
+            this.patientAddressLine2TextBox.Size = new System.Drawing.Size(181, 22);
             this.patientAddressLine2TextBox.TabIndex = 12;
             // 
             // addressLine2Label
             // 
             this.addressLine2Label.AutoSize = true;
-            this.addressLine2Label.Location = new System.Drawing.Point(277, 63);
+            this.addressLine2Label.Location = new System.Drawing.Point(369, 78);
+            this.addressLine2Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.addressLine2Label.Name = "addressLine2Label";
-            this.addressLine2Label.Size = new System.Drawing.Size(80, 13);
+            this.addressLine2Label.Size = new System.Drawing.Size(107, 17);
             this.addressLine2Label.TabIndex = 7;
             this.addressLine2Label.Text = "Address Line 2:";
             // 
             // addressLine1Label
             // 
             this.addressLine1Label.AutoSize = true;
-            this.addressLine1Label.Location = new System.Drawing.Point(16, 63);
+            this.addressLine1Label.Location = new System.Drawing.Point(21, 78);
+            this.addressLine1Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.addressLine1Label.Name = "addressLine1Label";
-            this.addressLine1Label.Size = new System.Drawing.Size(80, 13);
+            this.addressLine1Label.Size = new System.Drawing.Size(107, 17);
             this.addressLine1Label.TabIndex = 6;
             this.addressLine1Label.Text = "Address Line 1:";
             // 
             // patientLastNameTextBox
             // 
-            this.patientLastNameTextBox.Location = new System.Drawing.Point(501, 26);
-            this.patientLastNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientLastNameTextBox.Location = new System.Drawing.Point(668, 32);
+            this.patientLastNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.patientLastNameTextBox.Name = "patientLastNameTextBox";
-            this.patientLastNameTextBox.Size = new System.Drawing.Size(116, 20);
+            this.patientLastNameTextBox.Size = new System.Drawing.Size(153, 22);
             this.patientLastNameTextBox.TabIndex = 5;
             // 
             // PatientLastNameLabel
             // 
             this.PatientLastNameLabel.AutoSize = true;
-            this.PatientLastNameLabel.Location = new System.Drawing.Point(436, 28);
-            this.PatientLastNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.PatientLastNameLabel.Location = new System.Drawing.Point(581, 34);
             this.PatientLastNameLabel.Name = "PatientLastNameLabel";
-            this.PatientLastNameLabel.Size = new System.Drawing.Size(61, 13);
+            this.PatientLastNameLabel.Size = new System.Drawing.Size(80, 17);
             this.PatientLastNameLabel.TabIndex = 4;
             this.PatientLastNameLabel.Text = "Last Name:";
             // 
             // PatientMiddleInitialTextBox
             // 
-            this.PatientMiddleInitialTextBox.Location = new System.Drawing.Point(360, 27);
-            this.PatientMiddleInitialTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PatientMiddleInitialTextBox.Location = new System.Drawing.Point(480, 33);
+            this.PatientMiddleInitialTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PatientMiddleInitialTextBox.Name = "PatientMiddleInitialTextBox";
-            this.PatientMiddleInitialTextBox.Size = new System.Drawing.Size(42, 20);
+            this.PatientMiddleInitialTextBox.Size = new System.Drawing.Size(55, 22);
             this.PatientMiddleInitialTextBox.TabIndex = 3;
             // 
             // PatientMiddleInitialLabel
             // 
             this.PatientMiddleInitialLabel.AutoSize = true;
-            this.PatientMiddleInitialLabel.Location = new System.Drawing.Point(277, 30);
-            this.PatientMiddleInitialLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.PatientMiddleInitialLabel.Location = new System.Drawing.Point(369, 37);
             this.PatientMiddleInitialLabel.Name = "PatientMiddleInitialLabel";
-            this.PatientMiddleInitialLabel.Size = new System.Drawing.Size(68, 13);
+            this.PatientMiddleInitialLabel.Size = new System.Drawing.Size(89, 17);
             this.PatientMiddleInitialLabel.TabIndex = 2;
             this.PatientMiddleInitialLabel.Text = "Middle Initial:";
             // 
             // PatientFirstNameLabel
             // 
             this.PatientFirstNameLabel.AutoSize = true;
-            this.PatientFirstNameLabel.Location = new System.Drawing.Point(16, 29);
-            this.PatientFirstNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.PatientFirstNameLabel.Location = new System.Drawing.Point(21, 36);
             this.PatientFirstNameLabel.Name = "PatientFirstNameLabel";
-            this.PatientFirstNameLabel.Size = new System.Drawing.Size(60, 13);
+            this.PatientFirstNameLabel.Size = new System.Drawing.Size(80, 17);
             this.PatientFirstNameLabel.TabIndex = 1;
             this.PatientFirstNameLabel.Text = "First Name:";
             // 
             // patientFirstNameTextBox
             // 
-            this.patientFirstNameTextBox.Location = new System.Drawing.Point(98, 27);
-            this.patientFirstNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.patientFirstNameTextBox.Location = new System.Drawing.Point(131, 33);
+            this.patientFirstNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.patientFirstNameTextBox.Name = "patientFirstNameTextBox";
-            this.patientFirstNameTextBox.Size = new System.Drawing.Size(149, 20);
+            this.patientFirstNameTextBox.Size = new System.Drawing.Size(197, 22);
             this.patientFirstNameTextBox.TabIndex = 0;
             // 
             // VisitGroupBox
@@ -271,11 +272,11 @@
             this.VisitGroupBox.Controls.Add(this.RoomNumberLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDateLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDatePicker);
-            this.VisitGroupBox.Location = new System.Drawing.Point(166, 154);
-            this.VisitGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VisitGroupBox.Location = new System.Drawing.Point(221, 190);
+            this.VisitGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.VisitGroupBox.Name = "VisitGroupBox";
-            this.VisitGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.VisitGroupBox.Size = new System.Drawing.Size(626, 133);
+            this.VisitGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.VisitGroupBox.Size = new System.Drawing.Size(835, 164);
             this.VisitGroupBox.TabIndex = 7;
             this.VisitGroupBox.TabStop = false;
             this.VisitGroupBox.Text = "Visit Info";
@@ -283,37 +284,35 @@
             // VisitSymptomsLabel
             // 
             this.VisitSymptomsLabel.AutoSize = true;
-            this.VisitSymptomsLabel.Location = new System.Drawing.Point(19, 54);
-            this.VisitSymptomsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.VisitSymptomsLabel.Location = new System.Drawing.Point(25, 66);
             this.VisitSymptomsLabel.Name = "VisitSymptomsLabel";
-            this.VisitSymptomsLabel.Size = new System.Drawing.Size(58, 13);
+            this.VisitSymptomsLabel.Size = new System.Drawing.Size(77, 17);
             this.VisitSymptomsLabel.TabIndex = 7;
             this.VisitSymptomsLabel.Text = "Symptoms:";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(81, 54);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Location = new System.Drawing.Point(108, 66);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(498, 45);
+            this.textBox2.Size = new System.Drawing.Size(663, 54);
             this.textBox2.TabIndex = 6;
             // 
             // VisitDiagnosisTextBox
             // 
-            this.VisitDiagnosisTextBox.Location = new System.Drawing.Point(82, 103);
-            this.VisitDiagnosisTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.VisitDiagnosisTextBox.Location = new System.Drawing.Point(109, 127);
+            this.VisitDiagnosisTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.VisitDiagnosisTextBox.Name = "VisitDiagnosisTextBox";
-            this.VisitDiagnosisTextBox.Size = new System.Drawing.Size(214, 20);
+            this.VisitDiagnosisTextBox.Size = new System.Drawing.Size(284, 22);
             this.VisitDiagnosisTextBox.TabIndex = 5;
             // 
             // DiagnosisLabel
             // 
             this.DiagnosisLabel.AutoSize = true;
-            this.DiagnosisLabel.Location = new System.Drawing.Point(19, 103);
-            this.DiagnosisLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.DiagnosisLabel.Location = new System.Drawing.Point(25, 127);
             this.DiagnosisLabel.Name = "DiagnosisLabel";
-            this.DiagnosisLabel.Size = new System.Drawing.Size(56, 13);
+            this.DiagnosisLabel.Size = new System.Drawing.Size(74, 17);
             this.DiagnosisLabel.TabIndex = 4;
             this.DiagnosisLabel.Text = "Diagnosis:";
             // 
@@ -321,46 +320,45 @@
             // 
             this.comboBox1.Enabled = false;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(429, 31);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Location = new System.Drawing.Point(572, 38);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(150, 21);
+            this.comboBox1.Size = new System.Drawing.Size(199, 24);
             this.comboBox1.TabIndex = 3;
             // 
             // RoomNumberLabel
             // 
             this.RoomNumberLabel.AutoSize = true;
-            this.RoomNumberLabel.Location = new System.Drawing.Point(346, 31);
-            this.RoomNumberLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.RoomNumberLabel.Location = new System.Drawing.Point(461, 38);
             this.RoomNumberLabel.Name = "RoomNumberLabel";
-            this.RoomNumberLabel.Size = new System.Drawing.Size(78, 13);
+            this.RoomNumberLabel.Size = new System.Drawing.Size(103, 17);
             this.RoomNumberLabel.TabIndex = 2;
             this.RoomNumberLabel.Text = "Room Number:";
             // 
             // EntryDateLabel
             // 
             this.EntryDateLabel.AutoSize = true;
-            this.EntryDateLabel.Location = new System.Drawing.Point(16, 31);
-            this.EntryDateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.EntryDateLabel.Location = new System.Drawing.Point(21, 38);
             this.EntryDateLabel.Name = "EntryDateLabel";
-            this.EntryDateLabel.Size = new System.Drawing.Size(60, 13);
+            this.EntryDateLabel.Size = new System.Drawing.Size(79, 17);
             this.EntryDateLabel.TabIndex = 1;
             this.EntryDateLabel.Text = "Entry Date:";
             // 
             // EntryDatePicker
             // 
             this.EntryDatePicker.Enabled = false;
-            this.EntryDatePicker.Location = new System.Drawing.Point(82, 31);
-            this.EntryDatePicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EntryDatePicker.Location = new System.Drawing.Point(109, 38);
+            this.EntryDatePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.EntryDatePicker.Name = "EntryDatePicker";
-            this.EntryDatePicker.Size = new System.Drawing.Size(182, 20);
+            this.EntryDatePicker.Size = new System.Drawing.Size(241, 22);
             this.EntryDatePicker.TabIndex = 0;
             // 
             // checkInOutButton
             // 
-            this.checkInOutButton.Location = new System.Drawing.Point(576, 519);
+            this.checkInOutButton.Location = new System.Drawing.Point(768, 639);
+            this.checkInOutButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkInOutButton.Name = "checkInOutButton";
-            this.checkInOutButton.Size = new System.Drawing.Size(96, 23);
+            this.checkInOutButton.Size = new System.Drawing.Size(128, 28);
             this.checkInOutButton.TabIndex = 8;
             this.checkInOutButton.Text = "Check In";
             this.checkInOutButton.UseVisualStyleBackColor = true;
@@ -368,27 +366,31 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(689, 519);
+            this.SaveButton.Location = new System.Drawing.Point(919, 639);
+            this.SaveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveButton.Size = new System.Drawing.Size(100, 28);
             this.SaveButton.TabIndex = 9;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(166, 357);
+            this.groupBox2.Location = new System.Drawing.Point(221, 439);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(626, 125);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(835, 154);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Previous Visit Info";
             // 
             // Patient
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 554);
+            this.ClientSize = new System.Drawing.Size(1067, 682);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.checkInOutButton);
@@ -397,7 +399,7 @@
             this.Controls.Add(this.diagnosisWizardButton);
             this.Controls.Add(this.changeRoomButton);
             this.Controls.Add(this.useInventoryButton);
-            this.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Patient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Patient";
