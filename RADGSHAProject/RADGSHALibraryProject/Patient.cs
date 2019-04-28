@@ -196,6 +196,10 @@ namespace RADGSHALibrary
         {
             return curVisit;
         }
+        public void setCurrentVisit(ref Visit visit)
+        {
+            curVisit = visit;
+        }
         public List<Visit> getVisitList() // gives others access to patient visits (why not?)
         {
             return visits;
