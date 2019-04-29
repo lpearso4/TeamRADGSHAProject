@@ -115,8 +115,10 @@ namespace RADGSHALibrary
                 Visit visit = new Visit();
 
                 if (!reader.IsDBNull((int)VisCol.EntryDate)) visit.setEntryDate(reader.GetDateTime((int)VisCol.EntryDate));
-             
+
                 if (!reader.IsDBNull((int)VisCol.ExitDate)) visit.setExitDate(reader.GetDateTime((int)VisCol.ExitDate));
+                else patient.setCurrentVisit(ref visit);
+
                 if (!reader.IsDBNull((int)VisCol.AttendingPhysician)) visit.setAttendingPhysician(reader.GetString((int)VisCol.AttendingPhysician));
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
 
@@ -176,6 +178,7 @@ namespace RADGSHALibrary
             command.Parameters.Add(new SqlParameter("@patientID", patient.getSSN()));
             command.Parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
             command.Parameters.Add(new SqlParameter("@attendingPhysician", visit.getAttendingPhysician()));
+                                                  //  '@attendingPhysician
             command.Parameters.Add(new SqlParameter("@diagnosis", visit.getDiagnosis()));
    
             command.Connection = conn;

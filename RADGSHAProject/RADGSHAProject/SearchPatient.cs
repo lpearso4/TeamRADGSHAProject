@@ -111,5 +111,10 @@ namespace RADGSHAProject
             if (PatientListView.SelectedItems.Count != 1)
                 viewPatientButton.Enabled = false;
         }
+
+        private void SearchPatient_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

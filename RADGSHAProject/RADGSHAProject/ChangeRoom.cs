@@ -54,6 +54,7 @@ namespace RADGSHAProject
         private void submitButton_Click(object sender, EventArgs e)
         {
             selectedVisit.addRoom(newRoom);
+            Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

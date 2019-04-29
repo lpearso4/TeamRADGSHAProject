@@ -46,13 +46,20 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.roomListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView2 = new System.Windows.Forms.ListView();
             this.listView3 = new System.Windows.Forms.ListView();
             this.returnButton = new System.Windows.Forms.Button();
             this.checkOutButton = new System.Windows.Forms.Button();
             this.patientName = new System.Windows.Forms.TextBox();
             this.totalDue = new System.Windows.Forms.TextBox();
+            this.textRoomSub = new System.Windows.Forms.TextBox();
+            this.textSuppliesSub = new System.Windows.Forms.TextBox();
+            this.textServicesSub = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -114,7 +121,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(789, 152);
+            this.label8.Location = new System.Drawing.Point(789, 118);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(58, 13);
             this.label8.TabIndex = 13;
@@ -169,7 +176,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(789, 318);
+            this.label14.Location = new System.Drawing.Point(789, 293);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(58, 13);
             this.label14.TabIndex = 19;
@@ -216,19 +223,41 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(789, 434);
+            this.label19.Location = new System.Drawing.Point(789, 403);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(58, 13);
             this.label19.TabIndex = 24;
             this.label19.Text = "Subtotal:";
             // 
-            // listView1
+            // roomListView
             // 
-            this.listView1.Location = new System.Drawing.Point(167, 96);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(613, 69);
-            this.listView1.TabIndex = 25;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.roomListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4});
+            this.roomListView.Location = new System.Drawing.Point(167, 96);
+            this.roomListView.Name = "roomListView";
+            this.roomListView.Size = new System.Drawing.Size(613, 69);
+            this.roomListView.TabIndex = 25;
+            this.roomListView.UseCompatibleStateImageBehavior = false;
+            this.roomListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Room Number";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Rate (hourly)";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Length of stay (dd:hh:mm)";
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Charge";
             // 
             // listView2
             // 
@@ -280,18 +309,42 @@
             this.totalDue.Size = new System.Drawing.Size(100, 20);
             this.totalDue.TabIndex = 31;
             // 
+            // textRoomSub
+            // 
+            this.textRoomSub.Location = new System.Drawing.Point(792, 144);
+            this.textRoomSub.Name = "textRoomSub";
+            this.textRoomSub.Size = new System.Drawing.Size(100, 20);
+            this.textRoomSub.TabIndex = 32;
+            // 
+            // textSuppliesSub
+            // 
+            this.textSuppliesSub.Location = new System.Drawing.Point(792, 310);
+            this.textSuppliesSub.Name = "textSuppliesSub";
+            this.textSuppliesSub.Size = new System.Drawing.Size(100, 20);
+            this.textSuppliesSub.TabIndex = 33;
+            // 
+            // textServicesSub
+            // 
+            this.textServicesSub.Location = new System.Drawing.Point(790, 425);
+            this.textServicesSub.Name = "textServicesSub";
+            this.textServicesSub.Size = new System.Drawing.Size(100, 20);
+            this.textServicesSub.TabIndex = 34;
+            // 
             // CheckOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(926, 523);
+            this.Controls.Add(this.textServicesSub);
+            this.Controls.Add(this.textSuppliesSub);
+            this.Controls.Add(this.textRoomSub);
             this.Controls.Add(this.totalDue);
             this.Controls.Add(this.patientName);
             this.Controls.Add(this.checkOutButton);
             this.Controls.Add(this.returnButton);
             this.Controls.Add(this.listView3);
             this.Controls.Add(this.listView2);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.roomListView);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
@@ -312,6 +365,7 @@
             this.Controls.Add(this.label1);
             this.Name = "CheckOut";
             this.Text = "CheckOut";
+            this.Load += new System.EventHandler(this.CheckOut_Load);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.label4, 0);
@@ -330,13 +384,16 @@
             this.Controls.SetChildIndex(this.label17, 0);
             this.Controls.SetChildIndex(this.label18, 0);
             this.Controls.SetChildIndex(this.label19, 0);
-            this.Controls.SetChildIndex(this.listView1, 0);
+            this.Controls.SetChildIndex(this.roomListView, 0);
             this.Controls.SetChildIndex(this.listView2, 0);
             this.Controls.SetChildIndex(this.listView3, 0);
             this.Controls.SetChildIndex(this.returnButton, 0);
             this.Controls.SetChildIndex(this.checkOutButton, 0);
             this.Controls.SetChildIndex(this.patientName, 0);
             this.Controls.SetChildIndex(this.totalDue, 0);
+            this.Controls.SetChildIndex(this.textRoomSub, 0);
+            this.Controls.SetChildIndex(this.textSuppliesSub, 0);
+            this.Controls.SetChildIndex(this.textServicesSub, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -362,12 +419,19 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView roomListView;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ListView listView3;
         private System.Windows.Forms.Button returnButton;
         private System.Windows.Forms.Button checkOutButton;
         private System.Windows.Forms.TextBox patientName;
         private System.Windows.Forms.TextBox totalDue;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.TextBox textRoomSub;
+        private System.Windows.Forms.TextBox textSuppliesSub;
+        private System.Windows.Forms.TextBox textServicesSub;
     }
 }

@@ -46,11 +46,12 @@ namespace RADGSHAProject
             displayPatient();
             disableCurrentPatientTextBoxes();
 
-            //selectedVisit = selectedPatient.getCurrentVisit();
-            selectedVisit = new RADGSHALibrary.Visit();
+            selectedVisit = selectedPatient.getCurrentVisit();
+            //selectedVisit = new RADGSHALibrary.Visit();
             //selectedVisit.setPatientId(selectedPatient.getSSN());
 
-            checkInOutButton.Text = (selectedVisit.getExitDate() == null) ? "Check Out" : "Check In";
+            checkInOutButton.Text = (selectedVisit == null) ? "Check In" : "Check Out";
+            //checkInOutButton.Text = (selectedVisit.getExitDate() == null) ? "Check Out" : "Check In";
         }
 
         private void displayPatient()
@@ -63,6 +64,18 @@ namespace RADGSHAProject
             patientCityTextBox.Text = selectedPatient.getCity();
             patientStateTextBox.Text = selectedPatient.getState();
             patientZipTextBox.Text = selectedPatient.getZipcode();
+
+            if (selectedVisit==null)
+            {
+                EntryDatePicker.Visible = false;
+              
+            }
+            else
+            {
+                EntryDatePicker.Visible = true;
+                EntryDatePicker.Value = selectedVisit.getEntryDate();
+                //roomNumber.Items = selectedVisit.getRoomList()
+            }
         }
 
         private void toggleEditPatient()
@@ -136,7 +149,7 @@ namespace RADGSHAProject
         private void changeRoomButton_Click(object sender, EventArgs e)
         {
             ChangeRoom C = new ChangeRoom(this, ref selectedPatient, ref selectedVisit);
-            C.Show();
+            C.ShowDialog();
         }
 
         private void diagnosisWizardButton_Click(object sender, EventArgs e)
@@ -155,29 +168,52 @@ namespace RADGSHAProject
 
         private void checkInOutButton_Click(object sender, EventArgs e)
         {
-            if (selectedVisit.getExitDate() == null)
+
+            if (selectedVisit != null)
             {
                 //the patient must be checking out, as they never exited their last visit.
-                selectedVisit.setExitDate(DateTime.Now);
-                RADGSHALibrary.DBConnectionObject conn = RADGSHALibrary.DBConnectionObject.getInstance();
-                conn.addVisit(selectedVisit, selectedPatient);
-                checkInOutButton.Text = "Check In";
+
+                CheckOut C = new CheckOut(this, ref selectedPatient, ref selectedVisit);
+                C.Closed += (s, args) => this.Close();
+                C.Show();
+               Hide();
+                //selectedVisit.setExitDate(DateTime.Now);
+                //RADGSHALibrary.DBConnectionObject conn = RADGSHALibrary.DBConnectionObject.getInstance();
+                //conn.addVisit(selectedVisit, selectedPatient);
+                //checkInOutButton.Text = "Check In";
+                //selectedVisit = null;
             }
             else
             {
+                DBConnectionObject conn = DBConnectionObject.getInstance();
                 //The patient has already finished their last visit, must be checking into a new visit.
-                this.Hide();
-                ChangeRoom C = new ChangeRoom(this, ref selectedPatient, ref selectedVisit);
-                //C.Closed += (s, args) => this.Close();
-                C.Show();
+                //this.Hide();
+               
+                selectedPatient.checkIn();
+                selectedVisit = selectedPatient.getCurrentVisit();
+                selectedVisit.setEntryDate(DateTime.Now);
+                selectedVisit.changeDiagnosis(VisitDiagnosisTextBox.Text);
+                selectedVisit.setAttendingPhysician(textAttendingPhy.Text);
+         
+                ChangeRoom C = new ChangeRoom(this,ref selectedPatient, ref selectedVisit);
+                C.Closed += (s, args) => this.Close();
+                C.ShowDialog();
+                conn.addVisit(selectedVisit, selectedPatient);
+                if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
                 checkInOutButton.Text = "Check Out";
             }
+
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
             toggleEditPatient();
             SaveButton.Text = editingPatient ? "Save" : "Edit";
+        }
+
+        private void VisitGroupBox_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

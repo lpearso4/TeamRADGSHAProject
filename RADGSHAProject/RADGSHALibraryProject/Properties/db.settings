@@ -12,7 +12,7 @@
       <Value Profile="(Default)">HRAS_RAD</Value>
     </Setting>
     <Setting Name="datasource" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">desktop-urn6nh1\mySQLServer</Value>
+      <Value Profile="(Default)">database\csci3400011030</Value>
     </Setting>
     <Setting Name="query_limit" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">100</Value>
