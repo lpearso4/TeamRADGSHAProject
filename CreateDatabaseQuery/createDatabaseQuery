@@ -206,6 +206,7 @@ CREATE TABLE [dbo].[Uses](
 	[StockId] [nvarchar](50) NOT NULL,
 	[PatientId] [nvarchar](9) NOT NULL,
 	[EntryDateTime] [datetime] NOT NULL,
+	[QuantityUsed] [int] NULL,
  CONSTRAINT [PK_Uses] PRIMARY KEY CLUSTERED 
 (
 	[StockId] ASC,
