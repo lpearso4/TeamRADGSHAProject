@@ -1250,6 +1250,32 @@ END
 GO
 
 -- =============================================
+-- Author:		Justin
+-- Create date: 4/30/2019
+-- Description:	takes 2 variables and returns rows matching in the use table
+-- =============================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryUses]'))
+   exec('CREATE PROCEDURE [dbo].[queryUses] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE [dbo].[queryUses]
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(9),
+	@entryDateTime datetime
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	SELECT * FROM Uses WHERE PatientId = @patientId AND EntryDateTime = @entryDateTime
+
+END
+GO
+
+-- =============================================
 -- Author:		Matt
 -- Create date: 4/11/2019
 -- Description:	takes 3 variables and returns the uses matching them
