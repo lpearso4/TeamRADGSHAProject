@@ -23,7 +23,7 @@ namespace RADGSHALibrary
         private enum UserCol : int { Username, Password, UserType }; 
         private enum VisCol : int { PatientId, EntryDate, ExitDate, AttendingPhysician, Diagnosis };
         private enum SymCol : int { PatientId, EntryDate, SymptomName };
-        private enum UsesCol : int { StockId, PatientId, EntryDateTime };
+        private enum UsesCol : int { StockId, PatientId, EntryDateTime, amount };
 
         private SqlConnection conn;
         private static DBConnectionObject instance;
@@ -851,6 +851,40 @@ namespace RADGSHALibrary
             closeReader(ref reader);
 
             return item;
+        }
+        public List<string> queryUses(Patient p, Visit v)
+        {
+            string procedureName = "queryUses";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", p.getSSN()));
+            parameters.Add(new SqlParameter("@entryDateTime", v.getEntryDate()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+            List<string> ids = new List<string>();
+            while(reader.Read())
+            {
+                ids.Add(reader.GetString((int)UsesCol.StockId));
+            }
+
+            closeReader(ref reader);
+
+            return ids;
+        }
+        public int getUses(Patient p, Visit v, string stockID) // returns the quantity of the item used
+        {
+            string procedureName = "getUses";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", p.getSSN()));
+            parameters.Add(new SqlParameter("@entryDateTime", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@stockID", stockID));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            reader.Read();
+            
+            int quantity = reader.GetInt32((int)UsesCol.amount);
+
+            closeReader(ref reader);
+
+            return quantity;
         }
 
         public void closeReader(ref SqlDataReader reader)

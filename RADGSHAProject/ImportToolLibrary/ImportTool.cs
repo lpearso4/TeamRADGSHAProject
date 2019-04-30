@@ -8,21 +8,74 @@ using System.Security.Cryptography;
 
 namespace ImportToolLibrary
 {
+    public class ImportStatus
+    {
+        
+        private int imported;
+        private int total;
+
+        public ImportStatus()
+        {
+           
+            imported = 0;
+            total = 0;
+        }
+        public double PercentDone
+        {
+            get
+            {
+                return (double)imported / total * 100;
+            }
+           
+        }
+        public int Imported
+        {
+            get
+            {
+                return imported;
+            }
+            set
+            {
+                imported = value;
+            }
+        }
+        public int Total
+        {
+            get
+            {
+                return total;
+            }
+            set
+            {
+                total = value;
+            }
+        }
+    }
     public class ImportTool
     {
         private DBConnectionObject conn;
-
+        private ImportStatus status;
         public ImportTool()
         {
             conn = DBConnectionObject.getInstance();
+            status = new ImportStatus();
         }
-
+        public ImportStatus getStatus()
+        {
+            return status;
+        }
         public async void importPatientData(string url)
         {
+            
+
             int numberOfLines = getFileLineLength(url);
             int currentLineNumber = 0;
 
             int outputPercentTimer = 0;
+
+            status.Imported = 0;
+            status.Total = numberOfLines;
+
             string line;
             Char[] prohibitedChars = { ' ', '*', '.' };
             System.IO.StreamReader file =
@@ -143,12 +196,19 @@ namespace ImportToolLibrary
 
                 currentLineNumber++;
                 outputPercentTimer++;
+
+                status.Imported = currentLineNumber;
+                
+
                 if (outputPercentTimer > 1000)
                 {
                     outputPercentTimer = 0;
                     Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
+                   // status.PercentDone = (currentLineNumber * 100) / (numberOfLines);
                 }
             }
+            //status.PercentDone = 100;
+            status.Imported = status.Total;
             Console.WriteLine("Import Completed.");
             file.Close();
         }
@@ -158,6 +218,10 @@ namespace ImportToolLibrary
             int currentLineNumber = 0;
 
             int outputPercentTimer = 0;
+
+            status.Imported = 0;
+            status.Total = numberOfLines;
+
             string line;
             Char[] prohibitedChars = { ' ', '*', '.' };
             System.IO.StreamReader file =
@@ -201,14 +265,20 @@ namespace ImportToolLibrary
                     conn.addRoom(r);
                 }
 
-                currentLineNumber++;
+             
+
+
+            currentLineNumber++;
+            status.Imported = currentLineNumber;
                 outputPercentTimer++;
                 if (outputPercentTimer > 1000)
                 {
                     outputPercentTimer = 0;
                     Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
-                }
+                 
+                 }
             }
+            status.Imported = status.Total;
             Console.WriteLine("Import Completed.");
             file.Close();
         }
@@ -251,6 +321,10 @@ namespace ImportToolLibrary
             int currentLineNumber = 0;
 
             int outputPercentTimer = 0;
+
+            status.Imported = 0;
+            status.Total = numberOfLines;
+
             string line;
             Char[] prohibitedChars = { '*', '.',' ' };
             Char[] prohibitdPassChars = { ' ' };
@@ -314,6 +388,7 @@ namespace ImportToolLibrary
             
 
                 currentLineNumber++;
+                status.Imported = currentLineNumber;
                 outputPercentTimer++;
                 if (outputPercentTimer > 1000)
                 {
@@ -321,6 +396,7 @@ namespace ImportToolLibrary
                     Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
                 }
             }
+            status.Imported = status.Total;
             Console.WriteLine("Import Completed.");
             file.Close();
         }
@@ -330,6 +406,9 @@ namespace ImportToolLibrary
             // currently throws an error if you attempt to add the same data twice
             int numberOfLines = getFileLineLength(url);
             int currentLineNumber = 0;
+
+            status.Imported = 0;
+            status.Total = numberOfLines;
 
             int outputPercentTimer = 0;
             string line;
@@ -388,6 +467,7 @@ namespace ImportToolLibrary
                 }
 
                 currentLineNumber++;
+                status.Imported = currentLineNumber;
                 outputPercentTimer++;
                 if (outputPercentTimer > 1000)
                 {
@@ -395,6 +475,7 @@ namespace ImportToolLibrary
                     Console.WriteLine(((currentLineNumber * 100) / (numberOfLines)).ToString() + "% complete");
                 }
             }
+            status.Imported = status.Total;
             Console.WriteLine("Import Completed.");
             file.Close();
         }

@@ -58,6 +58,42 @@ namespace RADGSHAProject
                 roomSubtotal += amnt;
             }
 
+            List<string> inventoryUsed = conn.queryUses(selectedPatient, selectedVisit);
+            List<int> quantityUsed = new List<int>();
+            
+            foreach(string s in inventoryUsed )
+            {
+                int quantity = conn.getUses(selectedPatient, selectedVisit, s);
+                quantityUsed.Add(quantity);
+                List<RADGSHALibrary.Inventory> i = conn.queryInventory(s);
+
+                if(conn.isItem(i[0])) // add to items
+                {
+                    decimal curCost = 0;
+                    ListViewItem items = new ListViewItem(i[0].getDescription());
+                    items.SubItems.Add(quantity.ToString());
+                    curCost = i[0].getCost();
+                    items.SubItems.Add(curCost.ToString());
+                    decimal itemTotal = curCost * quantity;
+                    items.SubItems.Add(itemTotal.ToString());
+                    inventorySubtotal += itemTotal;
+                    suppliesListView.Items.Add(items);
+                }
+                else // add to services
+                {
+                    decimal curCost = 0;
+                    ListViewItem items = new ListViewItem(i[0].getDescription());
+                   // items.SubItems.Add(quantity.ToString());
+                    curCost = i[0].getCost();
+                    items.SubItems.Add(curCost.ToString());
+                   // decimal itemTotal = curCost * quantity;
+                   // items.SubItems.Add(itemTotal.ToString());
+                    serviceSubtotal += curCost;
+                    proceduresListView.Items.Add(items);
+                }
+            }
+            
+
             textRoomSub.Text = roomSubtotal.ToString();
             textServicesSub.Text = serviceSubtotal.ToString();
             textSuppliesSub.Text = inventorySubtotal.ToString();
@@ -94,6 +130,11 @@ namespace RADGSHAProject
         }
 
         private void CheckOut_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void proceduresListView_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

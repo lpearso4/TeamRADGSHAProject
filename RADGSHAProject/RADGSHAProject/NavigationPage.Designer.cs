@@ -110,9 +110,9 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button searchPatientButton;
-        private System.Windows.Forms.Button addPatientButton;
+        protected System.Windows.Forms.Button searchPatientButton;
+        protected System.Windows.Forms.Button addPatientButton;
         protected System.Windows.Forms.Button importToolButton;
-        private System.Windows.Forms.Button logOutButton;
+        protected System.Windows.Forms.Button logOutButton;
     }
 }
