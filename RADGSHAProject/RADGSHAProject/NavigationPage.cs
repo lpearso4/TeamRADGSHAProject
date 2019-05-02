@@ -19,7 +19,9 @@ namespace RADGSHAProject
         public NavigationPage()
         {
             time = TimeSpan.Zero;
+           
             InitializeComponent();
+            autoLogout.Enabled = true;
         }
 
         private void searchPatientButton_Click(object sender, EventArgs e)
