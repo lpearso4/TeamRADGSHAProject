@@ -19,6 +19,7 @@ namespace RADGSHAProject
         public static LoginPage loginPage;
 
 
+        protected static RADGSHALibrary.User loggedInUser;
         TimeSpan time;
         
         public NavigationPage()
@@ -27,8 +28,28 @@ namespace RADGSHAProject
            
             InitializeComponent();
             autoLogout.Enabled = true;
-        }
+            updateUserInfo();
 
+        }
+        protected void updateUserInfo()
+        {
+            if (loggedInUser != null)
+            {
+                if (loggedInUser.isAdmin())
+                {
+                    importToolButton.Visible = true;
+                }
+                else
+                {
+                    importToolButton.Visible = false;
+                }
+                labelUser.Text = loggedInUser.getUsername();
+            }
+            else
+            {
+                labelUser.Text = "";
+            }
+        }
         public void getSearchPatientInstance()
         {
             if(searchPatientInstance == null)
@@ -76,6 +97,7 @@ namespace RADGSHAProject
             searchPatientInstance = null;
             importToolInstance = null;
             //this.Dispose();
+            
             loginPage.Show();
             
         }
@@ -93,6 +115,8 @@ namespace RADGSHAProject
 
         private void autoLogout_Tick(object sender, EventArgs e)
         {
+            if (this.Visible == false) return;
+            if (this.DesignMode == true) return;
             time = time + new TimeSpan(0, 0, 1);
 
             if (time.TotalMinutes>4)

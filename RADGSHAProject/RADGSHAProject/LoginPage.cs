@@ -81,8 +81,11 @@ namespace RADGSHAProject
                 if (isAdmin) Console.Write("User is admin user");
                 else Console.WriteLine("User is not admin user");
                 user.setAdmin(isAdmin);
+                usernameTextBox.Text = "";
+                passwordTextBox.Text = "";
                 this.Hide();
-                MainPage M = new MainPage(user, this);
+                RADGSHALibrary.User validatedUserNoPassword = new RADGSHALibrary.User(user.getUsername(), "", user.isAdmin());
+                MainPage M = new MainPage(validatedUserNoPassword, this);
                 M.Closed += (s, args) => this.Close();
                 M.Show();
             }

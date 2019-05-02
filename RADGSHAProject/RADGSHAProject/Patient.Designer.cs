@@ -54,7 +54,6 @@
             this.patientFirstNameTextBox = new System.Windows.Forms.TextBox();
             this.VisitGroupBox = new System.Windows.Forms.GroupBox();
             this.textAttendingPhy = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.VisitSymptomsLabel = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.VisitDiagnosisTextBox = new System.Windows.Forms.TextBox();
@@ -63,6 +62,7 @@
             this.RoomNumberLabel = new System.Windows.Forms.Label();
             this.EntryDateLabel = new System.Windows.Forms.Label();
             this.EntryDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.checkInOutButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -128,7 +128,7 @@
             this.PatientGroupBox.Controls.Add(this.PatientMiddleInitialLabel);
             this.PatientGroupBox.Controls.Add(this.PatientFirstNameLabel);
             this.PatientGroupBox.Controls.Add(this.patientFirstNameTextBox);
-            this.PatientGroupBox.Location = new System.Drawing.Point(166, 16);
+            this.PatientGroupBox.Location = new System.Drawing.Point(166, 24);
             this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.PatientGroupBox.Name = "PatientGroupBox";
             this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -312,7 +312,6 @@
             // VisitGroupBox
             // 
             this.VisitGroupBox.Controls.Add(this.textAttendingPhy);
-            this.VisitGroupBox.Controls.Add(this.label1);
             this.VisitGroupBox.Controls.Add(this.VisitSymptomsLabel);
             this.VisitGroupBox.Controls.Add(this.textBox2);
             this.VisitGroupBox.Controls.Add(this.VisitDiagnosisTextBox);
@@ -330,6 +329,15 @@
             this.VisitGroupBox.TabStop = false;
             this.VisitGroupBox.Text = "Visit Info";
             this.VisitGroupBox.Enter += new System.EventHandler(this.VisitGroupBox_Enter);
+            this.VisitGroupBox.Controls.SetChildIndex(this.EntryDatePicker, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.EntryDateLabel, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.RoomNumberLabel, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.roomNumber, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.DiagnosisLabel, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.VisitDiagnosisTextBox, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.textBox2, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.VisitSymptomsLabel, 0);
+            this.VisitGroupBox.Controls.SetChildIndex(this.textAttendingPhy, 0);
             // 
             // textAttendingPhy
             // 
@@ -337,15 +345,6 @@
             this.textAttendingPhy.Name = "textAttendingPhy";
             this.textAttendingPhy.Size = new System.Drawing.Size(100, 20);
             this.textAttendingPhy.TabIndex = 9;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(301, 106);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Attending Physician:";
             // 
             // VisitSymptomsLabel
             // 
@@ -422,6 +421,15 @@
             this.EntryDatePicker.Name = "EntryDatePicker";
             this.EntryDatePicker.Size = new System.Drawing.Size(182, 20);
             this.EntryDatePicker.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(301, 106);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Attending Physician:";
             // 
             // checkInOutButton
             // 
@@ -507,6 +515,7 @@
             this.VisitGroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
