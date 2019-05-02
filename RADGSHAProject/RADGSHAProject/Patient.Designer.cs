@@ -66,17 +66,33 @@
             this.checkInOutButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.previousVisitList = new System.Windows.Forms.ListView();
+            this.Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AttendingPhysician = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Diagnosis = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PatientGroupBox.SuspendLayout();
             this.VisitGroupBox.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // useInventoryButton
             // 
             this.useInventoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.useInventoryButton.Location = new System.Drawing.Point(351, 580);
+            this.useInventoryButton.Location = new System.Drawing.Point(351, 631);
             this.useInventoryButton.Name = "useInventoryButton";
             this.useInventoryButton.Size = new System.Drawing.Size(87, 23);
             this.useInventoryButton.TabIndex = 0;
@@ -87,7 +103,7 @@
             // changeRoomButton
             // 
             this.changeRoomButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.changeRoomButton.Location = new System.Drawing.Point(247, 580);
+            this.changeRoomButton.Location = new System.Drawing.Point(247, 631);
             this.changeRoomButton.Name = "changeRoomButton";
             this.changeRoomButton.Size = new System.Drawing.Size(85, 23);
             this.changeRoomButton.TabIndex = 1;
@@ -98,7 +114,7 @@
             // diagnosisWizardButton
             // 
             this.diagnosisWizardButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.diagnosisWizardButton.Location = new System.Drawing.Point(456, 580);
+            this.diagnosisWizardButton.Location = new System.Drawing.Point(456, 631);
             this.diagnosisWizardButton.Name = "diagnosisWizardButton";
             this.diagnosisWizardButton.Size = new System.Drawing.Size(101, 23);
             this.diagnosisWizardButton.TabIndex = 2;
@@ -321,7 +337,7 @@
             this.VisitGroupBox.Controls.Add(this.RoomNumberLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDateLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDatePicker);
-            this.VisitGroupBox.Location = new System.Drawing.Point(166, 183);
+            this.VisitGroupBox.Location = new System.Drawing.Point(166, 174);
             this.VisitGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.VisitGroupBox.Name = "VisitGroupBox";
             this.VisitGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -350,7 +366,7 @@
             // VisitSymptomsLabel
             // 
             this.VisitSymptomsLabel.AutoSize = true;
-            this.VisitSymptomsLabel.Location = new System.Drawing.Point(19, 54);
+            this.VisitSymptomsLabel.Location = new System.Drawing.Point(16, 54);
             this.VisitSymptomsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.VisitSymptomsLabel.Name = "VisitSymptomsLabel";
             this.VisitSymptomsLabel.Size = new System.Drawing.Size(58, 13);
@@ -377,7 +393,7 @@
             // DiagnosisLabel
             // 
             this.DiagnosisLabel.AutoSize = true;
-            this.DiagnosisLabel.Location = new System.Drawing.Point(19, 103);
+            this.DiagnosisLabel.Location = new System.Drawing.Point(16, 103);
             this.DiagnosisLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.DiagnosisLabel.Name = "DiagnosisLabel";
             this.DiagnosisLabel.Size = new System.Drawing.Size(56, 13);
@@ -426,7 +442,7 @@
             // checkInOutButton
             // 
             this.checkInOutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkInOutButton.Location = new System.Drawing.Point(576, 580);
+            this.checkInOutButton.Location = new System.Drawing.Point(576, 631);
             this.checkInOutButton.Name = "checkInOutButton";
             this.checkInOutButton.Size = new System.Drawing.Size(96, 23);
             this.checkInOutButton.TabIndex = 8;
@@ -437,7 +453,7 @@
             // SaveButton
             // 
             this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveButton.Location = new System.Drawing.Point(689, 580);
+            this.SaveButton.Location = new System.Drawing.Point(689, 631);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(75, 23);
             this.SaveButton.TabIndex = 9;
@@ -447,36 +463,165 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(166, 438);
+            this.groupBox2.Controls.Add(this.textBox7);
+            this.groupBox2.Controls.Add(this.textBox6);
+            this.groupBox2.Controls.Add(this.textBox5);
+            this.groupBox2.Controls.Add(this.textBox4);
+            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Location = new System.Drawing.Point(166, 475);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(626, 125);
+            this.groupBox2.Size = new System.Drawing.Size(626, 138);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Previous Visit Info";
             // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(335, 108);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(281, 20);
+            this.textBox7.TabIndex = 11;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(81, 108);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(166, 20);
+            this.textBox6.TabIndex = 10;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(82, 82);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(534, 20);
+            this.textBox5.TabIndex = 9;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(125, 56);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(122, 20);
+            this.textBox4.TabIndex = 8;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(335, 30);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(162, 20);
+            this.textBox3.TabIndex = 7;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(82, 30);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(165, 20);
+            this.textBox1.TabIndex = 6;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(277, 111);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Notes:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(16, 111);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(50, 13);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "Dianosis:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(277, 33);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Exit Date:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(16, 84);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(58, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Symptoms:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 59);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Attending Physician:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 33);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(60, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Entry Date:";
+            // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.listView1);
-            this.groupBox3.Location = new System.Drawing.Point(166, 333);
+            this.groupBox3.Controls.Add(this.previousVisitList);
+            this.groupBox3.Location = new System.Drawing.Point(166, 312);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(625, 88);
+            this.groupBox3.Size = new System.Drawing.Size(625, 157);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Previous visits:";
             // 
-            // listView1
+            // previousVisitList
             // 
-            this.listView1.Location = new System.Drawing.Point(6, 33);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(610, 45);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.previousVisitList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Date,
+            this.AttendingPhysician,
+            this.Diagnosis});
+            this.previousVisitList.GridLines = true;
+            this.previousVisitList.Location = new System.Drawing.Point(6, 19);
+            this.previousVisitList.Name = "previousVisitList";
+            this.previousVisitList.Size = new System.Drawing.Size(610, 132);
+            this.previousVisitList.TabIndex = 0;
+            this.previousVisitList.UseCompatibleStateImageBehavior = false;
+            this.previousVisitList.View = System.Windows.Forms.View.Details;
+            // 
+            // Date
+            // 
+            this.Date.Text = "Date";
+            this.Date.Width = 147;
+            // 
+            // AttendingPhysician
+            // 
+            this.AttendingPhysician.Text = "AttendingPhysician";
+            this.AttendingPhysician.Width = 246;
+            // 
+            // Diagnosis
+            // 
+            this.Diagnosis.Text = "Diagnosis";
+            this.Diagnosis.Width = 190;
             // 
             // Patient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 615);
+            this.ClientSize = new System.Drawing.Size(800, 666);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.SaveButton);
@@ -487,6 +632,7 @@
             this.Controls.Add(this.changeRoomButton);
             this.Controls.Add(this.useInventoryButton);
             this.Margin = new System.Windows.Forms.Padding(3);
+            this.MinimumSize = new System.Drawing.Size(816, 705);
             this.Name = "Patient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Patient";
@@ -505,6 +651,8 @@
             this.PatientGroupBox.PerformLayout();
             this.VisitGroupBox.ResumeLayout(false);
             this.VisitGroupBox.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -551,6 +699,21 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView previousVisitList;
+        private System.Windows.Forms.ColumnHeader Date;
+        private System.Windows.Forms.ColumnHeader AttendingPhysician;
+        private System.Windows.Forms.ColumnHeader Diagnosis;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
