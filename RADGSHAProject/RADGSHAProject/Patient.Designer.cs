@@ -32,6 +32,10 @@
             this.changeRoomButton = new System.Windows.Forms.Button();
             this.diagnosisWizardButton = new System.Windows.Forms.Button();
             this.PatientGroupBox = new System.Windows.Forms.GroupBox();
+            this.birthdateBox = new System.Windows.Forms.TextBox();
+            this.genderBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.patientZipTextBox = new System.Windows.Forms.TextBox();
             this.zipcodeLabel = new System.Windows.Forms.Label();
             this.patientStateTextBox = new System.Windows.Forms.TextBox();
@@ -62,13 +66,17 @@
             this.checkInOutButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.PatientGroupBox.SuspendLayout();
             this.VisitGroupBox.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // useInventoryButton
             // 
-            this.useInventoryButton.Location = new System.Drawing.Point(351, 519);
+            this.useInventoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.useInventoryButton.Location = new System.Drawing.Point(351, 580);
             this.useInventoryButton.Name = "useInventoryButton";
             this.useInventoryButton.Size = new System.Drawing.Size(87, 23);
             this.useInventoryButton.TabIndex = 0;
@@ -78,7 +86,8 @@
             // 
             // changeRoomButton
             // 
-            this.changeRoomButton.Location = new System.Drawing.Point(247, 519);
+            this.changeRoomButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.changeRoomButton.Location = new System.Drawing.Point(247, 580);
             this.changeRoomButton.Name = "changeRoomButton";
             this.changeRoomButton.Size = new System.Drawing.Size(85, 23);
             this.changeRoomButton.TabIndex = 1;
@@ -88,7 +97,8 @@
             // 
             // diagnosisWizardButton
             // 
-            this.diagnosisWizardButton.Location = new System.Drawing.Point(456, 519);
+            this.diagnosisWizardButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.diagnosisWizardButton.Location = new System.Drawing.Point(456, 580);
             this.diagnosisWizardButton.Name = "diagnosisWizardButton";
             this.diagnosisWizardButton.Size = new System.Drawing.Size(101, 23);
             this.diagnosisWizardButton.TabIndex = 2;
@@ -98,6 +108,10 @@
             // 
             // PatientGroupBox
             // 
+            this.PatientGroupBox.Controls.Add(this.birthdateBox);
+            this.PatientGroupBox.Controls.Add(this.genderBox);
+            this.PatientGroupBox.Controls.Add(this.label3);
+            this.PatientGroupBox.Controls.Add(this.label2);
             this.PatientGroupBox.Controls.Add(this.patientZipTextBox);
             this.PatientGroupBox.Controls.Add(this.zipcodeLabel);
             this.PatientGroupBox.Controls.Add(this.patientStateTextBox);
@@ -118,10 +132,42 @@
             this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.PatientGroupBox.Name = "PatientGroupBox";
             this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(2);
-            this.PatientGroupBox.Size = new System.Drawing.Size(626, 124);
+            this.PatientGroupBox.Size = new System.Drawing.Size(626, 154);
             this.PatientGroupBox.TabIndex = 6;
             this.PatientGroupBox.TabStop = false;
             this.PatientGroupBox.Text = "Patient Info";
+            // 
+            // birthdateBox
+            // 
+            this.birthdateBox.Location = new System.Drawing.Point(360, 116);
+            this.birthdateBox.Name = "birthdateBox";
+            this.birthdateBox.Size = new System.Drawing.Size(100, 20);
+            this.birthdateBox.TabIndex = 22;
+            // 
+            // genderBox
+            // 
+            this.genderBox.Location = new System.Drawing.Point(98, 116);
+            this.genderBox.Name = "genderBox";
+            this.genderBox.Size = new System.Drawing.Size(100, 20);
+            this.genderBox.TabIndex = 21;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(277, 119);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Birthdate:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Gender:";
             // 
             // patientZipTextBox
             // 
@@ -275,7 +321,7 @@
             this.VisitGroupBox.Controls.Add(this.RoomNumberLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDateLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDatePicker);
-            this.VisitGroupBox.Location = new System.Drawing.Point(166, 154);
+            this.VisitGroupBox.Location = new System.Drawing.Point(166, 183);
             this.VisitGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.VisitGroupBox.Name = "VisitGroupBox";
             this.VisitGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -379,7 +425,8 @@
             // 
             // checkInOutButton
             // 
-            this.checkInOutButton.Location = new System.Drawing.Point(576, 519);
+            this.checkInOutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkInOutButton.Location = new System.Drawing.Point(576, 580);
             this.checkInOutButton.Name = "checkInOutButton";
             this.checkInOutButton.Size = new System.Drawing.Size(96, 23);
             this.checkInOutButton.TabIndex = 8;
@@ -389,7 +436,8 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(689, 519);
+            this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveButton.Location = new System.Drawing.Point(689, 580);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(75, 23);
             this.SaveButton.TabIndex = 9;
@@ -399,18 +447,37 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(166, 357);
+            this.groupBox2.Location = new System.Drawing.Point(166, 438);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(626, 125);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Previous Visit Info";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.listView1);
+            this.groupBox3.Location = new System.Drawing.Point(166, 333);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(625, 88);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Previous visits:";
+            // 
+            // listView1
+            // 
+            this.listView1.Location = new System.Drawing.Point(6, 33);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(610, 45);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
             // Patient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 554);
+            this.ClientSize = new System.Drawing.Size(800, 615);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.checkInOutButton);
@@ -433,10 +500,12 @@
             this.Controls.SetChildIndex(this.checkInOutButton, 0);
             this.Controls.SetChildIndex(this.SaveButton, 0);
             this.Controls.SetChildIndex(this.groupBox2, 0);
+            this.Controls.SetChildIndex(this.groupBox3, 0);
             this.PatientGroupBox.ResumeLayout(false);
             this.PatientGroupBox.PerformLayout();
             this.VisitGroupBox.ResumeLayout(false);
             this.VisitGroupBox.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -477,5 +546,11 @@
         private System.Windows.Forms.Label addressLine1Label;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textAttendingPhy;
+        private System.Windows.Forms.TextBox birthdateBox;
+        private System.Windows.Forms.TextBox genderBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ListView listView1;
     }
 }
