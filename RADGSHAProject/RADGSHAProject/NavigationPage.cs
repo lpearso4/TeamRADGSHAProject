@@ -15,6 +15,7 @@ namespace RADGSHAProject
     public partial class NavigationPage : Form
     {
         static SearchPatient searchPatientInstance;
+        static AddPatient addPatientInstance;
         static ImportTool importToolInstance;
         public static LoginPage loginPage;
 
@@ -38,6 +39,15 @@ namespace RADGSHAProject
             //searchPatientInstance.Closed += (s, args) => this.Close();
         }
 
+        public void getAddPatientInstance()
+        {
+            if (addPatientInstance == null)
+            {
+                addPatientInstance = new AddPatient();
+            }
+            //addPatientInstance.Closed += (s, args) => this.Close();
+        }
+
         public void getImportToolInstance()
         {
             if(importToolInstance == null)
@@ -53,6 +63,14 @@ namespace RADGSHAProject
             getSearchPatientInstance();
             
             searchPatientInstance.Show();
+        }
+
+        private void addPatientButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            getAddPatientInstance();
+
+            addPatientInstance.Show();
         }
 
         private void importToolButton_Click(object sender, EventArgs e)
