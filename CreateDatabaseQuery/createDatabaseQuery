@@ -288,6 +288,15 @@ REFERENCES [dbo].[Visit] ([PatientId], [EntryDate])
 GO
 ALTER TABLE [dbo].[Uses] CHECK CONSTRAINT [FK_Uses_Visit]
 GO
+
+
+ -- Adding a test user to the database with username 'admin' and password 'password'
+if NOT EXISTS(select * from [User] where Username like '%Admin%')
+BEGIN
+	INSERT into [User] (Username, [Password], UserType)
+	values ('Admin', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 1)
+END
+
 USE [master]
 ALTER DATABASE [HRAS_RAD] SET  READ_WRITE 
 GO
@@ -1728,8 +1737,6 @@ BEGIN
 
 END
 GO
-
-
 
 --Leave this line on the bottom to scope back to master afterwards.
 USE [master]
