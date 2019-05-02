@@ -14,10 +14,14 @@ namespace RADGSHAProject
 {
     public partial class LoginPage : Form
     {
+        private int secondsLockedOut;
+        private int numberOfTries;
+
         public LoginPage()
         {
             InitializeComponent();
-           
+            secondsLockedOut = 0;
+            numberOfTries = 0;
         }
 
         private void loginButton_Click(object sender, EventArgs e)
@@ -88,8 +92,20 @@ namespace RADGSHAProject
                 caption = "Error!";
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
                 MessageBox.Show(message, caption, buttons);
+                numberOfTries++;
             }
 
+            if (numberOfTries == 5)
+            {
+                message = "Error: You've unsuccessfully tried to log in five times. You've been locked out for 10 minutes.";
+                caption = "Error!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+                loginButton.Enabled = false;
+                timerLogin.Enabled = true;
+
+            }
+     
            
         }
 
@@ -109,6 +125,19 @@ namespace RADGSHAProject
             MainPage M = new MainPage();
             M.Closed += (s, args) => this.Close();
             M.Show();
+        }
+
+        private void timerLogin_Tick(object sender, EventArgs e)
+        {
+            secondsLockedOut++;
+
+            if (secondsLockedOut==600)
+            {
+                timerLogin.Enabled = false;
+                secondsLockedOut = 0;
+                numberOfTries = 0;
+                loginButton.Enabled = true;
+            }
         }
     }
 }
