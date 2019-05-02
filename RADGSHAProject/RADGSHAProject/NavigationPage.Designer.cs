@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.logOutButton = new System.Windows.Forms.Button();
             this.searchPatientButton = new System.Windows.Forms.Button();
             this.addPatientButton = new System.Windows.Forms.Button();
             this.importToolButton = new System.Windows.Forms.Button();
-            this.logOutButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +47,18 @@
             this.groupBox1.Size = new System.Drawing.Size(136, 339);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
+            // 
+            // logOutButton
+            // 
+            this.logOutButton.BackColor = System.Drawing.Color.Red;
+            this.logOutButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.logOutButton.Location = new System.Drawing.Point(9, 286);
+            this.logOutButton.Name = "logOutButton";
+            this.logOutButton.Size = new System.Drawing.Size(111, 29);
+            this.logOutButton.TabIndex = 3;
+            this.logOutButton.Text = "Log Out";
+            this.logOutButton.UseVisualStyleBackColor = false;
+            this.logOutButton.Click += new System.EventHandler(this.logOutButton_Click);
             // 
             // searchPatientButton
             // 
@@ -80,18 +92,6 @@
             this.importToolButton.UseVisualStyleBackColor = true;
             this.importToolButton.Click += new System.EventHandler(this.importToolButton_Click);
             // 
-            // logOutButton
-            // 
-            this.logOutButton.BackColor = System.Drawing.Color.Red;
-            this.logOutButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.logOutButton.Location = new System.Drawing.Point(9, 286);
-            this.logOutButton.Name = "logOutButton";
-            this.logOutButton.Size = new System.Drawing.Size(111, 29);
-            this.logOutButton.TabIndex = 3;
-            this.logOutButton.Text = "Log Out";
-            this.logOutButton.UseVisualStyleBackColor = false;
-            this.logOutButton.Click += new System.EventHandler(this.logOutButton_Click);
-            // 
             // NavigationPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,6 +101,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "NavigationPage";
             this.Text = "NavigationPage";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NavigationPage_FormClosing);
             this.Load += new System.EventHandler(this.NavigationPage_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

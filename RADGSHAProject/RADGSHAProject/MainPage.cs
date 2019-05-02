@@ -13,7 +13,7 @@ namespace RADGSHAProject
 {
     public partial class MainPage : NavigationPage
     {
-        Form previousForm;//Used for displaying the previous Form when closing this one
+        
         User user;
 
 
@@ -22,7 +22,7 @@ namespace RADGSHAProject
         {
             InitializeComponent();
         }
-        public MainPage(User newUser)
+        public MainPage(User newUser, LoginPage loginPage)
         {
             InitializeComponent();
             user = newUser;
@@ -35,11 +35,12 @@ namespace RADGSHAProject
                 importToolButton.Visible = false;
             }
             lblUser.Text = user.getUsername();
+            NavigationPage.loginPage = loginPage;
         }
-        public MainPage(Form previousForm)
+        public MainPage(LoginPage loginPage)
         {
             InitializeComponent();
-            this.previousForm = previousForm;
+            NavigationPage.loginPage = loginPage;
         }
 
         private void MainPage_Load(object sender, EventArgs e)
@@ -49,11 +50,7 @@ namespace RADGSHAProject
 
         private void FormClose(object sender, FormClosedEventArgs e)//displays Login page after closing Main Page
         {
-            if (previousForm != null)
-            {
-                previousForm.Show();
-            }
-            Dispose();
+            
         }
     }
 }

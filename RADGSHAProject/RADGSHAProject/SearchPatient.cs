@@ -20,11 +20,7 @@ namespace RADGSHAProject
             InitializeComponent();
         }
 
-        public SearchPatient(Form previousForm)
-        {
-            InitializeComponent();
-            this.previousForm = previousForm;
-        }
+        
 
         private void viewPatientButton_Click(object sender, EventArgs e)
         {

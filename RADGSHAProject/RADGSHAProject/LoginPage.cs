@@ -78,7 +78,7 @@ namespace RADGSHAProject
                 else Console.WriteLine("User is not admin user");
                 user.setAdmin(isAdmin);
                 this.Hide();
-                MainPage M = new MainPage(user);
+                MainPage M = new MainPage(user, this);
                 M.Closed += (s, args) => this.Close();
                 M.Show();
             }
@@ -106,7 +106,7 @@ namespace RADGSHAProject
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            MainPage M = new MainPage();
+            MainPage M = new MainPage(this);
             M.Closed += (s, args) => this.Close();
             M.Show();
         }
