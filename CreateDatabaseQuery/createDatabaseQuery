@@ -1583,11 +1583,11 @@ BEGIN
 
 	/* temporary tables for executing a for each loop and to hold the list of all symptoms */
 	DECLARE @allRecords table (symptomName nvarchar(50), patientId nvarchar(9), enrtyDate datetime, diagnosis nvarchar(50))
-	DECLARE @distinctSymptom table (symptomName nvarchar(50), percentage decimal(5,5))
+	DECLARE @distinctSymptom table (symptomName nvarchar(50), percentage decimal(8,5))
 	DECLARE @allDiagnosis table (diagnosis nvarchar(50))
 	DECLARE @diagnosisToDelete table (diagnosis nvarchar(50))
 	DECLARE @distinctDiagnosis table (diagnosis nvarchar(50))
-	DECLARE @results table (diagnosis nvarchar(50), perc DEC(5,5))
+	DECLARE @results table (diagnosis nvarchar(50), perc DEC(5,2))
 	DECLARE @previousResultsTable table (i nvarchar(50))
 	/* declare variables*/
 	DECLARE @calculation DEC(5, 5)
@@ -1598,7 +1598,7 @@ BEGIN
 	DECLARE @totalnumberOfOccurances int
 	DECLARE @currentResult nvarchar(1)
 	DECLARE @currentResultName nvarchar(50)
-	DECLARE @currentResultSymptom table (name nvarchar(50), percentage decimal(5,5))
+	DECLARE @currentResultSymptom table (name nvarchar(50), percentage decimal(8,5))
 
 	-- set values into @allRecords
 	INSERT INTO @allRecords (symptomName, patientId, enrtyDate, diagnosis) SELECT s.SymptomName, v.PatientId, v.EntryDate, v.Diagnosis FROM Symptom s INNER JOIN Visit v ON v.PatientId = s.PatientId
@@ -1677,7 +1677,7 @@ BEGIN
 			SET @numberOfOccurances = (SELECT COUNT(diagnosis) FROM @allDiagnosis WHERE diagnosis = @diagnosisName)
 			SET @calculation = CAST(@numberOfOccurances as float)/CAST(@totalnumberOfOccurances as float)
 
-			INSERT INTO @results (diagnosis, perc) VALUES (@diagnosisName, @calculation)
+			INSERT INTO @results (diagnosis, perc) VALUES (@diagnosisName, @calculation*100)
 		
 			--delete to use while loop like a 'for each' loop, update counter variable
 			DELETE FROM @distinctDiagnosis WHERE diagnosis = (SELECT top 1 diagnosis FROM @distinctDiagnosis)
