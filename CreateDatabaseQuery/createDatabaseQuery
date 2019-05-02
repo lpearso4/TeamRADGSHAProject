@@ -1251,6 +1251,31 @@ GO
 
 -- =============================================
 -- Author:		Justin
+-- Create date: 5/1/2019
+-- Description:	takes stockID and returns inventory item row that matches
+-- =============================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getInventory]'))
+   exec('CREATE PROCEDURE [dbo].[getInventory] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getInventory
+	-- Add the parameters for the stored procedure here
+	@stockID nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	EXEC('SELECT * FROM Inventory WHERE stockID=' +  @stockID)
+
+END
+GO
+
+-- =============================================
+-- Author:		Justin
 -- Create date: 4/30/2019
 -- Description:	takes 2 variables and returns rows matching in the use table
 -- =============================================

@@ -142,7 +142,7 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.roomListView.Location = new System.Drawing.Point(167, 96);
+            this.roomListView.Location = new System.Drawing.Point(166, 102);
             this.roomListView.Name = "roomListView";
             this.roomListView.Size = new System.Drawing.Size(613, 69);
             this.roomListView.TabIndex = 25;
@@ -152,18 +152,23 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Room Number";
+            this.columnHeader1.Width = 150;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Rate (hourly)";
+            this.columnHeader2.Text = "Rate (Hourly)";
+            this.columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Length of stay (dd:hh:mm)";
+            this.columnHeader3.Text = "Length of Stay";
+            this.columnHeader3.Width = 200;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Charge";
+            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader4.Width = 100;
             // 
             // suppliesListView
             // 
@@ -181,7 +186,8 @@
             // 
             // columnHeader5
             // 
-            this.columnHeader5.Text = "Supplies Used";
+            this.columnHeader5.Text = "Supply Name";
+            this.columnHeader5.Width = 300;
             // 
             // columnHeader6
             // 
@@ -190,10 +196,13 @@
             // columnHeader7
             // 
             this.columnHeader7.Text = "Cost";
+            this.columnHeader7.Width = 100;
             // 
             // columnHeader8
             // 
             this.columnHeader8.Text = "Charge";
+            this.columnHeader8.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader8.Width = 100;
             // 
             // proceduresListView
             // 
@@ -210,11 +219,14 @@
             // 
             // columnHeader9
             // 
-            this.columnHeader9.Text = "Procedure";
+            this.columnHeader9.Text = "Procedure Name";
+            this.columnHeader9.Width = 450;
             // 
             // columnHeader10
             // 
             this.columnHeader10.Text = "Charge";
+            this.columnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader10.Width = 100;
             // 
             // returnButton
             // 
@@ -240,6 +252,7 @@
             // 
             this.patientName.Location = new System.Drawing.Point(404, 32);
             this.patientName.Name = "patientName";
+            this.patientName.ReadOnly = true;
             this.patientName.Size = new System.Drawing.Size(226, 20);
             this.patientName.TabIndex = 30;
             // 
@@ -247,6 +260,7 @@
             // 
             this.totalDue.Location = new System.Drawing.Point(404, 469);
             this.totalDue.Name = "totalDue";
+            this.totalDue.ReadOnly = true;
             this.totalDue.Size = new System.Drawing.Size(100, 20);
             this.totalDue.TabIndex = 31;
             // 
@@ -254,6 +268,7 @@
             // 
             this.textRoomSub.Location = new System.Drawing.Point(792, 144);
             this.textRoomSub.Name = "textRoomSub";
+            this.textRoomSub.ReadOnly = true;
             this.textRoomSub.Size = new System.Drawing.Size(100, 20);
             this.textRoomSub.TabIndex = 32;
             // 
@@ -261,6 +276,7 @@
             // 
             this.textSuppliesSub.Location = new System.Drawing.Point(792, 310);
             this.textSuppliesSub.Name = "textSuppliesSub";
+            this.textSuppliesSub.ReadOnly = true;
             this.textSuppliesSub.Size = new System.Drawing.Size(100, 20);
             this.textSuppliesSub.TabIndex = 33;
             // 
@@ -268,6 +284,7 @@
             // 
             this.textServicesSub.Location = new System.Drawing.Point(790, 425);
             this.textServicesSub.Name = "textServicesSub";
+            this.textServicesSub.ReadOnly = true;
             this.textServicesSub.Size = new System.Drawing.Size(100, 20);
             this.textServicesSub.TabIndex = 34;
             // 
