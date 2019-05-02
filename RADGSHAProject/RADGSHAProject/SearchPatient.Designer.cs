@@ -76,6 +76,8 @@
             // 
             // VisitRoomNumberField
             // 
+            this.VisitRoomNumberField.AccessibleDescription = "";
+            this.VisitRoomNumberField.AccessibleName = "";
             this.VisitRoomNumberField.Location = new System.Drawing.Point(232, 119);
             this.VisitRoomNumberField.Margin = new System.Windows.Forms.Padding(2);
             this.VisitRoomNumberField.Name = "VisitRoomNumberField";

@@ -124,7 +124,7 @@ namespace ImportToolLibrary
                 p.setDoNotResuscitateStatus(patientDnrStatus);
                 p.setOrganDonorStatus(patientOrganDonor);
 
-                if (conn.queryPatient(patientSSN, "", "").Count >= 1)
+                if (conn.queryPatient(patientSSN, "", "", "").Count >= 1)
                 {
                     conn.updatePatient(p);
                 }

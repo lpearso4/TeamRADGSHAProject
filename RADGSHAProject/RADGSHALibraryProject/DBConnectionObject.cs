@@ -498,7 +498,7 @@ namespace RADGSHALibrary
 
         }
    
-        public List<Patient> queryPatient(string ssn, string lastName, string firstName)
+        public List<Patient> queryPatient(string ssn, string lastName, string firstName, string roomNum)
         {
 
             string procedureName = "queryPatient";
@@ -507,6 +507,7 @@ namespace RADGSHALibrary
             parameters.Add(new SqlParameter("@ssn", ssn));
             parameters.Add(new SqlParameter("@lastName", lastName));
             parameters.Add(new SqlParameter("@firstName", firstName));
+            parameters.Add(new SqlParameter("@roomNum", roomNum));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             List<Patient> results = new List<Patient>();
