@@ -134,7 +134,7 @@
         protected System.Windows.Forms.Button addPatientButton;
         protected System.Windows.Forms.Button importToolButton;
         protected System.Windows.Forms.Button logOutButton;
-        private System.Windows.Forms.Timer autoLogout;
         private System.Windows.Forms.Label labelTimeout;
+        protected System.Windows.Forms.Timer autoLogout;
     }
 }
