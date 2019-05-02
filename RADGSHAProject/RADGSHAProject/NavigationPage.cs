@@ -48,7 +48,6 @@ namespace RADGSHAProject
             this.Hide();
             LoginPage L = new LoginPage();
             L.Closed += (s, args) => this.Close();
-            this.Dispose();
             L.Show();
         }
 

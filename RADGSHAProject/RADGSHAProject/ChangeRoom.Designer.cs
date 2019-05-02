@@ -31,7 +31,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.submitButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.roomField = new System.Windows.Forms.TextBox();
+            this.RoomListView = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // label2
@@ -65,21 +66,31 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // comboBox1
+            // roomField
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(219, 33);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 12;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.roomField.Location = new System.Drawing.Point(219, 33);
+            this.roomField.Name = "roomField";
+            this.roomField.Size = new System.Drawing.Size(129, 20);
+            this.roomField.TabIndex = 12;
+            this.roomField.TextChanged += new System.EventHandler(this.roomField_TextChanged);
+            // 
+            // RoomListView
+            // 
+            this.RoomListView.Location = new System.Drawing.Point(33, 75);
+            this.RoomListView.Name = "RoomListView";
+            this.RoomListView.Size = new System.Drawing.Size(314, 90);
+            this.RoomListView.TabIndex = 13;
+            this.RoomListView.UseCompatibleStateImageBehavior = false;
+            this.RoomListView.SelectedIndexChanged += new System.EventHandler(this.RoomListView_SelectedIndexChanged);
+            this.RoomListView.Leave += new System.EventHandler(this.RoomListView_Leave);
             // 
             // ChangeRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(396, 258);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.RoomListView);
+            this.Controls.Add(this.roomField);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.label2);
@@ -96,6 +107,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox roomField;
+        private System.Windows.Forms.ListView RoomListView;
     }
 }
