@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelTimeout = new System.Windows.Forms.Label();
             this.logOutButton = new System.Windows.Forms.Button();
             this.searchPatientButton = new System.Windows.Forms.Button();
             this.addPatientButton = new System.Windows.Forms.Button();
             this.importToolButton = new System.Windows.Forms.Button();
             this.autoLogout = new System.Windows.Forms.Timer(this.components);
-            this.labelTimeout = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +51,15 @@
             this.groupBox1.Size = new System.Drawing.Size(136, 339);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
+            // 
+            // labelTimeout
+            // 
+            this.labelTimeout.AutoSize = true;
+            this.labelTimeout.ForeColor = System.Drawing.Color.Red;
+            this.labelTimeout.Location = new System.Drawing.Point(7, 259);
+            this.labelTimeout.Name = "labelTimeout";
+            this.labelTimeout.Size = new System.Drawing.Size(0, 13);
+            this.labelTimeout.TabIndex = 4;
             // 
             // logOutButton
             // 
@@ -98,18 +107,8 @@
             // 
             // autoLogout
             // 
-            this.autoLogout.Enabled = true;
             this.autoLogout.Interval = 1000;
             this.autoLogout.Tick += new System.EventHandler(this.autoLogout_Tick);
-            // 
-            // labelTimeout
-            // 
-            this.labelTimeout.AutoSize = true;
-            this.labelTimeout.ForeColor = System.Drawing.Color.Red;
-            this.labelTimeout.Location = new System.Drawing.Point(7, 259);
-            this.labelTimeout.Name = "labelTimeout";
-            this.labelTimeout.Size = new System.Drawing.Size(0, 13);
-            this.labelTimeout.TabIndex = 4;
             // 
             // NavigationPage
             // 

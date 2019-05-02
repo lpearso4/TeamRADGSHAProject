@@ -19,6 +19,7 @@ namespace RADGSHAProject
         public NavigationPage()
         {
             time = TimeSpan.Zero;
+            autoLogout.Enabled = true;
             InitializeComponent();
         }
 
