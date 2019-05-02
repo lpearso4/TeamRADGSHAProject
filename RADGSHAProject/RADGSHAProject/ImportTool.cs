@@ -103,6 +103,7 @@ namespace RADGSHAProject
             logOutButton.Enabled = false;
             labelStatus.Text = "Import has begun please wait...";
             timerStatus.Enabled = true;
+            autoLogout.Enabled = false;
         }
 
         private void DataImportType_SelectedIndexChanged(object sender, EventArgs e)
@@ -130,6 +131,7 @@ namespace RADGSHAProject
                 searchPatientButton.Enabled = true;
                 addPatientButton.Enabled = true;
                 logOutButton.Enabled = true;
+                autoLogout.Enabled = true;
             }
         }
     }

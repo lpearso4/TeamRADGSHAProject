@@ -14,7 +14,7 @@ namespace RADGSHAProject
     public partial class MainPage : NavigationPage
     {
         
-        User user;
+        //User user;
 
 
 
@@ -25,7 +25,9 @@ namespace RADGSHAProject
         public MainPage(User newUser, LoginPage loginPage)
         {
             InitializeComponent();
-            user = newUser;
+
+            loggedInUser = newUser;
+            /*user = newUser;
             if (user.isAdmin())
             {
                 importToolButton.Visible = true;
@@ -34,8 +36,9 @@ namespace RADGSHAProject
             {
                 importToolButton.Visible = false;
             }
-            lblUser.Text = user.getUsername();
+            lblUser.Text = user.getUsername();*/
             NavigationPage.loginPage = loginPage;
+            this.updateUserInfo();
         }
         public MainPage(LoginPage loginPage)
         {
