@@ -281,6 +281,29 @@ namespace RADGSHALibrary
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
         }
+        public Inventory getInventory(string stockID)
+        {
+            string queryString = "getInventory";
+            SqlCommand command = new SqlCommand(queryString, conn);
+
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockID", stockID));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+            string sstockID = reader.GetString((int)InvCol.StockID);
+            string description = reader.GetString((int)InvCol.Description);
+            decimal cost = reader.GetDecimal((int)InvCol.Cost);
+            Inventory result = new Inventory(sstockID,description,cost);
+
+            reader.Close();
+
+            return result;
+
+        }
         public List<Inventory> queryInventory(string queryDescription)
         {
             string queryString = "queryInventory";
@@ -522,7 +545,7 @@ namespace RADGSHALibrary
 
         }
    
-        public List<Patient> queryPatient(string ssn, string lastName, string firstName)
+        public List<Patient> queryPatient(string ssn, string lastName, string firstName, string roomNum)
         {
 
             string procedureName = "queryPatient";
@@ -531,6 +554,7 @@ namespace RADGSHALibrary
             parameters.Add(new SqlParameter("@ssn", ssn));
             parameters.Add(new SqlParameter("@lastName", lastName));
             parameters.Add(new SqlParameter("@firstName", firstName));
+            parameters.Add(new SqlParameter("@roomNum", roomNum));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             List<Patient> results = new List<Patient>();
@@ -879,6 +903,7 @@ namespace RADGSHALibrary
             parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
+            reader.Read();
             bool service = reader.GetBoolean(0);
 
             closeReader(ref reader);
@@ -892,7 +917,7 @@ namespace RADGSHALibrary
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
-
+            reader.Read();
             bool item = reader.GetBoolean(0);
 
             closeReader(ref reader);

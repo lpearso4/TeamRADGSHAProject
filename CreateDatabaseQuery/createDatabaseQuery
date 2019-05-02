@@ -417,10 +417,25 @@ BEGIN
 END
 GO
 
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 3/28/2019
--- Description:	takes 3 variables and returns patients that begin with the given variables
+-- Description:	takes 4 variables and returns patients that begin with the given variables
 -- =============================================
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryPatient]'))
    exec('CREATE PROCEDURE [dbo].[queryPatient] AS BEGIN SET NOCOUNT ON; END')
@@ -428,8 +443,8 @@ GO
 
 ALTER PROCEDURE queryPatient
 	-- Add the parameters for the stored procedure here
-	@ssn nvarchar(9), @lastName nvarchar(50), 
-	@firstName nvarchar(50)
+	@ssn nvarchar(9) = null, @lastName nvarchar(50) = null, 
+	@firstName nvarchar(50)= null, @roomNum nvarchar(10) = null
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -437,11 +452,13 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
+	SELECT * FROM Patient p INNER JOIN StaysIn s ON s.PatientId = p.SSN WHERE p.SSN LIKE (@ssn + '%') AND p.LastName 
+	LIKE (@lastName + '%') AND p.FirstName LIKE (@firstName + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY LastName, FirstName, MiddleInitial
 
-	EXEC('SELECT * FROM Patient WHERE SSN LIKE ''' + @ssn + '%'' AND LastName LIKE ''' + @lastName + '%'' AND FirstName LIKE ''' + @firstName +'%'' ORDER BY LastName, FirstName, MiddleInitial')
 
 END
 GO
+
 
 -- =============================================
 -- Author:		Matt
@@ -1251,6 +1268,31 @@ GO
 
 -- =============================================
 -- Author:		Justin
+-- Create date: 5/1/2019
+-- Description:	takes stockID and returns inventory item row that matches
+-- =============================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[getInventory]'))
+   exec('CREATE PROCEDURE [dbo].[getInventory] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE getInventory
+	-- Add the parameters for the stored procedure here
+	@stockID nvarchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	EXEC('SELECT * FROM Inventory WHERE stockID=' +  @stockID)
+
+END
+GO
+
+-- =============================================
+-- Author:		Justin
 -- Create date: 4/30/2019
 -- Description:	takes 2 variables and returns rows matching in the use table
 -- =============================================
@@ -1503,6 +1545,193 @@ BEGIN
 
 END
 GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 4/30/2019
+-- Description:	its complicated
+-- =============================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[diagnosisWizard]'))
+   exec('CREATE PROCEDURE [dbo].[diagnosisWizard] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+ALTER PROCEDURE diagnosisWizard
+	-- Add the parameters for the stored procedure here
+	@previousResponses nvarchar(MAX) = null
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    	-- Insert statements for procedure here
+
+	/* temporary tables for executing a for each loop and to hold the list of all symptoms */
+	DECLARE @allRecords table (symptomName nvarchar(50), patientId nvarchar(9), enrtyDate datetime, diagnosis nvarchar(50))
+	DECLARE @distinctSymptom table (symptomName nvarchar(50), percentage decimal(5,5))
+	DECLARE @allDiagnosis table (diagnosis nvarchar(50))
+	DECLARE @diagnosisToDelete table (diagnosis nvarchar(50))
+	DECLARE @distinctDiagnosis table (diagnosis nvarchar(50))
+	DECLARE @results table (diagnosis nvarchar(50), perc DEC(5,5))
+	DECLARE @previousResultsTable table (i nvarchar(50))
+	/* declare variables*/
+	DECLARE @calculation DEC(5, 5)
+	DECLARE @counter int = 1
+	DECLARE @maxCount int
+	DECLARE @diagnosisName nvarchar(50)
+	DECLARE @numberOfOccurances int
+	DECLARE @totalnumberOfOccurances int
+	DECLARE @currentResult nvarchar(1)
+	DECLARE @currentResultName nvarchar(50)
+	DECLARE @currentResultSymptom table (name nvarchar(50), percentage decimal(5,5))
+
+	-- set values into @allRecords
+	INSERT INTO @allRecords (symptomName, patientId, enrtyDate, diagnosis) SELECT s.SymptomName, v.PatientId, v.EntryDate, v.Diagnosis FROM Symptom s INNER JOIN Visit v ON v.PatientId = s.PatientId
+	SET @totalnumberOfOccurances = (SELECT COUNT(SymptomName) FROM @allRecords)
+
+	-- delete values based on previous responses
+	IF (@previousResponses IS NOT NULL)
+	BEGIN
+		INSERT INTO @previousResultsTable(i) SELECT value FROM STRING_SPLIT(@previousResponses, ',');
+		SET @maxCount = ((SELECT COUNT(*) from @previousResultsTable) / 2)
+
+		
+		WHILE(@counter <= @maxCount)
+		BEGIN
+			SET ROWCOUNT 1
+			SET @currentResult = (SELECT top 1 i FROM @previousResultsTable)
+			DELETE FROM @previousResultsTable WHERE i = (SELECT top 1 i FROM @previousResultsTable)
+			SET @currentResultName = (SELECT top 1 i FROM @previousResultsTable)
+			DELETE FROM @previousResultsTable WHERE i = (SELECT top 1 i FROM @previousResultsTable)
+			SET ROWCOUNT 0
+
+			-- currently not working as desired, if current result = 1 then all diagnosis that dont contain the symptom should be deleted
+			-- if result = 0 then all diagnosis that do not contain symptom should be deleted
+			--   /
+			--  /
+			-- /
+			--|----------------------------
+			-- \
+			--  \ 
+			--   \
+			IF (@currentResult = 1)
+			BEGIN
+				DELETE FROM @allRecords WHERE symptomName = @currentResultName
+				--DELETE FROM @allRecords WHERE diagnosis IN (SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName = @currentResultName)
+				--DELETE FROM @allRecords WHERE symptomName = @currentResultName
+			END
+			ELSE 
+			BEGIN
+				INSERT INTO @diagnosisToDelete (diagnosis) SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName <> @currentResultName
+				DELETE FROM @allRecords WHERE diagnosis IN (SELECT * FROM @diagnosisToDelete)
+				--SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName <> @currentResultName
+			END
+			SET @counter = @counter  + 1 
+		END
+	END
+
+	-- puts top 100 results into table to determine symptom to query
+	INSERT INTO @currentResultSymptom (name, percentage) SELECT top 100 symptomName, CAST(CAST(COUNT(*) as float)/CAST(@totalnumberOfOccurances as float) as decimal(5,5)) FROM @allRecords GROUP BY symptomName ORDER BY COUNT(*) DESC
+
+	-- add values to distinctSymptom for next calculation
+	INSERT INTO @distinctSymptom (symptomName, percentage) SELECT name, percentage FROM @currentResultSymptom
+	SET @maxCount = 100
+
+	-- update values if above .5 to be distance from .5
+	WHILE(@counter < @maxCount)
+	BEGIN
+		--update distance from .5
+		IF ((SELECT top 1 percentage FROM @distinctSymptom) > .5) UPDATE @currentResultSymptom SET percentage = ((SELECT top 1 percentage FROM @distinctSymptom) - .5) WHERE name = (SELECT top 1 symptomName FROM @distinctSymptom)
+		SET @counter = @counter  + 1 
+	END
+
+	IF (@currentResult IS NOT null)
+	BEGIN
+		-- set values for calculations and loop
+		SET @totalnumberOfOccurances = (SELECT COUNT(Diagnosis) FROM @allRecords)
+		INSERT INTO @allDiagnosis (Diagnosis) SELECT Diagnosis FROM Visit WHERE PatientId IN (SELECT PatientId FROM @allRecords)
+		INSERT INTO @distinctDiagnosis (diagnosis) SELECT DISTINCT(diagnosis) FROM @allRecords
+		SET @maxCount = (SELECT COUNT(*) FROM @distinctDiagnosis)
+		SET @counter = 1
+
+		--for each loop to loop through and calculate results and put into tables for output
+		WHILE(@counter <= @maxCount)
+		BEGIN
+			--set variables
+			SET @diagnosisName = (SELECT top 1 diagnosis FROM @distinctDiagnosis)
+			SET @numberOfOccurances = (SELECT COUNT(diagnosis) FROM @allDiagnosis WHERE diagnosis = @diagnosisName)
+			SET @calculation = CAST(@numberOfOccurances as float)/CAST(@totalnumberOfOccurances as float)
+
+			INSERT INTO @results (diagnosis, perc) VALUES (@diagnosisName, @calculation)
+		
+			--delete to use while loop like a 'for each' loop, update counter variable
+			DELETE FROM @distinctDiagnosis WHERE diagnosis = (SELECT top 1 diagnosis FROM @distinctDiagnosis)
+			SET @counter  = @counter  + 1    
+		END
+
+	END
+
+	--output results
+	SELECT top 1 name FROM @currentResultSymptom
+	SELECT top 3 * from @results ORDER BY perc DESC
+	SELECT @previousResponses
+
+END
+GO
+
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Matt
+-- Create date: 5/1/2019
+-- Description:	takes a diagnosis and updates it for the current visit
+-- =============================================
+CREATE OR ALTER PROCEDURE updateDiagnosis
+	-- Add the parameters for the stored procedure here
+	@patientId nvarchar(50), @entryDate datetime,
+	@diagnosis nvarchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+
+	UPDATE Visit SET Diagnosis = @diagnosis
+	WHERE PatientId = @patientId AND EntryDate = @entryDate
+
+END
+GO
+
 
 
 --Leave this line on the bottom to scope back to master afterwards.
