@@ -45,11 +45,6 @@ namespace RADGSHAProject
             P.Closed += (s, args) => this.Close();
             P.Show();
         }
-        
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void submitButton_Click(object sender, EventArgs e)
         {
@@ -61,11 +56,6 @@ namespace RADGSHAProject
         {
             previousForm.Show();
             Close();
-        }
-
-        private void ChangeRoom_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void UpdateRoomList()
@@ -84,9 +74,9 @@ namespace RADGSHAProject
 
             RoomListView.Items.Clear();
 
-            foreach (RADGSHALibrary.Room p in ResultingRoomList)
+            foreach (RADGSHALibrary.Room r in ResultingRoomList)
             {
-                ListViewItem roomResult = new ListViewItem(p.getRoomNumber());
+                ListViewItem roomResult = new ListViewItem(r.getRoomNumber());
             }
 
             if (RoomListView.SelectedItems.Count != 1)
@@ -109,6 +99,12 @@ namespace RADGSHAProject
         {
             if (RoomListView.SelectedItems.Count != 1)
                 submitButton.Enabled = false;
+        }
+
+
+        private void ChangeRoom_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
