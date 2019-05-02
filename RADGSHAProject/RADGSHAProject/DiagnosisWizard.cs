@@ -10,14 +10,15 @@ namespace RADGSHAProject
         Form previousForm;//Used for displaying the previous Form when closing this one
         Visit selectedVisit;
         RADGSHALibrary.Patient selectedPatient;
+        RADGSHALibrary.DiagnosisWizard wizard;
         string currentSymptom = "Lack there of";
         public DiagnosisWizard(RADGSHALibrary.Patient p, Visit v)
         {
             selectedVisit = v;
             selectedPatient = p;
             InitializeComponent();
-            RADGSHALibrary.DiagnosisWizard wizard = new RADGSHALibrary.DiagnosisWizard(ref selectedVisit);
-            currentSymptom = wizard.runDiagnosisWizard();
+            wizard = new RADGSHALibrary.DiagnosisWizard(ref selectedVisit, ref selectedPatient);
+            currentSymptom = wizard.getNextSymptom();
             QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
         }
 
@@ -57,6 +58,20 @@ namespace RADGSHAProject
             Patient P = new Patient(this, selectedPatient);
             P.Closed += (s, args) => this.Close();
             P.Show();
+        }
+
+        private void PatientHasSymptomButton_Click(object sender, EventArgs e)
+        {
+            wizard.clickedYes();
+            currentSymptom = wizard.getNextSymptom();
+            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
+        }
+
+        private void PatientDoesNotHaveSymptomButton_Click(object sender, EventArgs e)
+        {
+            wizard.clickedNo();
+            currentSymptom = wizard.getNextSymptom();
+            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
         }
     }
 }

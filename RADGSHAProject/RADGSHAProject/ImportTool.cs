@@ -14,7 +14,7 @@ namespace RADGSHAProject
     public partial class ImportTool : NavigationPage
     {
         Form previousForm;//Used for displaying the previous Form when closing this one
-
+        ImportToolLibrary.ImportTool IT;
         public ImportTool()//This constructor can probably be safely removed
         {
             InitializeComponent();
@@ -58,7 +58,7 @@ namespace RADGSHAProject
 
         private void importDataButton_Click(object sender, EventArgs e)
         {
-            ImportToolLibrary.ImportTool IT = new ImportToolLibrary.ImportTool();
+            IT = new ImportToolLibrary.ImportTool();
             if (DataImportType.SelectedItems.Count==0)
             {
                 string message = "Please select a file type to import!";
@@ -96,6 +96,13 @@ namespace RADGSHAProject
                 IT.importUserData(DirectoryInputField.Text);
             }
 
+            importDataButton.Enabled = false;
+            importToolButton.Enabled = false;
+            searchPatientButton.Enabled = false;
+            addPatientButton.Enabled = false;
+            logOutButton.Enabled = false;
+            labelStatus.Text = "Import has begun please wait...";
+            timerStatus.Enabled = true;
         }
 
         private void DataImportType_SelectedIndexChanged(object sender, EventArgs e)
@@ -106,6 +113,24 @@ namespace RADGSHAProject
         private void ImportTool_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void timerStatus_Tick(object sender, EventArgs e)
+        {
+            ImportToolLibrary.ImportStatus status = IT.getStatus();
+            progressBar1.Value = (int) status.PercentDone;
+           // Console.WriteLine(status.PercentDone + " or in int = " + (int)status.PercentDone);
+            labelStatus.Text = "Importing record " + status.Imported + " out of " + status.Total;
+
+            if (status.PercentDone==100)
+            {
+                labelStatus.Text = "Import Complete.";
+                importDataButton.Enabled = true;
+                importToolButton.Enabled = true;
+                searchPatientButton.Enabled = true;
+                addPatientButton.Enabled = true;
+                logOutButton.Enabled = true;
+            }
         }
     }
 }

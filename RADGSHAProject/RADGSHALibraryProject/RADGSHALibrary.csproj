@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBConnectionObject.cs" />
+    <Compile Include="DiagnosisWizardResults.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Patient.cs" />

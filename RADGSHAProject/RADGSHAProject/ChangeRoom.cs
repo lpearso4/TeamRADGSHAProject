@@ -48,7 +48,7 @@ namespace RADGSHAProject
         
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void submitButton_Click(object sender, EventArgs e)
@@ -66,6 +66,49 @@ namespace RADGSHAProject
         private void ChangeRoom_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void UpdateRoomList()
+        {
+            Char[] prohibitedChars = { ' ', '*', '.', '\'' };
+            DBConnectionObject DBconnection = DBConnectionObject.getInstance();
+
+            string room = roomField.Text.Trim(prohibitedChars).Replace("'", "’");
+
+            List<RADGSHALibrary.Room> ResultingRoomList = new List<RADGSHALibrary.Room>();
+
+            if (room != "")
+            {
+                ResultingRoomList = DBconnection.queryRoom(room);
+            }
+
+            RoomListView.Items.Clear();
+
+            foreach (RADGSHALibrary.Room p in ResultingRoomList)
+            {
+                ListViewItem roomResult = new ListViewItem(p.getRoomNumber());
+            }
+
+            if (RoomListView.SelectedItems.Count != 1)
+                submitButton.Enabled = false;
+        }
+
+        private void roomField_TextChanged(object sender, EventArgs e)
+        {
+            UpdateRoomList();
+        }
+
+        private void RoomListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            submitButton.Enabled = true;
+            if (RoomListView.SelectedItems.Count != 1)
+                submitButton.Enabled = false;
+        }
+
+        private void RoomListView_Leave(object sender, EventArgs e)
+        {
+            if (RoomListView.SelectedItems.Count != 1)
+                submitButton.Enabled = false;
         }
     }
 }

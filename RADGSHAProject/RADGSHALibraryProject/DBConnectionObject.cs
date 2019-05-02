@@ -18,17 +18,20 @@ namespace RADGSHALibrary
         private enum LogCol : int { StockID, UserName, Date, QuantityUsed };
         private enum ItemCol : int { StockID, Size, Quantity };
         private enum InvCol : int { StockID, Description, Cost };
+        private enum DiagnosisWizardCurrentSymptomCol : int { CurrentResultSymptom };
+        private enum DiagnosisCol : int { DiagnosisName, PercentageChance };
+        private enum DiagnosisWizardPreviousResponseCol : int { previousResponses };
         private enum ServiceCol : int { StockID };
         private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
-        private enum UserCol : int { Username, Password, UserType }; 
+        private enum UserCol : int { Username, Password, UserType };
         private enum VisCol : int { PatientId, EntryDate, ExitDate, AttendingPhysician, Diagnosis };
         private enum SymCol : int { PatientId, EntryDate, SymptomName };
-        private enum UsesCol : int { StockId, PatientId, EntryDateTime };
+        private enum UsesCol : int { StockId, PatientId, EntryDateTime, amount };
 
         private SqlConnection conn;
         private static DBConnectionObject instance;
 
-        
+
         protected DBConnectionObject()
         {
 
@@ -40,7 +43,7 @@ namespace RADGSHALibrary
 
             // On Creation of DBConnectionObject, connect to MSSQL Server   
             string connectionString = "Initial Catalog=" + dbname + "; Data Source=" + datasource + "; Integrated Security=False; User Id=" + dbuser + "; Password=" + dbpass + ";";
-        
+
             conn = new SqlConnection(connectionString);
 
             bool success_connecting = true;
@@ -69,7 +72,7 @@ namespace RADGSHALibrary
         public static DBConnectionObject getInstance()
         {
             if (instance == null) instance = new DBConnectionObject();
-           
+
             return instance;
         }
 
@@ -98,18 +101,18 @@ namespace RADGSHALibrary
              * TODO: Items and Services still need to be attached to the visit! 
              *   
              */
-            
+
             patient.getVisitList().Clear(); // should probably clear the list so as not to duplicate?
 
             string queryString = "getVisits";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@ssn", patient.getSSN()));
-           
+
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();
-          
+
             while (reader.Read())
             {
                 Visit visit = new Visit();
@@ -123,20 +126,20 @@ namespace RADGSHALibrary
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
 
                 patient.addVisit(visit);
-                             
+
             }
             reader.Close();
 
             // while we are getting patient visits, we might as well populate patient symptoms
 
             List<Visit> visits = patient.getVisitList();
-            Console.WriteLine("Visits: " + visits.Count); 
-            for (int i = 0; i<visits.Count;i++)
+            Console.WriteLine("Visits: " + visits.Count);
+            for (int i = 0; i < visits.Count; i++)
             {
-                
+
                 List<string> symptoms = querySymptoms(patient, visits[i]);
                 Console.WriteLine("Symptoms: " + symptoms.Count);
-                
+
                 foreach (string s in symptoms) // add symptoms
                 {
                     Console.WriteLine(s);
@@ -144,7 +147,7 @@ namespace RADGSHALibrary
                     Console.WriteLine("Symptoms LIst: " + patient.getVisitList()[i].getSymptomList().Count);
                 }
                 Visit v = visits[i];
-                
+
                 getRoomList(ref patient, ref v);
 
                 foreach (Room r in visits[i].getRoomList()) // add rooms
@@ -158,7 +161,7 @@ namespace RADGSHALibrary
 
 
         }
-        
+
         public void addVisit(Visit visit, Patient patient)
         {
             bool update = false;
@@ -178,9 +181,9 @@ namespace RADGSHALibrary
             command.Parameters.Add(new SqlParameter("@patientID", patient.getSSN()));
             command.Parameters.Add(new SqlParameter("@entryDate", visit.getEntryDate()));
             command.Parameters.Add(new SqlParameter("@attendingPhysician", visit.getAttendingPhysician()));
-                                                  //  '@attendingPhysician
+            //  '@attendingPhysician
             command.Parameters.Add(new SqlParameter("@diagnosis", visit.getDiagnosis()));
-   
+
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();
@@ -246,12 +249,12 @@ namespace RADGSHALibrary
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();
-            reader.Close();                      
+            reader.Close();
         }
-            /// <summary>
-            /// Inventory DB methods below
-            /// </summary>
-            /// <param name="inventory"></param>
+        /// <summary>
+        /// Inventory DB methods below
+        /// </summary>
+        /// <param name="inventory"></param>
         /* I don't think that we'll need add or update inventory methods, it'll be through add or update item or service
          * private void addInventory(Inventory inventory)
         {
@@ -269,14 +272,37 @@ namespace RADGSHALibrary
             if (update) queryString = "updateInventory";
             SqlCommand command = new SqlCommand(queryString, conn);
             command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID() ));          
-            command.Parameters.Add(new SqlParameter("@description",inventory.getDescription()));
-            command.Parameters.Add(new SqlParameter("@cost",inventory.getCost()));
+            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
+            command.Parameters.Add(new SqlParameter("@description", inventory.getDescription()));
+            command.Parameters.Add(new SqlParameter("@cost", inventory.getCost()));
 
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();
             reader.Close();
+        }
+        public Inventory getInventory(string stockID)
+        {
+            string queryString = "getInventory";
+            SqlCommand command = new SqlCommand(queryString, conn);
+
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@stockID", stockID));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            reader.Read();
+            string sstockID = reader.GetString((int)InvCol.StockID);
+            string description = reader.GetString((int)InvCol.Description);
+            decimal cost = reader.GetDecimal((int)InvCol.Cost);
+            Inventory result = new Inventory(sstockID,description,cost);
+
+            reader.Close();
+
+            return result;
+
         }
         public List<Inventory> queryInventory(string queryDescription)
         {
@@ -297,11 +323,55 @@ namespace RADGSHALibrary
                 string stockID = reader.GetString((int)InvCol.StockID);
                 string description = reader.GetString((int)InvCol.Description);
                 decimal cost = reader.GetDecimal((int)InvCol.Cost);
-                Inventory inv = new Inventory(stockID,description,cost);
+                Inventory inv = new Inventory(stockID, description, cost);
 
                 results.Add(inv);
                 count++;
             }
+            reader.Close();
+
+            return results;
+        }
+
+        public string getDiagnosisWizardSymptomByPreviousResponses(string previousResponses)
+        {
+            RADGSHALibraryProject.DiagnosisWizardResults results = RunDiagnosisWizard(previousResponses);
+            return (results == null) ? "" : results.CurrentBestSymptom;
+        }
+        public string getDiagnosisWizardResultingDiagnosis(string previousResponses)
+        {
+            RADGSHALibraryProject.DiagnosisWizardResults results = RunDiagnosisWizard(previousResponses);
+            return (results == null) ? "" : results.CurrentTopDiagnosis.DiagnosisName;
+        }
+
+        private RADGSHALibraryProject.DiagnosisWizardResults RunDiagnosisWizard(string previousResponses)
+        {
+            string queryString = "diagnosisWizard";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@previousResponses", previousResponses));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            RADGSHALibraryProject.DiagnosisWizardResults results = new RADGSHALibraryProject.DiagnosisWizardResults();
+            
+            reader.Read();
+            string currentBestSymptom = reader.GetString((int)DiagnosisWizardCurrentSymptomCol.CurrentResultSymptom);
+            results.CurrentBestSymptom = currentBestSymptom;
+
+            /*reader.Read();
+            string resultingDiagnosisName = reader.GetString((int)DiagnosisCol.DiagnosisName);
+            string resultingDiagnosisChance = reader.GetString((int)DiagnosisCol.PercentageChance);
+            results.CurrentTopDiagnosis.DiagnosisName = resultingDiagnosisName;
+            results.CurrentTopDiagnosis.DiagnosisName = resultingDiagnosisName;
+            results.CurrentTopDiagnosis.PercentageChance = resultingDiagnosisChance;
+
+            reader.Read();
+            string currentPreviousResponses = reader.GetString((int)DiagnosisWizardPreviousResponseCol.previousResponses);
+            results.PreviousResponses = currentPreviousResponses;*/
+
             reader.Close();
 
             return results;
@@ -475,7 +545,7 @@ namespace RADGSHALibrary
 
         }
    
-        public List<Patient> queryPatient(string ssn, string lastName, string firstName)
+        public List<Patient> queryPatient(string ssn, string lastName, string firstName, string roomNum)
         {
 
             string procedureName = "queryPatient";
@@ -484,6 +554,7 @@ namespace RADGSHALibrary
             parameters.Add(new SqlParameter("@ssn", ssn));
             parameters.Add(new SqlParameter("@lastName", lastName));
             parameters.Add(new SqlParameter("@firstName", firstName));
+            parameters.Add(new SqlParameter("@roomNum", roomNum));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             List<Patient> results = new List<Patient>();
@@ -832,6 +903,7 @@ namespace RADGSHALibrary
             parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
+            reader.Read();
             bool service = reader.GetBoolean(0);
 
             closeReader(ref reader);
@@ -845,12 +917,46 @@ namespace RADGSHALibrary
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@stockId", stock.getStockID()));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
-
+            reader.Read();
             bool item = reader.GetBoolean(0);
 
             closeReader(ref reader);
 
             return item;
+        }
+        public List<string> queryUses(Patient p, Visit v)
+        {
+            string procedureName = "queryUses";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", p.getSSN()));
+            parameters.Add(new SqlParameter("@entryDateTime", v.getEntryDate()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+            List<string> ids = new List<string>();
+            while(reader.Read())
+            {
+                ids.Add(reader.GetString((int)UsesCol.StockId));
+            }
+
+            closeReader(ref reader);
+
+            return ids;
+        }
+        public int getUses(Patient p, Visit v, string stockID) // returns the quantity of the item used
+        {
+            string procedureName = "getUses";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", p.getSSN()));
+            parameters.Add(new SqlParameter("@entryDateTime", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@stockID", stockID));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            reader.Read();
+            
+            int quantity = reader.GetInt32((int)UsesCol.amount);
+
+            closeReader(ref reader);
+
+            return quantity;
         }
 
         public void closeReader(ref SqlDataReader reader)

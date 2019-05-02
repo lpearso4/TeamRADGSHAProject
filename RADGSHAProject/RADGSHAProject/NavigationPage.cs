@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace RADGSHAProject
 {
     public partial class NavigationPage : Form
@@ -17,9 +19,14 @@ namespace RADGSHAProject
         public static LoginPage loginPage;
 
 
+        TimeSpan time;
+        
         public NavigationPage()
         {
+            time = TimeSpan.Zero;
+           
             InitializeComponent();
+            autoLogout.Enabled = true;
         }
 
         public void getSearchPatientInstance()
@@ -76,6 +83,27 @@ namespace RADGSHAProject
         private void NavigationPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             loginPage.Close();
+        }
+
+        private void NavigationPage_MouseMove(object sender, MouseEventArgs e)
+        {
+            time = TimeSpan.Zero;
+            labelTimeout.Text = "";
+        }
+
+        private void autoLogout_Tick(object sender, EventArgs e)
+        {
+            time = time + new TimeSpan(0, 0, 1);
+
+            if (time.TotalMinutes>4)
+            {
+                labelTimeout.Text = "Auto-logout in " + ((5 * 60) - time.TotalSeconds) + " seconds"; 
+            }
+            
+            if (time.TotalMinutes>=5)
+            {
+                logOutButton_Click(sender, e);
+            }
         }
     }
 }

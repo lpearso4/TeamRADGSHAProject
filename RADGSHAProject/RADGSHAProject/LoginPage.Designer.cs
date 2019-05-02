@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.loginButton = new System.Windows.Forms.Button();
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.timerLogin = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // loginButton
@@ -76,6 +78,11 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // timerLogin
+            // 
+            this.timerLogin.Interval = 1000;
+            this.timerLogin.Tick += new System.EventHandler(this.timerLogin_Tick);
+            // 
             // LoginPage
             // 
             this.AcceptButton = this.loginButton;
@@ -101,6 +108,7 @@
         private System.Windows.Forms.TextBox usernameTextBox;
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timerLogin;
     }
 }
 

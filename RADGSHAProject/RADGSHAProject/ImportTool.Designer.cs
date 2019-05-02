@@ -28,11 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.chooseFileButton = new System.Windows.Forms.Button();
             this.DirectoryInputField = new System.Windows.Forms.TextBox();
             this.importDataButton = new System.Windows.Forms.Button();
             this.DataImportType = new System.Windows.Forms.CheckedListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelStatus = new System.Windows.Forms.Label();
+            this.timerStatus = new System.Windows.Forms.Timer(this.components);
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // chooseFileButton
@@ -88,11 +94,44 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(15, 35);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(341, 23);
+            this.progressBar1.Step = 1;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 6;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.labelStatus);
+            this.groupBox2.Controls.Add(this.progressBar1);
+            this.groupBox2.Location = new System.Drawing.Point(153, 250);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(374, 105);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Import Status";
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Location = new System.Drawing.Point(12, 73);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(0, 13);
+            this.labelStatus.TabIndex = 8;
+            // 
+            // timerStatus
+            // 
+            this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
+            // 
             // ImportTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(733, 381);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.DataImportType);
             this.Controls.Add(this.importDataButton);
             this.Controls.Add(this.DirectoryInputField);
@@ -107,6 +146,9 @@
             this.Controls.SetChildIndex(this.DirectoryInputField, 0);
             this.Controls.SetChildIndex(this.importDataButton, 0);
             this.Controls.SetChildIndex(this.DataImportType, 0);
+            this.Controls.SetChildIndex(this.groupBox2, 0);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -118,5 +160,9 @@
         private System.Windows.Forms.Button importDataButton;
         private System.Windows.Forms.CheckedListBox DataImportType;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.Timer timerStatus;
     }
 }

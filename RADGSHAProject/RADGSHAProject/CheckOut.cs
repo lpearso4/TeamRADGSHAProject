@@ -47,16 +47,66 @@ namespace RADGSHAProject
                 DateTime entry; DateTime roomExit; bool stillInRoom;
                 conn.getRoomEntryExitDates(selectedPatient, selectedVisit, r, out entry, out roomExit, out stillInRoom);
                 if (stillInRoom) roomExit = DateTime.Now;
-                TimeSpan length = roomExit - entry;
-               
-                roomNumber.SubItems.Add(length.ToString());
+                TimeSpan length = (roomExit - entry);
+                string lengthOfStay="";
+                if (length.Days > 0) lengthOfStay += length.Days.ToString() + " Days, ";
+                if (length.Hours > 0) lengthOfStay += length.Hours.ToString() + " Hours, ";
+                lengthOfStay += length.Minutes.ToString() + " Minutes";
+                roomNumber.SubItems.Add(lengthOfStay);
                 // Charge
-                decimal amnt = (decimal)length.TotalHours * r.getHourlyRate();
+                //decimal lengthAdjusted = (decimal)length.TotalDays * 24;
+                //Console.WriteLine(lengthAdjusted);
+                decimal lengthAdjusted = (decimal)length.TotalHours;
+                Console.WriteLine(lengthAdjusted);
+               // lengthAdjusted += (decimal)length.TotalMinutes / 60;
+                Console.WriteLine(lengthAdjusted);
+                decimal amnt = lengthAdjusted * r.getHourlyRate();
+                amnt = Decimal.Round(amnt, 2);
+
                 roomNumber.SubItems.Add(amnt.ToString());
 
                 roomListView.Items.Add(roomNumber);
                 roomSubtotal += amnt;
             }
+
+            List<string> inventoryUsed = conn.queryUses(selectedPatient, selectedVisit);
+            List<int> quantityUsed = new List<int>();
+            
+            foreach(string s in inventoryUsed )
+            {
+                int quantity = conn.getUses(selectedPatient, selectedVisit, s);
+                quantityUsed.Add(quantity);
+                RADGSHALibrary.Inventory i = conn.getInventory(s);
+
+                if(conn.isItem(i)) // add to items
+                {
+                    decimal curCost = 0;
+                    ListViewItem items = new ListViewItem(i.getDescription());
+                    items.SubItems.Add(quantity.ToString());
+                    curCost = i.getCost();
+                    items.SubItems.Add(curCost.ToString());
+                    decimal itemTotal = curCost * quantity;
+                    items.SubItems.Add(itemTotal.ToString());
+                    inventorySubtotal += itemTotal;
+                    suppliesListView.Items.Add(items);
+                }
+                else // add to services
+                {
+                    decimal curCost = 0;
+                    ListViewItem items = new ListViewItem(i.getDescription());
+                   // items.SubItems.Add(quantity.ToString());
+                    curCost = i.getCost();
+                    items.SubItems.Add(curCost.ToString());
+                   // decimal itemTotal = curCost * quantity;
+                   // items.SubItems.Add(itemTotal.ToString());
+                    serviceSubtotal += curCost;
+                    proceduresListView.Items.Add(items);
+                }
+            }
+
+            roomSubtotal = Decimal.Round(roomSubtotal, 2);
+           serviceSubtotal =  Decimal.Round(serviceSubtotal, 2);
+           inventorySubtotal =  Decimal.Round(inventorySubtotal, 2);
 
             textRoomSub.Text = roomSubtotal.ToString();
             textServicesSub.Text = serviceSubtotal.ToString();
@@ -89,11 +139,16 @@ namespace RADGSHAProject
                 conn.getRoomEntryExitDates(selectedPatient, selectedVisit, r, out date, out date, out stillInRoom);
                 if (stillInRoom) conn.closeStaysIn(selectedPatient, selectedVisit, r, exit);
             }
-               
+            selectedPatient.checkOut();   
             goBack();
         }
 
         private void CheckOut_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void proceduresListView_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

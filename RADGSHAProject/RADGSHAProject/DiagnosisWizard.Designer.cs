@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "Appetite Suppression",
             "20%"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "Test Symptom",
             "1%"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "Brain Fog",
             "100%"}, -1);
             this.QuestionLabel = new System.Windows.Forms.Label();
@@ -70,6 +70,7 @@
             this.PatientHasSymptomButton.TabIndex = 7;
             this.PatientHasSymptomButton.Text = "YES";
             this.PatientHasSymptomButton.UseVisualStyleBackColor = true;
+            this.PatientHasSymptomButton.Click += new System.EventHandler(this.PatientHasSymptomButton_Click);
             // 
             // PatientDoesNotHaveSymptomButton
             // 
@@ -80,6 +81,7 @@
             this.PatientDoesNotHaveSymptomButton.TabIndex = 8;
             this.PatientDoesNotHaveSymptomButton.Text = "NO";
             this.PatientDoesNotHaveSymptomButton.UseVisualStyleBackColor = true;
+            this.PatientDoesNotHaveSymptomButton.Click += new System.EventHandler(this.PatientDoesNotHaveSymptomButton_Click);
             // 
             // groupBox2
             // 
@@ -133,9 +135,9 @@
             this.SymptomListView.FullRowSelect = true;
             this.SymptomListView.GridLines = true;
             this.SymptomListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.SymptomListView.Location = new System.Drawing.Point(54, 43);
             this.SymptomListView.Name = "SymptomListView";
             this.SymptomListView.Size = new System.Drawing.Size(546, 101);

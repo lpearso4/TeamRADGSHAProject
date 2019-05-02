@@ -1,0 +1,7 @@
+testUser                 password                                          R
+Justin                   password                                          R
+Anh                      password                                          R
+Randy                    password                                          R
+Matt                     password                                          R
+Louis                    password                                          R
+testAdmin                password                                          A

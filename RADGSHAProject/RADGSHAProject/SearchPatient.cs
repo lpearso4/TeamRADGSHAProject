@@ -73,12 +73,13 @@ namespace RADGSHAProject
             string patientSSN = PatientSSNField.Text.Trim(prohibitedChars).Replace("'", "’");
             string patientLastName = PatientLastNameField.Text.Trim(prohibitedChars).Replace("'", "’");
             string patientFirstName = PatientFirstNameField.Text.Trim(prohibitedChars).Replace("'", "’");
+            string roomNum = VisitRoomNumberField.Text.Trim(prohibitedChars).Replace("'", "’");
 
             List<RADGSHALibrary.Patient> ResultingPatientList = new List<RADGSHALibrary.Patient>();
 
-            if (patientSSN != "" || patientLastName!="" || patientFirstName!= "")
+            if (patientSSN != "" || patientLastName!="" || patientFirstName!= "" || roomNum != "")
             {
-                ResultingPatientList = DBconnection.queryPatient(patientSSN, patientLastName, patientFirstName);
+                ResultingPatientList = DBconnection.queryPatient(patientSSN, patientLastName, patientFirstName, roomNum);
             }
 
             PatientListView.Items.Clear();
@@ -89,8 +90,7 @@ namespace RADGSHAProject
 
                 patientResult.SubItems.Add(p.getLastName());
                 patientResult.SubItems.Add(p.getSSN());
-                PatientListView.Items.Add(patientResult);
-               
+                PatientListView.Items.Add(patientResult);               
             }
 
             if (PatientListView.SelectedItems.Count != 1)
