@@ -66,12 +66,12 @@
             this.checkInOutButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.prevNotes = new System.Windows.Forms.TextBox();
+            this.prevDiagnosis = new System.Windows.Forms.TextBox();
+            this.prevSymptoms = new System.Windows.Forms.TextBox();
+            this.prevAttendingPhys = new System.Windows.Forms.TextBox();
+            this.previousExitDate = new System.Windows.Forms.TextBox();
+            this.previousEntryDate = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -353,6 +353,7 @@
             // 
             this.visitRoomNumber.Location = new System.Drawing.Point(429, 27);
             this.visitRoomNumber.Name = "visitRoomNumber";
+            this.visitRoomNumber.ReadOnly = true;
             this.visitRoomNumber.Size = new System.Drawing.Size(100, 20);
             this.visitRoomNumber.TabIndex = 10;
             // 
@@ -464,12 +465,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox7);
-            this.groupBox2.Controls.Add(this.textBox6);
-            this.groupBox2.Controls.Add(this.textBox5);
-            this.groupBox2.Controls.Add(this.textBox4);
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.prevNotes);
+            this.groupBox2.Controls.Add(this.prevDiagnosis);
+            this.groupBox2.Controls.Add(this.prevSymptoms);
+            this.groupBox2.Controls.Add(this.prevAttendingPhys);
+            this.groupBox2.Controls.Add(this.previousExitDate);
+            this.groupBox2.Controls.Add(this.previousEntryDate);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
@@ -483,47 +484,53 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Previous Visit Info";
             // 
-            // textBox7
+            // prevNotes
             // 
-            this.textBox7.Location = new System.Drawing.Point(335, 108);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(281, 20);
-            this.textBox7.TabIndex = 11;
+            this.prevNotes.Location = new System.Drawing.Point(335, 108);
+            this.prevNotes.Name = "prevNotes";
+            this.prevNotes.ReadOnly = true;
+            this.prevNotes.Size = new System.Drawing.Size(281, 20);
+            this.prevNotes.TabIndex = 11;
             // 
-            // textBox6
+            // prevDiagnosis
             // 
-            this.textBox6.Location = new System.Drawing.Point(81, 108);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(166, 20);
-            this.textBox6.TabIndex = 10;
+            this.prevDiagnosis.Location = new System.Drawing.Point(81, 108);
+            this.prevDiagnosis.Name = "prevDiagnosis";
+            this.prevDiagnosis.ReadOnly = true;
+            this.prevDiagnosis.Size = new System.Drawing.Size(166, 20);
+            this.prevDiagnosis.TabIndex = 10;
             // 
-            // textBox5
+            // prevSymptoms
             // 
-            this.textBox5.Location = new System.Drawing.Point(82, 82);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(534, 20);
-            this.textBox5.TabIndex = 9;
+            this.prevSymptoms.Location = new System.Drawing.Point(82, 82);
+            this.prevSymptoms.Name = "prevSymptoms";
+            this.prevSymptoms.ReadOnly = true;
+            this.prevSymptoms.Size = new System.Drawing.Size(534, 20);
+            this.prevSymptoms.TabIndex = 9;
             // 
-            // textBox4
+            // prevAttendingPhys
             // 
-            this.textBox4.Location = new System.Drawing.Point(125, 56);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(122, 20);
-            this.textBox4.TabIndex = 8;
+            this.prevAttendingPhys.Location = new System.Drawing.Point(125, 56);
+            this.prevAttendingPhys.Name = "prevAttendingPhys";
+            this.prevAttendingPhys.ReadOnly = true;
+            this.prevAttendingPhys.Size = new System.Drawing.Size(122, 20);
+            this.prevAttendingPhys.TabIndex = 8;
             // 
-            // textBox3
+            // previousExitDate
             // 
-            this.textBox3.Location = new System.Drawing.Point(335, 30);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(162, 20);
-            this.textBox3.TabIndex = 7;
+            this.previousExitDate.Location = new System.Drawing.Point(335, 30);
+            this.previousExitDate.Name = "previousExitDate";
+            this.previousExitDate.ReadOnly = true;
+            this.previousExitDate.Size = new System.Drawing.Size(162, 20);
+            this.previousExitDate.TabIndex = 7;
             // 
-            // textBox1
+            // previousEntryDate
             // 
-            this.textBox1.Location = new System.Drawing.Point(82, 30);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(165, 20);
-            this.textBox1.TabIndex = 6;
+            this.previousEntryDate.Location = new System.Drawing.Point(82, 30);
+            this.previousEntryDate.Name = "previousEntryDate";
+            this.previousEntryDate.ReadOnly = true;
+            this.previousEntryDate.Size = new System.Drawing.Size(165, 20);
+            this.previousEntryDate.TabIndex = 6;
             // 
             // label9
             // 
@@ -614,6 +621,7 @@
             this.listPreviousVisits.UseCompatibleStateImageBehavior = false;
             this.listPreviousVisits.View = System.Windows.Forms.View.Details;
             this.listPreviousVisits.SelectedIndexChanged += new System.EventHandler(this.listPreviousVisits_SelectedIndexChanged);
+            this.listPreviousVisits.Click += new System.EventHandler(this.listPreviousVisits_Click);
             // 
             // visitDate
             // 
@@ -717,12 +725,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox prevNotes;
+        private System.Windows.Forms.TextBox prevDiagnosis;
+        private System.Windows.Forms.TextBox prevSymptoms;
+        private System.Windows.Forms.TextBox prevAttendingPhys;
+        private System.Windows.Forms.TextBox previousExitDate;
+        private System.Windows.Forms.TextBox previousEntryDate;
         private System.Windows.Forms.DateTimePicker dateBirthdate;
         private System.Windows.Forms.TextBox visitRoomNumber;
         private System.Windows.Forms.Label labelAttending;

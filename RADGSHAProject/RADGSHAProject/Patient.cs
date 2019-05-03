@@ -102,12 +102,25 @@ namespace RADGSHAProject
                 if (selectedVisit != null && selectedVisit.getEntryDate() == v.getEntryDate()) continue; // we don't want to display current visit in previous visit list 
                 Console.WriteLine("Adding previous visit at date: " + v.getEntryDate().ToShortDateString());
 
-                ListViewItem previousVisit = new ListViewItem(v.getEntryDate().ToShortDateString());
+                ListViewItem previousVisit = new ListViewItem(v.getEntryDate().ToString());
                 previousVisit.SubItems.Add(v.getAttendingPhysician());
                 previousVisit.SubItems.Add(v.getDiagnosis());
                
                // previousVisitList.Items.Add(previousVisit);
                 listPreviousVisits.Items.Add(previousVisit);
+            }
+
+            if (selectedVisit == null)
+            {
+                textSymptoms.Enabled = true;
+                VisitDiagnosisTextBox.Enabled = true;
+                textAttendingPhy.Enabled = true;
+            }
+            else
+            {
+                textSymptoms.Enabled = false;
+                VisitDiagnosisTextBox.Enabled = false;
+                textAttendingPhy.Enabled = false;
             }
         }
 
@@ -139,6 +152,10 @@ namespace RADGSHAProject
             patientGenderTextBox.Enabled = true;
             //patientBirthdateTextBox.Enabled = true;
             dateBirthdate.Enabled = true;
+
+            textSymptoms.Enabled = true;
+            VisitDiagnosisTextBox.Enabled = true;
+            textAttendingPhy.Enabled = true;
         }
 
         private void disableCurrentPatientTextBoxes()
@@ -154,6 +171,12 @@ namespace RADGSHAProject
             patientGenderTextBox.Enabled = false;
             
             dateBirthdate.Enabled = false;
+            if (selectedVisit != null)
+            {
+                textSymptoms.Enabled = false;
+                VisitDiagnosisTextBox.Enabled = false;
+                textAttendingPhy.Enabled = false;
+            }
         }
 
         private void saveCurrentPatient()
@@ -169,9 +192,34 @@ namespace RADGSHAProject
             selectedPatient.setState(patientStateTextBox.Text);
             selectedPatient.setZipcode(patientZipTextBox.Text);
             selectedPatient.setGender(patientGenderTextBox.Text[0]);
-            //selectedPatient.setBirthDate(DateTime.Parse(patientBirthdateTextBox.ToString()));
+           
             selectedPatient.setBirthDate(dateBirthdate.Value);
+
             conn.updatePatient(selectedPatient);
+
+            if (selectedVisit!=null)
+            {
+                selectedVisit.setEntryDate(EntryDatePicker.Value);
+                selectedVisit.setAttendingPhysician(textAttendingPhy.Text);
+                selectedVisit.changeDiagnosis(VisitDiagnosisTextBox.Text);
+                
+                for(int i = 0; i<textSymptoms.Lines.Length;i++)
+                {
+                    bool hasSymptom = false; ;
+                    foreach(string s in selectedVisit.getSymptomList())
+                    {
+                        if (textSymptoms.Lines[i].Trim() == s) hasSymptom = true;
+                    }
+                    if (hasSymptom==false)
+                    {
+                        conn.addSymptom(selectedPatient, selectedVisit, textSymptoms.Lines[i].Trim());
+                        
+                    }
+                }
+                
+                conn.updateVisit(selectedVisit, selectedPatient);
+            }
+            
         }
 
         private void Patient_Load(object sender, EventArgs e)
@@ -191,6 +239,7 @@ namespace RADGSHAProject
         {
             ChangeRoom C = new ChangeRoom(this, ref selectedPatient, ref selectedVisit);
             C.ShowDialog();
+            displayPatient();
         }
 
         private void diagnosisWizardButton_Click(object sender, EventArgs e)
@@ -237,7 +286,8 @@ namespace RADGSHAProject
                 selectedVisit.setAttendingPhysician(textAttendingPhy.Text);
          
                 ChangeRoom C = new ChangeRoom(this,ref selectedPatient, ref selectedVisit);
-                C.Closed += (s, args) => this.Close();
+
+               // C.Closed += (s, args) => this.Close();
                 C.ShowDialog();
                 conn.addVisit(selectedVisit, selectedPatient);
                // if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
@@ -260,6 +310,47 @@ namespace RADGSHAProject
         private void listPreviousVisits_SelectedIndexChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void listPreviousVisits_Click(object sender, EventArgs e)
+        {
+            if (listPreviousVisits.SelectedItems.Count == 0)
+            {
+                previousEntryDate.Text = "";
+                previousExitDate.Text = "";
+                prevAttendingPhys.Text = "";
+                prevDiagnosis.Text = "";
+                prevNotes.Text = "";
+                prevSymptoms.Text = "";
+                return;
+            }
+
+            bool success = DateTime.TryParse(listPreviousVisits.SelectedItems[0].SubItems[0].Text, out DateTime date);
+            if (success)
+            {
+                Console.WriteLine("Starting click action:");
+                Console.WriteLine("Selected date: " + date);
+                foreach (Visit v in selectedPatient.getVisitList())
+                {
+                    Console.WriteLine(v.getEntryDate());
+                    if (v.getEntryDate().Date == date.Date && v.getEntryDate().Hour==date.Hour && v.getEntryDate().Minute==date.Minute)// && v.getEntryDate().TimeOfDay == date.TimeOfDay)
+                    {
+                        previousEntryDate.Text = v.getEntryDate().ToString();
+                        previousExitDate.Text = v.getExitDate().ToString();
+                        prevAttendingPhys.Text = v.getAttendingPhysician();
+                        prevDiagnosis.Text = v.getDiagnosis();
+                        prevNotes.Text = v.getNote();
+                        string previousSymptoms = "";
+                        foreach(string s in v.getSymptomList())
+                        {
+                            previousSymptoms += s + ", ";
+                        }
+                        previousSymptoms = previousSymptoms.Trim(',', ' ');
+                        prevSymptoms.Text = previousSymptoms;
+                        break;
+                    }
+                }
+            }
         }
     }
 }
