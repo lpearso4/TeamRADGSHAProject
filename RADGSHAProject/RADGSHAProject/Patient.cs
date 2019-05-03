@@ -20,7 +20,7 @@ namespace RADGSHAProject
         RADGSHALibrary.Visit selectedVisit;
         Boolean editingPatient;
 
-        public Patient()//This constructor can probably be safely removed
+        public Patient()
         {
             editingPatient = false;
             InitializeComponent();
@@ -142,7 +142,7 @@ namespace RADGSHAProject
         {
             this.Hide();
             UseInventory U = new UseInventory();
-            U.Closed += (s, args) => this.Close();
+            this.Closed += (s, args) => U.Close();
             U.Show();
         }
 
@@ -157,7 +157,7 @@ namespace RADGSHAProject
             // Open diagnosis wizard
             this.Hide();
             DiagnosisWizard D = new DiagnosisWizard(selectedPatient, selectedVisit);
-            D.Closed += (s, args) => this.Close();
+            this.Closed += (s, args) => D.Close();
             D.Show();
         }
 
@@ -214,6 +214,11 @@ namespace RADGSHAProject
         private void VisitGroupBox_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void Patient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            loginPage.Close();
         }
     }
 }

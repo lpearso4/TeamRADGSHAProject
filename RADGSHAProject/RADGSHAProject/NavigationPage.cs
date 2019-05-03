@@ -35,7 +35,7 @@ namespace RADGSHAProject
             {
                 searchPatientInstance = new SearchPatient();
             }
-            //searchPatientInstance.Closed += (s, args) => this.Close();
+
         }
 
         public void getImportToolInstance()
@@ -44,14 +44,14 @@ namespace RADGSHAProject
             {
                 importToolInstance = new ImportTool();
             }
-            //importToolInstance.Closed += (s, args) => this.Close();
+            //this.Closing += (s, args) => searchPatientInstance.Close();
         }
 
         private void searchPatientButton_Click(object sender, EventArgs e)
         {
             this.Hide();
             getSearchPatientInstance();
-            
+            //searchPatientInstance.Closed += (s, args) => this.Close();
             searchPatientInstance.Show();
         }
 
@@ -59,7 +59,7 @@ namespace RADGSHAProject
         {
             this.Hide();
             getImportToolInstance();
-
+            //imporToolInstance.Closed += (s, args) => this.Close();
             importToolInstance.Show();
         }
 
@@ -71,11 +71,7 @@ namespace RADGSHAProject
         private void logOutButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            //LoginPage L = new LoginPage();
-            //L.Closed += (s, args) => this.Close();
-            searchPatientInstance = null;
-            importToolInstance = null;
-            //this.Dispose();
+
             loginPage.Show();
             
         }
@@ -83,6 +79,10 @@ namespace RADGSHAProject
         private void NavigationPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             loginPage.Close();
+            loginPage.Show();
+            //searchPatientInstance.Close();
+            //importToolInstance.Close();
+            //this.Close();
         }
 
         private void NavigationPage_MouseMove(object sender, MouseEventArgs e)

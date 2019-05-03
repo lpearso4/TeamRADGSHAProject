@@ -396,7 +396,7 @@
             this.Name = "UseInventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UseInventory";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UseInventory_FormClosing);
             this.Controls.SetChildIndex(this.searchField, 0);
             this.Controls.SetChildIndex(this.stockID, 0);
             this.Controls.SetChildIndex(this.quantity, 0);

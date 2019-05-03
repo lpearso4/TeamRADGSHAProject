@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Appetite Suppression",
             "20%"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Test Symptom",
             "1%"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Brain Fog",
             "100%"}, -1);
             this.QuestionLabel = new System.Windows.Forms.Label();
@@ -55,18 +55,20 @@
             // 
             this.QuestionLabel.AutoSize = true;
             this.QuestionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuestionLabel.Location = new System.Drawing.Point(195, 29);
+            this.QuestionLabel.Location = new System.Drawing.Point(146, 24);
+            this.QuestionLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.QuestionLabel.Name = "QuestionLabel";
-            this.QuestionLabel.Size = new System.Drawing.Size(418, 26);
+            this.QuestionLabel.Size = new System.Drawing.Size(344, 22);
             this.QuestionLabel.TabIndex = 6;
             this.QuestionLabel.Text = "Does PATIENT_NAME have SYMPTOM?";
             // 
             // PatientHasSymptomButton
             // 
             this.PatientHasSymptomButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PatientHasSymptomButton.Location = new System.Drawing.Point(235, 71);
+            this.PatientHasSymptomButton.Location = new System.Drawing.Point(176, 58);
+            this.PatientHasSymptomButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientHasSymptomButton.Name = "PatientHasSymptomButton";
-            this.PatientHasSymptomButton.Size = new System.Drawing.Size(135, 52);
+            this.PatientHasSymptomButton.Size = new System.Drawing.Size(101, 42);
             this.PatientHasSymptomButton.TabIndex = 7;
             this.PatientHasSymptomButton.Text = "YES";
             this.PatientHasSymptomButton.UseVisualStyleBackColor = true;
@@ -75,9 +77,10 @@
             // PatientDoesNotHaveSymptomButton
             // 
             this.PatientDoesNotHaveSymptomButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PatientDoesNotHaveSymptomButton.Location = new System.Drawing.Point(427, 71);
+            this.PatientDoesNotHaveSymptomButton.Location = new System.Drawing.Point(320, 58);
+            this.PatientDoesNotHaveSymptomButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.PatientDoesNotHaveSymptomButton.Name = "PatientDoesNotHaveSymptomButton";
-            this.PatientDoesNotHaveSymptomButton.Size = new System.Drawing.Size(135, 52);
+            this.PatientDoesNotHaveSymptomButton.Size = new System.Drawing.Size(101, 42);
             this.PatientDoesNotHaveSymptomButton.TabIndex = 8;
             this.PatientDoesNotHaveSymptomButton.Text = "NO";
             this.PatientDoesNotHaveSymptomButton.UseVisualStyleBackColor = true;
@@ -88,9 +91,11 @@
             this.groupBox2.Controls.Add(this.PatientHasSymptomButton);
             this.groupBox2.Controls.Add(this.PatientDoesNotHaveSymptomButton);
             this.groupBox2.Controls.Add(this.QuestionLabel);
-            this.groupBox2.Location = new System.Drawing.Point(228, 40);
+            this.groupBox2.Location = new System.Drawing.Point(171, 32);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(812, 179);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(609, 145);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Question";
@@ -100,18 +105,21 @@
             this.groupBox3.Controls.Add(this.AddResultsToPatientButton);
             this.groupBox3.Controls.Add(this.ReturnToPatientButton);
             this.groupBox3.Controls.Add(this.SymptomListView);
-            this.groupBox3.Location = new System.Drawing.Point(228, 266);
+            this.groupBox3.Location = new System.Drawing.Point(171, 216);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(812, 265);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(609, 215);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Current Result";
             // 
             // AddResultsToPatientButton
             // 
-            this.AddResultsToPatientButton.Location = new System.Drawing.Point(623, 203);
+            this.AddResultsToPatientButton.Location = new System.Drawing.Point(467, 165);
+            this.AddResultsToPatientButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.AddResultsToPatientButton.Name = "AddResultsToPatientButton";
-            this.AddResultsToPatientButton.Size = new System.Drawing.Size(173, 56);
+            this.AddResultsToPatientButton.Size = new System.Drawing.Size(130, 46);
             this.AddResultsToPatientButton.TabIndex = 2;
             this.AddResultsToPatientButton.Text = "Add Results to Patient";
             this.AddResultsToPatientButton.UseVisualStyleBackColor = true;
@@ -119,9 +127,10 @@
             // 
             // ReturnToPatientButton
             // 
-            this.ReturnToPatientButton.Location = new System.Drawing.Point(427, 203);
+            this.ReturnToPatientButton.Location = new System.Drawing.Point(320, 165);
+            this.ReturnToPatientButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ReturnToPatientButton.Name = "ReturnToPatientButton";
-            this.ReturnToPatientButton.Size = new System.Drawing.Size(173, 56);
+            this.ReturnToPatientButton.Size = new System.Drawing.Size(130, 46);
             this.ReturnToPatientButton.TabIndex = 1;
             this.ReturnToPatientButton.Text = "Return to Patient";
             this.ReturnToPatientButton.UseVisualStyleBackColor = true;
@@ -135,12 +144,13 @@
             this.SymptomListView.FullRowSelect = true;
             this.SymptomListView.GridLines = true;
             this.SymptomListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
-            this.SymptomListView.Location = new System.Drawing.Point(54, 43);
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
+            this.SymptomListView.Location = new System.Drawing.Point(40, 35);
+            this.SymptomListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.SymptomListView.Name = "SymptomListView";
-            this.SymptomListView.Size = new System.Drawing.Size(546, 101);
+            this.SymptomListView.Size = new System.Drawing.Size(410, 83);
             this.SymptomListView.TabIndex = 0;
             this.SymptomListView.UseCompatibleStateImageBehavior = false;
             this.SymptomListView.View = System.Windows.Forms.View.Details;
@@ -159,16 +169,15 @@
             // 
             // DiagnosisWizard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.Name = "DiagnosisWizard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DiagnosisWizard";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
             this.Controls.SetChildIndex(this.groupBox2, 0);
             this.Controls.SetChildIndex(this.groupBox3, 0);
             this.groupBox2.ResumeLayout(false);

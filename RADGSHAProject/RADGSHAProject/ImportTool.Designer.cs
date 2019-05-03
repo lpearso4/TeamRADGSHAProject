@@ -140,7 +140,7 @@
             this.Name = "ImportTool";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImportTool";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClose);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImportTool_FormClosing);
             this.Load += new System.EventHandler(this.ImportTool_Load);
             this.Controls.SetChildIndex(this.chooseFileButton, 0);
             this.Controls.SetChildIndex(this.DirectoryInputField, 0);
