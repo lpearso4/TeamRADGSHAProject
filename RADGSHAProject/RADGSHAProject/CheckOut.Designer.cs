@@ -142,9 +142,9 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.roomListView.Location = new System.Drawing.Point(166, 102);
+            this.roomListView.Location = new System.Drawing.Point(166, 83);
             this.roomListView.Name = "roomListView";
-            this.roomListView.Size = new System.Drawing.Size(613, 69);
+            this.roomListView.Size = new System.Drawing.Size(613, 88);
             this.roomListView.TabIndex = 25;
             this.roomListView.UseCompatibleStateImageBehavior = false;
             this.roomListView.View = System.Windows.Forms.View.Details;
@@ -177,9 +177,9 @@
             this.columnHeader6,
             this.columnHeader7,
             this.columnHeader8});
-            this.suppliesListView.Location = new System.Drawing.Point(167, 223);
+            this.suppliesListView.Location = new System.Drawing.Point(167, 218);
             this.suppliesListView.Name = "suppliesListView";
-            this.suppliesListView.Size = new System.Drawing.Size(613, 108);
+            this.suppliesListView.Size = new System.Drawing.Size(613, 113);
             this.suppliesListView.TabIndex = 26;
             this.suppliesListView.UseCompatibleStateImageBehavior = false;
             this.suppliesListView.View = System.Windows.Forms.View.Details;
@@ -209,9 +209,9 @@
             this.proceduresListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader9,
             this.columnHeader10});
-            this.proceduresListView.Location = new System.Drawing.Point(167, 384);
+            this.proceduresListView.Location = new System.Drawing.Point(167, 367);
             this.proceduresListView.Name = "proceduresListView";
-            this.proceduresListView.Size = new System.Drawing.Size(613, 63);
+            this.proceduresListView.Size = new System.Drawing.Size(613, 80);
             this.proceduresListView.TabIndex = 27;
             this.proceduresListView.UseCompatibleStateImageBehavior = false;
             this.proceduresListView.View = System.Windows.Forms.View.Details;

@@ -437,13 +437,9 @@ GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 3/28/2019
--- Description:	takes 4 variables and returns patients that begin with the given variables
+-- Description:	takes 3 variables and returns patients that begin with the given variables
 -- =============================================
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryPatient]'))
-   exec('CREATE PROCEDURE [dbo].[queryPatient] AS BEGIN SET NOCOUNT ON; END')
-GO
-
-ALTER PROCEDURE queryPatient
+CREATE OR ALTER PROCEDURE queryPatient
 	-- Add the parameters for the stored procedure here
 	@ssn nvarchar(9) = null, @lastName nvarchar(50) = null, 
 	@firstName nvarchar(50)= null, @roomNum nvarchar(10) = null
@@ -454,9 +450,12 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT * FROM Patient p INNER JOIN StaysIn s ON s.PatientId = p.SSN WHERE p.SSN LIKE (@ssn + '%') AND p.LastName 
-	LIKE (@lastName + '%') AND p.FirstName LIKE (@firstName + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY LastName, FirstName, MiddleInitial
-
+	IF (@roomNum IS NOT NULL)
+	BEGIN
+		SELECT * FROM Patient p INNER JOIN StaysIn s ON s.PatientId = p.SSN WHERE p.SSN LIKE (@ssn + '%') AND p.LastName 
+		LIKE (@lastName + '%') AND p.FirstName LIKE (@firstName + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY LastName, FirstName, MiddleInitial
+	END
+	ELSE EXEC('SELECT * FROM Patient WHERE SSN LIKE ''' + @ssn + '%'' AND LastName LIKE ''' + @lastName + '%'' AND FirstName LIKE ''' + @firstName +'%''')
 
 END
 GO
@@ -924,7 +923,7 @@ ALTER PROCEDURE addStaysIn
 
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
-	@patientId nvarchar(9), @visitEntryDate datetime
+	@patientId nvarchar(9), @visitEntryDate datetime, @RoomEntryDateTime datetime=visitEntryDate
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -937,7 +936,7 @@ BEGIN
 	--SET @roomEffectiveDate = (SELECT effectiveDate FROM Room WHERE RoomNumber = @roomNumber)
 
 	INSERT INTO StaysIn(RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime) 
-	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @visitEntryDate)
+	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @RoomEntryDateTime)
 
 END
 GO
@@ -1009,7 +1008,7 @@ ALTER PROCEDURE addUses
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @patientId nvarchar(9),
-	@entryDateTime datetime
+	@entryDateTime datetime, @quantityUsed int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1018,7 +1017,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Uses(StockId, PatientId, EntryDateTime) VALUES (@stockId, @patientId, @entryDateTime)
+	INSERT INTO Uses(StockId, PatientId, EntryDateTime, QuantityUsed) VALUES (@stockId, @patientId, @entryDateTime,@quantityUsed)
 
 END
 GO
@@ -1404,6 +1403,29 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[queryStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+--==============================
+--Louie Louie
+--==============================
+ALTER PROCEDURE queryStaysIn
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9) = null,  @roomNum nvarchar(10) = null
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	IF (@roomNum IS NOT NULL)
+	BEGIN
+		SELECT * FROM StaysIn s WHERE s.PatientId LIKE (@ssn + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY s.RoomNumber
+	END
+END
+GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 4/11/2019

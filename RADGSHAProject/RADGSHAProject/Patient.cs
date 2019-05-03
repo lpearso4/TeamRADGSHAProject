@@ -38,6 +38,7 @@ namespace RADGSHAProject
 
         public Patient(Form previousForm, RADGSHALibrary.Patient selectedPatient)
         {
+            selectedVisit = selectedPatient.getCurrentVisit();
             editingPatient = false;
             InitializeComponent();
             this.previousForm = previousForm;
@@ -46,7 +47,7 @@ namespace RADGSHAProject
             displayPatient();
             disableCurrentPatientTextBoxes();
 
-            selectedVisit = selectedPatient.getCurrentVisit();
+            
             //selectedVisit = new RADGSHALibrary.Visit();
             //selectedVisit.setPatientId(selectedPatient.getSSN());
 
@@ -64,17 +65,49 @@ namespace RADGSHAProject
             patientCityTextBox.Text = selectedPatient.getCity();
             patientStateTextBox.Text = selectedPatient.getState();
             patientZipTextBox.Text = selectedPatient.getZipcode();
-
+            patientGenderTextBox.Text = selectedPatient.getGender().ToString();
+            //patientBirthdateTextBox.Text = selectedPatient.getBirthDate().ToString("MM/dd/yyyy");
+            dateBirthdate.Value = selectedPatient.getBirthDate();
             if (selectedVisit==null)
             {
                 EntryDatePicker.Visible = false;
-              
+                changeRoomButton.Enabled = false;
+                diagnosisWizardButton.Enabled = false;
+                useInventoryButton.Enabled = false;
             }
             else
             {
                 EntryDatePicker.Visible = true;
                 EntryDatePicker.Value = selectedVisit.getEntryDate();
+
+                if (selectedVisit.getRoomList().Count>0) visitRoomNumber.Text = selectedVisit.getRoomList()[selectedVisit.getRoomList().Count-1].getRoomNumber();
+                textSymptoms.Text = "";
+                foreach (string s in selectedVisit.getSymptomList())
+                {
+                    textSymptoms.Text += s + "\r\n";
+                }
+                VisitDiagnosisTextBox.Text = selectedVisit.getDiagnosis();
+                textAttendingPhy.Text = selectedVisit.getAttendingPhysician();
+                changeRoomButton.Enabled = true;
+                diagnosisWizardButton.Enabled = true;
+                useInventoryButton.Enabled = true;
                 //roomNumber.Items = selectedVisit.getRoomList()
+            }
+            listPreviousVisits.Items.Clear();
+            
+       
+            for (int i = selectedPatient.getVisitList().Count-1; i >=0; i--) // selectedPatient.getVisitList.Count Visit v in selectedPatient.getVisitList())
+            {
+                Visit v = selectedPatient.getVisitList()[i];
+                if (selectedVisit != null && selectedVisit.getEntryDate() == v.getEntryDate()) continue; // we don't want to display current visit in previous visit list 
+                Console.WriteLine("Adding previous visit at date: " + v.getEntryDate().ToShortDateString());
+
+                ListViewItem previousVisit = new ListViewItem(v.getEntryDate().ToShortDateString());
+                previousVisit.SubItems.Add(v.getAttendingPhysician());
+                previousVisit.SubItems.Add(v.getDiagnosis());
+               
+               // previousVisitList.Items.Add(previousVisit);
+                listPreviousVisits.Items.Add(previousVisit);
             }
         }
 
@@ -103,6 +136,9 @@ namespace RADGSHAProject
             patientCityTextBox.Enabled = true;
             patientStateTextBox.Enabled = true;
             patientZipTextBox.Enabled = true;
+            patientGenderTextBox.Enabled = true;
+            //patientBirthdateTextBox.Enabled = true;
+            dateBirthdate.Enabled = true;
         }
 
         private void disableCurrentPatientTextBoxes()
@@ -115,6 +151,9 @@ namespace RADGSHAProject
             patientCityTextBox.Enabled = false;
             patientStateTextBox.Enabled = false;
             patientZipTextBox.Enabled = false;
+            patientGenderTextBox.Enabled = false;
+            
+            dateBirthdate.Enabled = false;
         }
 
         private void saveCurrentPatient()
@@ -129,7 +168,9 @@ namespace RADGSHAProject
             selectedPatient.setCity(patientCityTextBox.Text);
             selectedPatient.setState(patientStateTextBox.Text);
             selectedPatient.setZipcode(patientZipTextBox.Text);
-
+            selectedPatient.setGender(patientGenderTextBox.Text[0]);
+            //selectedPatient.setBirthDate(DateTime.Parse(patientBirthdateTextBox.ToString()));
+            selectedPatient.setBirthDate(dateBirthdate.Value);
             conn.updatePatient(selectedPatient);
         }
 
@@ -157,7 +198,7 @@ namespace RADGSHAProject
             // Open diagnosis wizard
             this.Hide();
             DiagnosisWizard D = new DiagnosisWizard(selectedPatient, selectedVisit);
-            this.Closed += (s, args) => D.Close();
+            D.Closed += (s, args) => this.Close();
             D.Show();
         }
 
@@ -199,7 +240,7 @@ namespace RADGSHAProject
                 C.Closed += (s, args) => this.Close();
                 C.ShowDialog();
                 conn.addVisit(selectedVisit, selectedPatient);
-                if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
+               // if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
                 checkInOutButton.Text = "Check Out";
             }
 
@@ -219,6 +260,11 @@ namespace RADGSHAProject
         private void Patient_FormClosing(object sender, FormClosingEventArgs e)
         {
             loginPage.Close();
+        }
+
+        private void listPreviousVisits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

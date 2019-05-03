@@ -84,8 +84,10 @@ namespace RADGSHAProject
                     ListViewItem items = new ListViewItem(i.getDescription());
                     items.SubItems.Add(quantity.ToString());
                     curCost = i.getCost();
+                    curCost = Decimal.Round(curCost, 2);
                     items.SubItems.Add(curCost.ToString());
                     decimal itemTotal = curCost * quantity;
+                    itemTotal = Decimal.Round(itemTotal, 2);
                     items.SubItems.Add(itemTotal.ToString());
                     inventorySubtotal += itemTotal;
                     suppliesListView.Items.Add(items);
@@ -96,6 +98,7 @@ namespace RADGSHAProject
                     ListViewItem items = new ListViewItem(i.getDescription());
                    // items.SubItems.Add(quantity.ToString());
                     curCost = i.getCost();
+                    curCost = Decimal.Round(curCost, 2);
                     items.SubItems.Add(curCost.ToString());
                    // decimal itemTotal = curCost * quantity;
                    // items.SubItems.Add(itemTotal.ToString());

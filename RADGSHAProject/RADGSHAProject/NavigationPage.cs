@@ -15,10 +15,12 @@ namespace RADGSHAProject
     public partial class NavigationPage : Form
     {
         static SearchPatient searchPatientInstance;
+        static AddPatient addPatientInstance;
         static ImportTool importToolInstance;
         public static LoginPage loginPage;
 
 
+        protected static RADGSHALibrary.User loggedInUser;
         TimeSpan time;
         
         public NavigationPage()
@@ -27,8 +29,28 @@ namespace RADGSHAProject
            
             InitializeComponent();
             autoLogout.Enabled = true;
-        }
+            updateUserInfo();
 
+        }
+        protected void updateUserInfo()
+        {
+            if (loggedInUser != null)
+            {
+                if (loggedInUser.isAdmin())
+                {
+                    importToolButton.Visible = true;
+                }
+                else
+                {
+                    importToolButton.Visible = false;
+                }
+                labelUser.Text = loggedInUser.getUsername();
+            }
+            else
+            {
+                labelUser.Text = "";
+            }
+        }
         public void getSearchPatientInstance()
         {
             if(searchPatientInstance == null)
@@ -38,28 +60,45 @@ namespace RADGSHAProject
 
         }
 
+        public void getAddPatientInstance()
+        {
+            if (addPatientInstance == null)
+            {
+                addPatientInstance = new AddPatient();
+            }
+            //addPatientInstance.Closed += (s, args) => this.Close();
+        }
+
         public void getImportToolInstance()
         {
             if(importToolInstance == null)
             {
                 importToolInstance = new ImportTool();
             }
-            //this.Closing += (s, args) => searchPatientInstance.Close();
+            //importToolInstance.Closed += (s, args) => this.Close();
         }
 
         private void searchPatientButton_Click(object sender, EventArgs e)
         {
             this.Hide();
             getSearchPatientInstance();
-            //searchPatientInstance.Closed += (s, args) => this.Close();
+            
             searchPatientInstance.Show();
+        }
+
+        private void addPatientButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            getAddPatientInstance();
+
+            addPatientInstance.Show();
         }
 
         private void importToolButton_Click(object sender, EventArgs e)
         {
             this.Hide();
             getImportToolInstance();
-            //imporToolInstance.Closed += (s, args) => this.Close();
+
             importToolInstance.Show();
         }
 
@@ -79,10 +118,6 @@ namespace RADGSHAProject
         private void NavigationPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             loginPage.Close();
-            loginPage.Show();
-            //searchPatientInstance.Close();
-            //importToolInstance.Close();
-            //this.Close();
         }
 
         private void NavigationPage_MouseMove(object sender, MouseEventArgs e)
@@ -93,6 +128,8 @@ namespace RADGSHAProject
 
         private void autoLogout_Tick(object sender, EventArgs e)
         {
+            if (this.Visible == false) return;
+            if (this.DesignMode == true) return;
             time = time + new TimeSpan(0, 0, 1);
 
             if (time.TotalMinutes>4)

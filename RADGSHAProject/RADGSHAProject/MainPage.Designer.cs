@@ -60,6 +60,7 @@
             this.lblUserHeader.Size = new System.Drawing.Size(71, 13);
             this.lblUserHeader.TabIndex = 6;
             this.lblUserHeader.Text = "Logged in as:";
+            this.lblUserHeader.Visible = false;
             // 
             // lblUser
             // 
@@ -69,6 +70,7 @@
             this.lblUser.Size = new System.Drawing.Size(40, 13);
             this.lblUser.TabIndex = 7;
             this.lblUser.Text = "           ";
+            this.lblUser.Visible = false;
             // 
             // MainPage
             // 

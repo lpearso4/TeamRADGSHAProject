@@ -33,6 +33,9 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.roomField = new System.Windows.Forms.TextBox();
             this.RoomListView = new System.Windows.Forms.ListView();
+            this.roomNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hourlyRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.effectiveDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label2
@@ -76,13 +79,34 @@
             // 
             // RoomListView
             // 
+            this.RoomListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.roomNumber,
+            this.hourlyRate,
+            this.effectiveDate});
+            this.RoomListView.GridLines = true;
             this.RoomListView.Location = new System.Drawing.Point(33, 75);
             this.RoomListView.Name = "RoomListView";
             this.RoomListView.Size = new System.Drawing.Size(314, 90);
             this.RoomListView.TabIndex = 13;
             this.RoomListView.UseCompatibleStateImageBehavior = false;
+            this.RoomListView.View = System.Windows.Forms.View.Details;
             this.RoomListView.SelectedIndexChanged += new System.EventHandler(this.RoomListView_SelectedIndexChanged);
             this.RoomListView.Leave += new System.EventHandler(this.RoomListView_Leave);
+            // 
+            // roomNumber
+            // 
+            this.roomNumber.Text = "Room Number";
+            this.roomNumber.Width = 135;
+            // 
+            // hourlyRate
+            // 
+            this.hourlyRate.Text = "Hourly Rate";
+            this.hourlyRate.Width = 70;
+            // 
+            // effectiveDate
+            // 
+            this.effectiveDate.Text = "Effective Date";
+            this.effectiveDate.Width = 83;
             // 
             // ChangeRoom
             // 
@@ -109,5 +133,8 @@
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.TextBox roomField;
         private System.Windows.Forms.ListView RoomListView;
+        private System.Windows.Forms.ColumnHeader roomNumber;
+        private System.Windows.Forms.ColumnHeader hourlyRate;
+        private System.Windows.Forms.ColumnHeader effectiveDate;
     }
 }

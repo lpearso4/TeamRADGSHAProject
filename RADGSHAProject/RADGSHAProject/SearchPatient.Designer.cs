@@ -195,6 +195,7 @@
             this.Controls.Add(this.PatientSSNField);
             this.Controls.Add(this.PatientFirstNameField);
             this.Controls.Add(this.viewPatientButton);
+            this.MinimumSize = new System.Drawing.Size(616, 405);
             this.Name = "SearchPatient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchPatient";

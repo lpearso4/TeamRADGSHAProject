@@ -36,6 +36,8 @@
             this.addPatientButton = new System.Windows.Forms.Button();
             this.importToolButton = new System.Windows.Forms.Button();
             this.autoLogout = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelUser = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,6 +95,7 @@
             this.addPatientButton.TabIndex = 1;
             this.addPatientButton.Text = "Add Patient";
             this.addPatientButton.UseVisualStyleBackColor = true;
+            this.addPatientButton.Click += new System.EventHandler(this.addPatientButton_Click);
             // 
             // importToolButton
             // 
@@ -110,11 +113,30 @@
             this.autoLogout.Interval = 1000;
             this.autoLogout.Tick += new System.EventHandler(this.autoLogout_Tick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(427, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Logged in as:";
+            // 
+            // labelUser
+            // 
+            this.labelUser.AutoSize = true;
+            this.labelUser.Location = new System.Drawing.Point(504, 9);
+            this.labelUser.Name = "labelUser";
+            this.labelUser.Size = new System.Drawing.Size(0, 13);
+            this.labelUser.TabIndex = 7;
+            // 
             // NavigationPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
+            this.Controls.Add(this.labelUser);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "NavigationPage";
@@ -124,6 +146,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -136,5 +159,7 @@
         protected System.Windows.Forms.Button logOutButton;
         private System.Windows.Forms.Label labelTimeout;
         protected System.Windows.Forms.Timer autoLogout;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelUser;
     }
 }
