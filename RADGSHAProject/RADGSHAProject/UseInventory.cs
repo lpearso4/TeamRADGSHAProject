@@ -12,23 +12,22 @@ namespace RADGSHAProject
 {
     public partial class UseInventory : NavigationPage
     {
-        Form previousForm;//Used for displaying the previous Form when closing this one
+        
+        RADGSHALibrary.Patient selectedPatient;
+        RADGSHALibrary.Visit selectedVisit;
 
         public UseInventory()//this constructor can probably be safely removed
         {
             InitializeComponent();
         }
 
-        public UseInventory(Form previousForm)
+        public UseInventory(RADGSHALibrary.Patient selectedPatient, RADGSHALibrary.Visit selectedVisit)
         {
             InitializeComponent();
-            this.previousForm = previousForm;
+            this.selectedPatient = selectedPatient;
+            this.selectedVisit = selectedVisit;
         }
 
-        private void FormClose(object sender, FormClosedEventArgs e)//shows the previous form after closing this one
-        {
-
-        }
 
         private void addFieldButton_Click(object sender, EventArgs e)
         {
@@ -38,6 +37,19 @@ namespace RADGSHAProject
         private void UseInventory_FormClosing(object sender, FormClosingEventArgs e)
         {
             loginPage.Close();
+        }
+
+        private void returnToPatientButton_Click(object sender, EventArgs e)
+        {
+            returnToPatient();
+        }
+
+        private void returnToPatient()
+        {
+            this.Hide();
+            Patient P = new Patient(this, selectedPatient);
+            P.Closed += (s, args) => this.Close();
+            P.Show();
         }
     }
 }

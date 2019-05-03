@@ -64,6 +64,7 @@
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.returnToPatientButton = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -376,11 +377,22 @@
             this.textBox12.Size = new System.Drawing.Size(92, 20);
             this.textBox12.TabIndex = 32;
             // 
+            // returnToPatientButton
+            // 
+            this.returnToPatientButton.Location = new System.Drawing.Point(782, 379);
+            this.returnToPatientButton.Name = "returnToPatientButton";
+            this.returnToPatientButton.Size = new System.Drawing.Size(82, 40);
+            this.returnToPatientButton.TabIndex = 42;
+            this.returnToPatientButton.Text = "Return to Patient";
+            this.returnToPatientButton.UseVisualStyleBackColor = true;
+            this.returnToPatientButton.Click += new System.EventHandler(this.returnToPatientButton_Click);
+            // 
             // UseInventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(991, 431);
+            this.Controls.Add(this.returnToPatientButton);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -409,6 +421,7 @@
             this.Controls.SetChildIndex(this.groupBox2, 0);
             this.Controls.SetChildIndex(this.groupBox3, 0);
             this.Controls.SetChildIndex(this.groupBox4, 0);
+            this.Controls.SetChildIndex(this.returnToPatientButton, 0);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -457,5 +470,6 @@
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Button returnToPatientButton;
     }
 }

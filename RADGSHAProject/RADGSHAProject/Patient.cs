@@ -182,7 +182,7 @@ namespace RADGSHAProject
         private void useInventoryButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            UseInventory U = new UseInventory();
+            UseInventory U = new UseInventory(selectedPatient, selectedVisit);
             this.Closed += (s, args) => U.Close();
             U.Show();
         }
