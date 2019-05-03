@@ -606,7 +606,7 @@ namespace RADGSHALibrary
           
         }
 
-        public void addToLog(Inventory inventory, User user, decimal quantityUsed)
+        public void addToLog(Inventory inventory, User user, int quantityUsed)
         {
 
             string procedureName = "addToLog";
