@@ -66,6 +66,27 @@ namespace RADGSHAProject
             patientStateTextBox.Text = selectedPatient.getState();
             patientZipTextBox.Text = selectedPatient.getZipcode();
             patientGenderTextBox.Text = selectedPatient.getGender().ToString();
+            patientSSN.Text = selectedPatient.getSSN();
+            patientInsurerID.Text = selectedPatient.getInsurer();
+            
+            if (selectedPatient.getDoNotResuscitateStatus())
+            {
+                patientDNR.Text = "True";
+            }
+            else
+            {
+                patientDNR.Text = "False";
+            }
+            if (selectedPatient.getOrganDonorStatus())
+            {
+                patientOrganDonor.Text = "True";
+            }
+            else
+            {
+                patientOrganDonor.Text = "False";
+            }
+
+
             //patientBirthdateTextBox.Text = selectedPatient.getBirthDate().ToString("MM/dd/yyyy");
             dateBirthdate.Value = selectedPatient.getBirthDate();
             if (selectedVisit==null)
@@ -88,6 +109,7 @@ namespace RADGSHAProject
                 }
                 VisitDiagnosisTextBox.Text = selectedVisit.getDiagnosis();
                 textAttendingPhy.Text = selectedVisit.getAttendingPhysician();
+                visitNotes.Text = selectedVisit.getNote();
                 changeRoomButton.Enabled = true;
                 diagnosisWizardButton.Enabled = true;
                 useInventoryButton.Enabled = true;
@@ -115,12 +137,14 @@ namespace RADGSHAProject
                 textSymptoms.Enabled = true;
                 VisitDiagnosisTextBox.Enabled = true;
                 textAttendingPhy.Enabled = true;
+                visitNotes.Enabled = true;
             }
             else
             {
                 textSymptoms.Enabled = false;
                 VisitDiagnosisTextBox.Enabled = false;
                 textAttendingPhy.Enabled = false;
+                visitNotes.Enabled = false;
             }
         }
 
@@ -153,9 +177,14 @@ namespace RADGSHAProject
             //patientBirthdateTextBox.Enabled = true;
             dateBirthdate.Enabled = true;
 
+            patientDNR.Enabled = true;
+            patientOrganDonor.Enabled = true;
+            patientInsurerID.Enabled = true;
+
             textSymptoms.Enabled = true;
             VisitDiagnosisTextBox.Enabled = true;
             textAttendingPhy.Enabled = true;
+            visitNotes.Enabled = true;
         }
 
         private void disableCurrentPatientTextBoxes()
@@ -169,13 +198,18 @@ namespace RADGSHAProject
             patientStateTextBox.Enabled = false;
             patientZipTextBox.Enabled = false;
             patientGenderTextBox.Enabled = false;
-            
+
+            patientDNR.Enabled = false;
+            patientOrganDonor.Enabled = false;
+            patientInsurerID.Enabled = false;
+
             dateBirthdate.Enabled = false;
             if (selectedVisit != null)
             {
                 textSymptoms.Enabled = false;
                 VisitDiagnosisTextBox.Enabled = false;
                 textAttendingPhy.Enabled = false;
+                visitNotes.Enabled = false;
             }
         }
 
@@ -192,7 +226,28 @@ namespace RADGSHAProject
             selectedPatient.setState(patientStateTextBox.Text);
             selectedPatient.setZipcode(patientZipTextBox.Text);
             selectedPatient.setGender(patientGenderTextBox.Text[0]);
-           
+            selectedPatient.setInsurer(patientInsurerID.Text);
+
+            if (patientDNR.Text=="True")
+            {
+                selectedPatient.setDoNotResuscitateStatus(true);
+            }
+            else if (patientDNR.Text=="False")
+            {
+                selectedPatient.setDoNotResuscitateStatus(false);
+            }
+
+            if (patientOrganDonor.Text == "True")
+            {
+                selectedPatient.setOrganDonorStatus(true);
+            }
+            else if (patientOrganDonor.Text == "False")
+            {
+                selectedPatient.setOrganDonorStatus(false);
+            }
+
+
+
             selectedPatient.setBirthDate(dateBirthdate.Value);
 
             conn.updatePatient(selectedPatient);
@@ -202,6 +257,7 @@ namespace RADGSHAProject
                 selectedVisit.setEntryDate(EntryDatePicker.Value);
                 selectedVisit.setAttendingPhysician(textAttendingPhy.Text);
                 selectedVisit.changeDiagnosis(VisitDiagnosisTextBox.Text);
+                selectedVisit.setNote(visitNotes.Text);
                 
                 for(int i = 0; i<textSymptoms.Lines.Length;i++)
                 {
@@ -259,6 +315,7 @@ namespace RADGSHAProject
         private void checkInOutButton_Click(object sender, EventArgs e)
         {
 
+
             if (selectedVisit != null)
             {
                 //the patient must be checking out, as they never exited their last visit.
@@ -284,14 +341,20 @@ namespace RADGSHAProject
                 selectedVisit.setEntryDate(DateTime.Now);
                 selectedVisit.changeDiagnosis(VisitDiagnosisTextBox.Text);
                 selectedVisit.setAttendingPhysician(textAttendingPhy.Text);
-         
+                selectedVisit.setNote(visitNotes.Text);
                 ChangeRoom C = new ChangeRoom(this,ref selectedPatient, ref selectedVisit);
 
                // C.Closed += (s, args) => this.Close();
                 C.ShowDialog();
                 conn.addVisit(selectedVisit, selectedPatient);
-               // if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
+                for (int i = 0; i < textSymptoms.Lines.Length; i++)
+                {
+                        selectedVisit.addSymptom(textSymptoms.Lines[i].Trim());
+                        conn.addSymptom(selectedPatient, selectedVisit, textSymptoms.Lines[i].Trim());
+                }
+                        // if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
                 checkInOutButton.Text = "Check Out";
+                displayPatient();
             }
 
         }

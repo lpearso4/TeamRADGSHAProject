@@ -923,7 +923,7 @@ ALTER PROCEDURE addStaysIn
 
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
-	@patientId nvarchar(9), @visitEntryDate datetime, @RoomEntryDateTime datetime=visitEntryDate
+	@patientId nvarchar(9), @visitEntryDate datetime, @RoomEntryDateTime datetime=@roomEffectiveDate
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1035,7 +1035,7 @@ ALTER PROCEDURE addVisit
 
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9), @entryDate datetime, 
-	@attendingPhysician nvarchar(50), @diagnosis nvarchar(50)
+	@attendingPhysician nvarchar(50), @diagnosis nvarchar(50), @note nvarchar(100)
 
 AS
 BEGIN
@@ -1045,8 +1045,8 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Visit(PatientId, EntryDate, AttendingPhysician, Diagnosis) VALUES (@patientId, @entryDate,
-	@attendingPhysician, @diagnosis) 
+	INSERT INTO Visit(PatientId, EntryDate, AttendingPhysician, Diagnosis,Note) VALUES (@patientId, @entryDate,
+	@attendingPhysician, @diagnosis,@note) 
 
 END
 GO
@@ -1064,7 +1064,8 @@ ALTER PROCEDURE updateVisit
 
 	-- Add the parameters for the stored procedure here
 	@patientId nvarchar(9), @entryDate datetime,
-	@attendingPhysician nvarchar(50), @diagnosis nvarchar(50)
+	@attendingPhysician nvarchar(50), @diagnosis nvarchar(50), @note nvarchar(100)
+
 
 AS
 BEGIN
@@ -1074,7 +1075,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	UPDATE VISIT SET AttendingPhysician = @attendingPhysician, Diagnosis = @diagnosis WHERE PatientId = @patientId AND EntryDate = @entryDate
+	UPDATE VISIT SET AttendingPhysician = @attendingPhysician, Diagnosis = @diagnosis WHERE PatientId = @patientId AND EntryDate = @entryDate AND Note = @note
 
 END
 GO
