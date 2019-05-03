@@ -24,7 +24,7 @@ namespace RADGSHALibrary
         private enum ServiceCol : int { StockID };
         private enum staysInCol : int { RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime, RoomExitDateTime };
         private enum UserCol : int { Username, Password, UserType };
-        private enum VisCol : int { PatientId, EntryDate, ExitDate, AttendingPhysician, Diagnosis };
+        private enum VisCol : int { PatientId, EntryDate, ExitDate, AttendingPhysician, Diagnosis, Notes };
         private enum SymCol : int { PatientId, EntryDate, SymptomName };
         private enum UsesCol : int { StockId, PatientId, EntryDateTime, amount };
 
@@ -124,7 +124,7 @@ namespace RADGSHALibrary
 
                 if (!reader.IsDBNull((int)VisCol.AttendingPhysician)) visit.setAttendingPhysician(reader.GetString((int)VisCol.AttendingPhysician));
                 if (!reader.IsDBNull((int)VisCol.Diagnosis)) visit.changeDiagnosis(reader.GetString((int)VisCol.Diagnosis));
-
+                if (!reader.IsDBNull((int)VisCol.Notes)) visit.setNote(reader.GetString((int)VisCol.Notes));
                 patient.addVisit(visit);
 
             }
@@ -183,7 +183,7 @@ namespace RADGSHALibrary
             command.Parameters.Add(new SqlParameter("@attendingPhysician", visit.getAttendingPhysician()));
             //  '@attendingPhysician
             command.Parameters.Add(new SqlParameter("@diagnosis", visit.getDiagnosis()));
-
+            command.Parameters.Add(new SqlParameter("@note", visit.getNote()));
             command.Connection = conn;
 
             SqlDataReader reader = command.ExecuteReader();

@@ -42,7 +42,7 @@
             this.loginButton.Margin = new System.Windows.Forms.Padding(2);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(68, 24);
-            this.loginButton.TabIndex = 0;
+            this.loginButton.TabIndex = 2;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
@@ -53,7 +53,7 @@
             this.usernameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(120, 20);
-            this.usernameTextBox.TabIndex = 1;
+            this.usernameTextBox.TabIndex = 0;
             this.usernameTextBox.Text = "Username";
             this.usernameTextBox.Click += new System.EventHandler(this.usernameTextBox_Clicked);
             // 
@@ -64,7 +64,7 @@
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(120, 20);
-            this.passwordTextBox.TabIndex = 2;
+            this.passwordTextBox.TabIndex = 1;
             this.passwordTextBox.Text = "Password";
             this.passwordTextBox.Click += new System.EventHandler(this.passwordTextBox_Clicked);
             // 
@@ -76,6 +76,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Bypass login";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // timerLogin
