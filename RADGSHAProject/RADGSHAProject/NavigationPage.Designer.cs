@@ -95,6 +95,7 @@
             this.addPatientButton.TabIndex = 1;
             this.addPatientButton.Text = "Add Patient";
             this.addPatientButton.UseVisualStyleBackColor = true;
+            this.addPatientButton.Click += new System.EventHandler(this.addPatientButton_Click);
             // 
             // importToolButton
             // 
