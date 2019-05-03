@@ -437,13 +437,9 @@ GO
 -- =============================================
 -- Author:		Matt
 -- Create date: 3/28/2019
--- Description:	takes 4 variables and returns patients that begin with the given variables
+-- Description:	takes 3 variables and returns patients that begin with the given variables
 -- =============================================
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryPatient]'))
-   exec('CREATE PROCEDURE [dbo].[queryPatient] AS BEGIN SET NOCOUNT ON; END')
-GO
-
-ALTER PROCEDURE queryPatient
+CREATE OR ALTER PROCEDURE queryPatient
 	-- Add the parameters for the stored procedure here
 	@ssn nvarchar(9) = null, @lastName nvarchar(50) = null, 
 	@firstName nvarchar(50)= null, @roomNum nvarchar(10) = null
@@ -454,9 +450,12 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT * FROM Patient p INNER JOIN StaysIn s ON s.PatientId = p.SSN WHERE p.SSN LIKE (@ssn + '%') AND p.LastName 
-	LIKE (@lastName + '%') AND p.FirstName LIKE (@firstName + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY LastName, FirstName, MiddleInitial
-
+	IF (@roomNum IS NOT NULL)
+	BEGIN
+		SELECT * FROM Patient p INNER JOIN StaysIn s ON s.PatientId = p.SSN WHERE p.SSN LIKE (@ssn + '%') AND p.LastName 
+		LIKE (@lastName + '%') AND p.FirstName LIKE (@firstName + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY LastName, FirstName, MiddleInitial
+	END
+	ELSE EXEC('SELECT * FROM Patient WHERE SSN LIKE ''' + @ssn + '%'' AND LastName LIKE ''' + @lastName + '%'' AND FirstName LIKE ''' + @firstName +'%''')
 
 END
 GO
