@@ -77,6 +77,9 @@ namespace RADGSHAProject
             foreach (RADGSHALibrary.Room r in ResultingRoomList)
             {
                 ListViewItem roomResult = new ListViewItem(r.getRoomNumber());
+                roomResult.SubItems.Add(r.getHourlyRate().ToString());
+                roomResult.SubItems.Add(r.getEffectiveDate().ToString());
+                RoomListView.Items.Add(roomResult);
             }
 
             if (RoomListView.SelectedItems.Count != 1)
