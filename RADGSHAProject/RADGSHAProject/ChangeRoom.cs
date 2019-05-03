@@ -48,6 +48,17 @@ namespace RADGSHAProject
 
         private void submitButton_Click(object sender, EventArgs e)
         {
+            newRoom = new Room(RoomListView.SelectedItems[0].SubItems[0].Text, Decimal.Parse(RoomListView.SelectedItems[0].SubItems[1].Text), DateTime.Parse(RoomListView.SelectedItems[0].SubItems[2].Text));
+            DBConnectionObject conn = DBConnectionObject.getInstance();
+            foreach (RADGSHALibrary.Room r in selectedVisit.getRoomList())
+            {
+                conn.getRoomEntryExitDates(selectedPatient, selectedVisit, r, out DateTime entry, out DateTime roomExit, out bool stillInRoom);
+                if (stillInRoom)
+                {
+                    conn.closeStaysIn(selectedPatient, selectedVisit, r, DateTime.Now);
+                }
+            }
+            conn.addStaysIn(newRoom, selectedPatient, selectedVisit);
             selectedVisit.addRoom(newRoom);
             Close();
         }
