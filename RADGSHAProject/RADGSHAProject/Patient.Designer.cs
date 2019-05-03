@@ -32,7 +32,7 @@
             this.changeRoomButton = new System.Windows.Forms.Button();
             this.diagnosisWizardButton = new System.Windows.Forms.Button();
             this.PatientGroupBox = new System.Windows.Forms.GroupBox();
-            this.patientBirthdateTextBox = new System.Windows.Forms.TextBox();
+            this.dateBirthdate = new System.Windows.Forms.DateTimePicker();
             this.patientGenderTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,12 +53,12 @@
             this.PatientFirstNameLabel = new System.Windows.Forms.Label();
             this.patientFirstNameTextBox = new System.Windows.Forms.TextBox();
             this.VisitGroupBox = new System.Windows.Forms.GroupBox();
+            this.visitRoomNumber = new System.Windows.Forms.TextBox();
             this.textAttendingPhy = new System.Windows.Forms.TextBox();
             this.VisitSymptomsLabel = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textSymptoms = new System.Windows.Forms.TextBox();
             this.VisitDiagnosisTextBox = new System.Windows.Forms.TextBox();
             this.DiagnosisLabel = new System.Windows.Forms.Label();
-            this.roomNumber = new System.Windows.Forms.ComboBox();
             this.RoomNumberLabel = new System.Windows.Forms.Label();
             this.EntryDateLabel = new System.Windows.Forms.Label();
             this.EntryDatePicker = new System.Windows.Forms.DateTimePicker();
@@ -83,6 +83,7 @@
             this.Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AttendingPhysician = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Diagnosis = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.labelAttending = new System.Windows.Forms.Label();
             this.PatientGroupBox.SuspendLayout();
             this.VisitGroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -124,7 +125,7 @@
             // 
             // PatientGroupBox
             // 
-            this.PatientGroupBox.Controls.Add(this.patientBirthdateTextBox);
+            this.PatientGroupBox.Controls.Add(this.dateBirthdate);
             this.PatientGroupBox.Controls.Add(this.patientGenderTextBox);
             this.PatientGroupBox.Controls.Add(this.label3);
             this.PatientGroupBox.Controls.Add(this.label2);
@@ -153,12 +154,13 @@
             this.PatientGroupBox.TabStop = false;
             this.PatientGroupBox.Text = "Patient Info";
             // 
-            // patientBirthdateTextBox
+            // dateBirthdate
             // 
-            this.patientBirthdateTextBox.Location = new System.Drawing.Point(360, 116);
-            this.patientBirthdateTextBox.Name = "patientBirthdateTextBox";
-            this.patientBirthdateTextBox.Size = new System.Drawing.Size(64, 20);
-            this.patientBirthdateTextBox.TabIndex = 22;
+            this.dateBirthdate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateBirthdate.Location = new System.Drawing.Point(349, 116);
+            this.dateBirthdate.Name = "dateBirthdate";
+            this.dateBirthdate.Size = new System.Drawing.Size(112, 20);
+            this.dateBirthdate.TabIndex = 22;
             // 
             // patientGenderTextBox
             // 
@@ -327,12 +329,13 @@
             // 
             // VisitGroupBox
             // 
+            this.VisitGroupBox.Controls.Add(this.labelAttending);
+            this.VisitGroupBox.Controls.Add(this.visitRoomNumber);
             this.VisitGroupBox.Controls.Add(this.textAttendingPhy);
             this.VisitGroupBox.Controls.Add(this.VisitSymptomsLabel);
-            this.VisitGroupBox.Controls.Add(this.textBox2);
+            this.VisitGroupBox.Controls.Add(this.textSymptoms);
             this.VisitGroupBox.Controls.Add(this.VisitDiagnosisTextBox);
             this.VisitGroupBox.Controls.Add(this.DiagnosisLabel);
-            this.VisitGroupBox.Controls.Add(this.roomNumber);
             this.VisitGroupBox.Controls.Add(this.RoomNumberLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDateLabel);
             this.VisitGroupBox.Controls.Add(this.EntryDatePicker);
@@ -346,9 +349,16 @@
             this.VisitGroupBox.Text = "Visit Info";
             this.VisitGroupBox.Enter += new System.EventHandler(this.VisitGroupBox_Enter);
             // 
+            // visitRoomNumber
+            // 
+            this.visitRoomNumber.Location = new System.Drawing.Point(429, 27);
+            this.visitRoomNumber.Name = "visitRoomNumber";
+            this.visitRoomNumber.Size = new System.Drawing.Size(100, 20);
+            this.visitRoomNumber.TabIndex = 10;
+            // 
             // textAttendingPhy
             // 
-            this.textAttendingPhy.Location = new System.Drawing.Point(406, 103);
+            this.textAttendingPhy.Location = new System.Drawing.Point(430, 103);
             this.textAttendingPhy.Name = "textAttendingPhy";
             this.textAttendingPhy.Size = new System.Drawing.Size(100, 20);
             this.textAttendingPhy.TabIndex = 9;
@@ -363,14 +373,15 @@
             this.VisitSymptomsLabel.TabIndex = 7;
             this.VisitSymptomsLabel.Text = "Symptoms:";
             // 
-            // textBox2
+            // textSymptoms
             // 
-            this.textBox2.Location = new System.Drawing.Point(81, 54);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(498, 45);
-            this.textBox2.TabIndex = 6;
+            this.textSymptoms.AcceptsReturn = true;
+            this.textSymptoms.Location = new System.Drawing.Point(81, 54);
+            this.textSymptoms.Margin = new System.Windows.Forms.Padding(2);
+            this.textSymptoms.Multiline = true;
+            this.textSymptoms.Name = "textSymptoms";
+            this.textSymptoms.Size = new System.Drawing.Size(498, 45);
+            this.textSymptoms.TabIndex = 6;
             // 
             // VisitDiagnosisTextBox
             // 
@@ -389,16 +400,6 @@
             this.DiagnosisLabel.Size = new System.Drawing.Size(56, 13);
             this.DiagnosisLabel.TabIndex = 4;
             this.DiagnosisLabel.Text = "Diagnosis:";
-            // 
-            // roomNumber
-            // 
-            this.roomNumber.Enabled = false;
-            this.roomNumber.FormattingEnabled = true;
-            this.roomNumber.Location = new System.Drawing.Point(429, 31);
-            this.roomNumber.Margin = new System.Windows.Forms.Padding(2);
-            this.roomNumber.Name = "roomNumber";
-            this.roomNumber.Size = new System.Drawing.Size(150, 21);
-            this.roomNumber.TabIndex = 3;
             // 
             // RoomNumberLabel
             // 
@@ -423,10 +424,11 @@
             // EntryDatePicker
             // 
             this.EntryDatePicker.Enabled = false;
-            this.EntryDatePicker.Location = new System.Drawing.Point(82, 31);
+            this.EntryDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.EntryDatePicker.Location = new System.Drawing.Point(98, 31);
             this.EntryDatePicker.Margin = new System.Windows.Forms.Padding(2);
             this.EntryDatePicker.Name = "EntryDatePicker";
-            this.EntryDatePicker.Size = new System.Drawing.Size(182, 20);
+            this.EntryDatePicker.Size = new System.Drawing.Size(134, 20);
             this.EntryDatePicker.TabIndex = 0;
             // 
             // label1
@@ -616,6 +618,15 @@
             this.Diagnosis.Text = "Diagnosis";
             this.Diagnosis.Width = 190;
             // 
+            // labelAttending
+            // 
+            this.labelAttending.AutoSize = true;
+            this.labelAttending.Location = new System.Drawing.Point(316, 107);
+            this.labelAttending.Name = "labelAttending";
+            this.labelAttending.Size = new System.Drawing.Size(103, 13);
+            this.labelAttending.TabIndex = 11;
+            this.labelAttending.Text = "Attending Physician:";
+            // 
             // Patient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,7 +682,6 @@
         private System.Windows.Forms.Label PatientFirstNameLabel;
         private System.Windows.Forms.TextBox patientFirstNameTextBox;
         private System.Windows.Forms.GroupBox VisitGroupBox;
-        private System.Windows.Forms.ComboBox roomNumber;
         private System.Windows.Forms.Label RoomNumberLabel;
         private System.Windows.Forms.Label EntryDateLabel;
         private System.Windows.Forms.DateTimePicker EntryDatePicker;
@@ -679,7 +689,7 @@
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label VisitSymptomsLabel;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textSymptoms;
         private System.Windows.Forms.TextBox VisitDiagnosisTextBox;
         private System.Windows.Forms.Label DiagnosisLabel;
         private System.Windows.Forms.TextBox patientZipTextBox;
@@ -694,7 +704,6 @@
         private System.Windows.Forms.Label addressLine1Label;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textAttendingPhy;
-        private System.Windows.Forms.TextBox patientBirthdateTextBox;
         private System.Windows.Forms.TextBox patientGenderTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -715,5 +724,8 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DateTimePicker dateBirthdate;
+        private System.Windows.Forms.TextBox visitRoomNumber;
+        private System.Windows.Forms.Label labelAttending;
     }
 }

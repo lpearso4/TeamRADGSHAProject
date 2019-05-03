@@ -923,7 +923,7 @@ ALTER PROCEDURE addStaysIn
 
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
-	@patientId nvarchar(9), @visitEntryDate datetime
+	@patientId nvarchar(9), @visitEntryDate datetime, @RoomEntryDateTime datetime=visitEntryDate
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -936,7 +936,7 @@ BEGIN
 	--SET @roomEffectiveDate = (SELECT effectiveDate FROM Room WHERE RoomNumber = @roomNumber)
 
 	INSERT INTO StaysIn(RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime) 
-	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @visitEntryDate)
+	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @RoomEntryDateTime)
 
 END
 GO
@@ -1402,6 +1402,29 @@ BEGIN
 	
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[queryStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+--==============================
+--Louie Louie
+--==============================
+ALTER PROCEDURE queryStaysIn
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9) = null,  @roomNum nvarchar(10) = null
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	IF (@roomNum IS NOT NULL)
+	BEGIN
+		SELECT * FROM StaysIn s WHERE s.PatientId LIKE (@ssn + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY s.RoomNumber
+	END
+END
 
 -- =============================================
 -- Author:		Matt
