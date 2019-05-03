@@ -90,7 +90,7 @@ namespace RADGSHAProject
 
                 patientResult.SubItems.Add(p.getLastName());
                 patientResult.SubItems.Add(p.getSSN());
-                List<Room> rooms = DBconnection.queryStaysIn(patientSSN,roomNum);
+                List<Room> rooms = DBconnection.queryStaysIn(p.getSSN(),roomNum);
                 Room closestRoom = rooms.FirstOrDefault();
                 if (closestRoom != null)
                 {
