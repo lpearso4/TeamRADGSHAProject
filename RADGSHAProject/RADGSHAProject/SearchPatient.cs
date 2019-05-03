@@ -30,7 +30,7 @@ namespace RADGSHAProject
             //This should return the selected Patient
             this.Hide();
             Patient P = new Patient(this, p);
-            P.Closed += (s, args) => this.Close();
+            this.Closed += (s, args) => P.Close();
             P.Show();
         }
         
@@ -90,7 +90,7 @@ namespace RADGSHAProject
 
                 patientResult.SubItems.Add(p.getLastName());
                 patientResult.SubItems.Add(p.getSSN());
-                List<Room> rooms = DBconnection.queryStaysIn(patientSSN,roomNum);
+                List<Room> rooms = DBconnection.queryStaysIn(p.getSSN(),roomNum);
                 Room closestRoom = rooms.FirstOrDefault();
                 if (closestRoom != null)
                 {
@@ -117,6 +117,11 @@ namespace RADGSHAProject
         private void SearchPatient_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void SearchPatient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            loginPage.Close();
         }
     }
 }

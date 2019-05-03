@@ -27,16 +27,17 @@ namespace RADGSHAProject
 
         private void FormClose(object sender, FormClosedEventArgs e)//shows the previous form after closing this one
         {
-            if (previousForm != null)
-            {
-                previousForm.Show();
-            }
-            this.Dispose();
+
         }
 
         private void addFieldButton_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void UseInventory_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            loginPage.Close();
         }
     }
 }

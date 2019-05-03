@@ -13,27 +13,17 @@ namespace RADGSHAProject
 {
     public partial class ImportTool : NavigationPage
     {
-        Form previousForm;//Used for displaying the previous Form when closing this one
+        
         ImportToolLibrary.ImportTool IT;
-        public ImportTool()//This constructor can probably be safely removed
+        public ImportTool()
         {
             InitializeComponent();
             DataImportType.ItemCheck += DataImportType_ItemCheck;
         }
 
-        public ImportTool(Form previousForm)
-        {
-            InitializeComponent();
-            this.previousForm = previousForm;
-        }
-
         private void FormClose(object sender, FormClosedEventArgs e)//shows the previous Form when closing this one
         {
-            if(previousForm != null)
-            {
-                previousForm.Show();
-            }
-            Dispose();
+
         }
 
         private void chooseFileButton_Click(object sender, EventArgs e)
@@ -133,6 +123,11 @@ namespace RADGSHAProject
                 logOutButton.Enabled = true;
                 autoLogout.Enabled = true;
             }
+        }
+
+        private void ImportTool_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            loginPage.Close();
         }
     }
 }

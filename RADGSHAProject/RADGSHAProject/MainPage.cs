@@ -51,9 +51,9 @@ namespace RADGSHAProject
 
         }
 
-        private void FormClose(object sender, FormClosedEventArgs e)//displays Login page after closing Main Page
+        private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            loginPage.Close();
         }
     }
 }
