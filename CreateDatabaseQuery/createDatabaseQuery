@@ -923,7 +923,7 @@ ALTER PROCEDURE addStaysIn
 
 	-- Add the parameters for the stored procedure here
 	@roomNumber nvarchar(10), @roomEffectiveDate datetime,
-	@patientId nvarchar(9), @visitEntryDate datetime
+	@patientId nvarchar(9), @visitEntryDate datetime, @RoomEntryDateTime datetime=visitEntryDate
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -936,7 +936,7 @@ BEGIN
 	--SET @roomEffectiveDate = (SELECT effectiveDate FROM Room WHERE RoomNumber = @roomNumber)
 
 	INSERT INTO StaysIn(RoomNumber, RoomEffectiveDate, PatientId, VisitEntryDate, RoomEntryDateTime) 
-	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @visitEntryDate)
+	VALUES (@roomNumber, @roomEffectiveDate, @patientId, @visitEntryDate, @RoomEntryDateTime)
 
 END
 GO

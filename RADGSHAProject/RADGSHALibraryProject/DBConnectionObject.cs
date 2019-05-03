@@ -689,6 +689,20 @@ namespace RADGSHALibrary
             
             closeReader(ref reader);
         }
+        public void addStaysIn(Room room, Patient patient, Visit v, DateTime roomEntryDateTime)
+        {
+            string procedureName = "addStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+            parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+            parameters.Add(new SqlParameter("@visitEntrydate", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@roomEntryDateTime", roomEntryDateTime));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            closeReader(ref reader);
+        }
         public bool validateLogin(User user)
         {
             
