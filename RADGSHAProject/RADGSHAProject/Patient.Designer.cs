@@ -79,11 +79,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.previousVisitList = new System.Windows.Forms.ListView();
-            this.Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AttendingPhysician = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Diagnosis = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelAttending = new System.Windows.Forms.Label();
+            this.listPreviousVisits = new System.Windows.Forms.ListView();
+            this.visitDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colAttendingPhys = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colDiagnosis = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PatientGroupBox.SuspendLayout();
             this.VisitGroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -581,42 +581,13 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.previousVisitList);
+            this.groupBox3.Controls.Add(this.listPreviousVisits);
             this.groupBox3.Location = new System.Drawing.Point(166, 312);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(625, 157);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Previous visits:";
-            // 
-            // previousVisitList
-            // 
-            this.previousVisitList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Date,
-            this.AttendingPhysician,
-            this.Diagnosis});
-            this.previousVisitList.GridLines = true;
-            this.previousVisitList.Location = new System.Drawing.Point(6, 19);
-            this.previousVisitList.Name = "previousVisitList";
-            this.previousVisitList.Size = new System.Drawing.Size(610, 132);
-            this.previousVisitList.TabIndex = 0;
-            this.previousVisitList.UseCompatibleStateImageBehavior = false;
-            this.previousVisitList.View = System.Windows.Forms.View.Details;
-            // 
-            // Date
-            // 
-            this.Date.Text = "Date";
-            this.Date.Width = 147;
-            // 
-            // AttendingPhysician
-            // 
-            this.AttendingPhysician.Text = "AttendingPhysician";
-            this.AttendingPhysician.Width = 246;
-            // 
-            // Diagnosis
-            // 
-            this.Diagnosis.Text = "Diagnosis";
-            this.Diagnosis.Width = 190;
             // 
             // labelAttending
             // 
@@ -626,6 +597,38 @@
             this.labelAttending.Size = new System.Drawing.Size(103, 13);
             this.labelAttending.TabIndex = 11;
             this.labelAttending.Text = "Attending Physician:";
+            // 
+            // listPreviousVisits
+            // 
+            this.listPreviousVisits.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.visitDate,
+            this.colAttendingPhys,
+            this.colDiagnosis});
+            this.listPreviousVisits.FullRowSelect = true;
+            this.listPreviousVisits.GridLines = true;
+            this.listPreviousVisits.Location = new System.Drawing.Point(3, 16);
+            this.listPreviousVisits.MultiSelect = false;
+            this.listPreviousVisits.Name = "listPreviousVisits";
+            this.listPreviousVisits.Size = new System.Drawing.Size(619, 135);
+            this.listPreviousVisits.TabIndex = 0;
+            this.listPreviousVisits.UseCompatibleStateImageBehavior = false;
+            this.listPreviousVisits.View = System.Windows.Forms.View.Details;
+            this.listPreviousVisits.SelectedIndexChanged += new System.EventHandler(this.listPreviousVisits_SelectedIndexChanged);
+            // 
+            // visitDate
+            // 
+            this.visitDate.Text = "Visit Date";
+            this.visitDate.Width = 200;
+            // 
+            // colAttendingPhys
+            // 
+            this.colAttendingPhys.Text = "AttendingPhysician";
+            this.colAttendingPhys.Width = 200;
+            // 
+            // colDiagnosis
+            // 
+            this.colDiagnosis.Text = "Diagnosis";
+            this.colDiagnosis.Width = 200;
             // 
             // Patient
             // 
@@ -708,10 +711,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ListView previousVisitList;
-        private System.Windows.Forms.ColumnHeader Date;
-        private System.Windows.Forms.ColumnHeader AttendingPhysician;
-        private System.Windows.Forms.ColumnHeader Diagnosis;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
@@ -727,5 +726,9 @@
         private System.Windows.Forms.DateTimePicker dateBirthdate;
         private System.Windows.Forms.TextBox visitRoomNumber;
         private System.Windows.Forms.Label labelAttending;
+        private System.Windows.Forms.ListView listPreviousVisits;
+        private System.Windows.Forms.ColumnHeader visitDate;
+        private System.Windows.Forms.ColumnHeader colAttendingPhys;
+        private System.Windows.Forms.ColumnHeader colDiagnosis;
     }
 }

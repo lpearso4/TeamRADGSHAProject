@@ -71,32 +71,43 @@ namespace RADGSHAProject
             if (selectedVisit==null)
             {
                 EntryDatePicker.Visible = false;
-              
+                changeRoomButton.Enabled = false;
+                diagnosisWizardButton.Enabled = false;
+                useInventoryButton.Enabled = false;
             }
             else
             {
                 EntryDatePicker.Visible = true;
                 EntryDatePicker.Value = selectedVisit.getEntryDate();
-                visitRoomNumber.Text = selectedVisit.getRoomList()[0].getRoomNumber();
+
+                if (selectedVisit.getRoomList().Count>0) visitRoomNumber.Text = selectedVisit.getRoomList()[selectedVisit.getRoomList().Count-1].getRoomNumber();
                 textSymptoms.Text = "";
                 foreach (string s in selectedVisit.getSymptomList())
                 {
                     textSymptoms.Text += s + "\r\n";
                 }
                 VisitDiagnosisTextBox.Text = selectedVisit.getDiagnosis();
-                AttendingPhysician.Text = selectedVisit.getAttendingPhysician();
+                textAttendingPhy.Text = selectedVisit.getAttendingPhysician();
+                changeRoomButton.Enabled = true;
+                diagnosisWizardButton.Enabled = true;
+                useInventoryButton.Enabled = true;
                 //roomNumber.Items = selectedVisit.getRoomList()
             }
-            previousVisitList.Clear();
-            foreach (Visit v in selectedPatient.getVisitList())
+            listPreviousVisits.Items.Clear();
+            
+       
+            for (int i = selectedPatient.getVisitList().Count-1; i >=0; i--) // selectedPatient.getVisitList.Count Visit v in selectedPatient.getVisitList())
             {
+                Visit v = selectedPatient.getVisitList()[i];
                 if (selectedVisit != null && selectedVisit.getEntryDate() == v.getEntryDate()) continue; // we don't want to display current visit in previous visit list 
                 Console.WriteLine("Adding previous visit at date: " + v.getEntryDate().ToShortDateString());
-                ListViewItem previousVisits = new ListViewItem(v.getEntryDate().ToShortDateString());
-                previousVisits.SubItems.Add(v.getAttendingPhysician());
-                previousVisits.SubItems.Add(v.getDiagnosis());
+
+                ListViewItem previousVisit = new ListViewItem(v.getEntryDate().ToShortDateString());
+                previousVisit.SubItems.Add(v.getAttendingPhysician());
+                previousVisit.SubItems.Add(v.getDiagnosis());
                
-                previousVisitList.Items.Add(previousVisits);
+               // previousVisitList.Items.Add(previousVisit);
+                listPreviousVisits.Items.Add(previousVisit);
             }
         }
 
@@ -229,7 +240,7 @@ namespace RADGSHAProject
                 C.Closed += (s, args) => this.Close();
                 C.ShowDialog();
                 conn.addVisit(selectedVisit, selectedPatient);
-                if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
+               // if (selectedVisit.getRoomList()[0]!=null) conn.addStaysIn(selectedVisit.getRoomList()[0], selectedPatient, selectedVisit);
                 checkInOutButton.Text = "Check Out";
             }
 
@@ -244,6 +255,11 @@ namespace RADGSHAProject
         private void VisitGroupBox_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void listPreviousVisits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
