@@ -1403,6 +1403,29 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('[dbo].[queryStaysIn]'))
+   exec('CREATE PROCEDURE [dbo].[queryStaysIn] AS BEGIN SET NOCOUNT ON; END')
+GO
+
+--==============================
+--Louie Louie
+--==============================
+ALTER PROCEDURE queryStaysIn
+	-- Add the parameters for the stored procedure here
+	@ssn nvarchar(9) = null,  @roomNum nvarchar(10) = null
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	IF (@roomNum IS NOT NULL)
+	BEGIN
+		SELECT * FROM StaysIn s WHERE s.PatientId LIKE (@ssn + '%') AND s.RoomNumber LIKE (@roomNum + '%') ORDER BY s.RoomNumber
+	END
+END
+
 -- =============================================
 -- Author:		Matt
 -- Create date: 4/11/2019
