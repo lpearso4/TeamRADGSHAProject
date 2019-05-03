@@ -467,6 +467,37 @@ namespace RADGSHALibrary
             return results;
         }
 
+        public List<Room> queryStaysIn(string SSN, string roomNumber)
+        {
+
+            string queryString = "queryStaysIn";
+            SqlCommand command = new SqlCommand(queryString, conn);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@ssn", SSN));
+            command.Parameters.Add(new SqlParameter("@roomNum", roomNumber));
+
+            command.Connection = conn;
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<Room> results = new List<Room>();
+
+            int count = 0;
+            while (reader.Read() && count < QUERY_LIMIT)
+            {
+                string roomNum = reader.GetString((int)staysInCol.RoomNumber);
+                DateTime effectiveDate = reader.GetDateTime((int)staysInCol.RoomEffectiveDate);
+                decimal hourlyRate = 0;
+                Room room = new Room(roomNum, hourlyRate, effectiveDate);
+
+                results.Add(room);
+                count++;
+            }
+            reader.Close();
+
+            return results;
+        }
+
         /// <summary>
         /// Patient DB methods below
         /// </summary>

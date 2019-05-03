@@ -39,6 +39,7 @@ namespace RADGSHALibrary
             // this will take the current visits symptoms, and decide what next symptom should be asked.
             DBConnectionObject conn = DBConnectionObject.getInstance();
             string suggestedNextSymptom = conn.getDiagnosisWizardSymptomByPreviousResponses(CurrentResults.PreviousResponses);
+            CurrentResults.CurrentBestSymptom = suggestedNextSymptom;
             return suggestedNextSymptom;
         }
 
