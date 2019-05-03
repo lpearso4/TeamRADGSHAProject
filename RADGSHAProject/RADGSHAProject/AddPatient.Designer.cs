@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.PatientGroupBox = new System.Windows.Forms.GroupBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.birthDate = new System.Windows.Forms.DateTimePicker();
+            this.comboDonorStatus = new System.Windows.Forms.ComboBox();
+            this.comboDNR = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.patientInsurer = new System.Windows.Forms.TextBox();
+            this.patientSSN = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.birthdateBox = new System.Windows.Forms.TextBox();
             this.genderBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -57,6 +57,7 @@
             this.PatientMiddleInitialLabel = new System.Windows.Forms.Label();
             this.PatientFirstNameLabel = new System.Windows.Forms.Label();
             this.patientFirstNameTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.PatientGroupBox.SuspendLayout();
@@ -64,15 +65,15 @@
             // 
             // PatientGroupBox
             // 
-            this.PatientGroupBox.Controls.Add(this.textBox4);
-            this.PatientGroupBox.Controls.Add(this.textBox3);
-            this.PatientGroupBox.Controls.Add(this.textBox2);
-            this.PatientGroupBox.Controls.Add(this.textBox1);
+            this.PatientGroupBox.Controls.Add(this.birthDate);
+            this.PatientGroupBox.Controls.Add(this.comboDonorStatus);
+            this.PatientGroupBox.Controls.Add(this.comboDNR);
+            this.PatientGroupBox.Controls.Add(this.label7);
+            this.PatientGroupBox.Controls.Add(this.patientInsurer);
+            this.PatientGroupBox.Controls.Add(this.patientSSN);
             this.PatientGroupBox.Controls.Add(this.label6);
             this.PatientGroupBox.Controls.Add(this.label5);
             this.PatientGroupBox.Controls.Add(this.label4);
-            this.PatientGroupBox.Controls.Add(this.label1);
-            this.PatientGroupBox.Controls.Add(this.birthdateBox);
             this.PatientGroupBox.Controls.Add(this.genderBox);
             this.PatientGroupBox.Controls.Add(this.label3);
             this.PatientGroupBox.Controls.Add(this.label2);
@@ -101,33 +102,63 @@
             this.PatientGroupBox.TabStop = false;
             this.PatientGroupBox.Text = "Patient Info";
             // 
-            // textBox4
+            // birthDate
             // 
-            this.textBox4.Location = new System.Drawing.Point(360, 152);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(42, 20);
-            this.textBox4.TabIndex = 30;
+            this.birthDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.birthDate.Location = new System.Drawing.Point(510, 119);
+            this.birthDate.Name = "birthDate";
+            this.birthDate.Size = new System.Drawing.Size(88, 20);
+            this.birthDate.TabIndex = 31;
             // 
-            // textBox3
+            // comboDonorStatus
             // 
-            this.textBox3.Location = new System.Drawing.Point(546, 152);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(71, 20);
-            this.textBox3.TabIndex = 29;
+            this.comboDonorStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDonorStatus.FormattingEnabled = true;
+            this.comboDonorStatus.Items.AddRange(new object[] {
+            "True",
+            "False",
+            " "});
+            this.comboDonorStatus.Location = new System.Drawing.Point(546, 151);
+            this.comboDonorStatus.Name = "comboDonorStatus";
+            this.comboDonorStatus.Size = new System.Drawing.Size(68, 21);
+            this.comboDonorStatus.TabIndex = 30;
             // 
-            // textBox2
+            // comboDNR
             // 
-            this.textBox2.Location = new System.Drawing.Point(98, 152);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(149, 20);
-            this.textBox2.TabIndex = 28;
+            this.comboDNR.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDNR.FormattingEnabled = true;
+            this.comboDNR.Items.AddRange(new object[] {
+            "True",
+            "False",
+            " "});
+            this.comboDNR.Location = new System.Drawing.Point(344, 151);
+            this.comboDNR.Name = "comboDNR";
+            this.comboDNR.Size = new System.Drawing.Size(68, 21);
+            this.comboDNR.TabIndex = 29;
+            this.comboDNR.SelectedIndexChanged += new System.EventHandler(this.comboDNR_SelectedIndexChanged);
             // 
-            // textBox1
+            // label7
             // 
-            this.textBox1.Location = new System.Drawing.Point(98, 118);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(149, 20);
-            this.textBox1.TabIndex = 27;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(17, 125);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(32, 13);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "SSN:";
+            // 
+            // patientInsurer
+            // 
+            this.patientInsurer.Location = new System.Drawing.Point(98, 152);
+            this.patientInsurer.Name = "patientInsurer";
+            this.patientInsurer.Size = new System.Drawing.Size(149, 20);
+            this.patientInsurer.TabIndex = 28;
+            // 
+            // patientSSN
+            // 
+            this.patientSSN.Location = new System.Drawing.Point(98, 118);
+            this.patientSSN.Name = "patientSSN";
+            this.patientSSN.Size = new System.Drawing.Size(149, 20);
+            this.patientSSN.TabIndex = 27;
             // 
             // label6
             // 
@@ -155,22 +186,6 @@
             this.label4.Size = new System.Drawing.Size(42, 13);
             this.label4.TabIndex = 24;
             this.label4.Text = "Insurer:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 121);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "SSN:";
-            // 
-            // birthdateBox
-            // 
-            this.birthdateBox.Location = new System.Drawing.Point(501, 118);
-            this.birthdateBox.Name = "birthdateBox";
-            this.birthdateBox.Size = new System.Drawing.Size(116, 20);
-            this.birthdateBox.TabIndex = 22;
             // 
             // genderBox
             // 
@@ -337,6 +352,15 @@
             this.patientFirstNameTextBox.Size = new System.Drawing.Size(149, 20);
             this.patientFirstNameTextBox.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 121);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 13);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "SSN:";
+            // 
             // saveButton
             // 
             this.saveButton.Location = new System.Drawing.Point(709, 321);
@@ -345,6 +369,7 @@
             this.saveButton.TabIndex = 8;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // cancelButton
             // 
@@ -372,13 +397,13 @@
             this.PatientGroupBox.ResumeLayout(false);
             this.PatientGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.GroupBox PatientGroupBox;
-        private System.Windows.Forms.TextBox birthdateBox;
         private System.Windows.Forms.TextBox genderBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -402,11 +427,13 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox patientInsurer;
+        private System.Windows.Forms.TextBox patientSSN;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.ComboBox comboDNR;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox comboDonorStatus;
+        private System.Windows.Forms.DateTimePicker birthDate;
     }
 }

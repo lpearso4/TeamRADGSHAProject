@@ -554,7 +554,7 @@ namespace RADGSHALibrary
             parameters.Add(new SqlParameter("@ssn", ssn));
             parameters.Add(new SqlParameter("@lastName", lastName));
             parameters.Add(new SqlParameter("@firstName", firstName));
-            parameters.Add(new SqlParameter("@roomNum", roomNum));
+            if (roomNum.Trim().Length>0) parameters.Add(new SqlParameter("@roomNum", roomNum));
             SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             List<Patient> results = new List<Patient>();
