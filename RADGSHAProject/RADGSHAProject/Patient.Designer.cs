@@ -32,8 +32,8 @@
             this.changeRoomButton = new System.Windows.Forms.Button();
             this.diagnosisWizardButton = new System.Windows.Forms.Button();
             this.PatientGroupBox = new System.Windows.Forms.GroupBox();
-            this.birthdateBox = new System.Windows.Forms.TextBox();
-            this.genderBox = new System.Windows.Forms.TextBox();
+            this.patientBirthdateTextBox = new System.Windows.Forms.TextBox();
+            this.patientGenderTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.patientZipTextBox = new System.Windows.Forms.TextBox();
@@ -124,8 +124,8 @@
             // 
             // PatientGroupBox
             // 
-            this.PatientGroupBox.Controls.Add(this.birthdateBox);
-            this.PatientGroupBox.Controls.Add(this.genderBox);
+            this.PatientGroupBox.Controls.Add(this.patientBirthdateTextBox);
+            this.PatientGroupBox.Controls.Add(this.patientGenderTextBox);
             this.PatientGroupBox.Controls.Add(this.label3);
             this.PatientGroupBox.Controls.Add(this.label2);
             this.PatientGroupBox.Controls.Add(this.patientZipTextBox);
@@ -148,24 +148,24 @@
             this.PatientGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.PatientGroupBox.Name = "PatientGroupBox";
             this.PatientGroupBox.Padding = new System.Windows.Forms.Padding(2);
-            this.PatientGroupBox.Size = new System.Drawing.Size(626, 154);
+            this.PatientGroupBox.Size = new System.Drawing.Size(626, 146);
             this.PatientGroupBox.TabIndex = 6;
             this.PatientGroupBox.TabStop = false;
             this.PatientGroupBox.Text = "Patient Info";
             // 
-            // birthdateBox
+            // patientBirthdateTextBox
             // 
-            this.birthdateBox.Location = new System.Drawing.Point(360, 116);
-            this.birthdateBox.Name = "birthdateBox";
-            this.birthdateBox.Size = new System.Drawing.Size(100, 20);
-            this.birthdateBox.TabIndex = 22;
+            this.patientBirthdateTextBox.Location = new System.Drawing.Point(360, 116);
+            this.patientBirthdateTextBox.Name = "patientBirthdateTextBox";
+            this.patientBirthdateTextBox.Size = new System.Drawing.Size(64, 20);
+            this.patientBirthdateTextBox.TabIndex = 22;
             // 
-            // genderBox
+            // patientGenderTextBox
             // 
-            this.genderBox.Location = new System.Drawing.Point(98, 116);
-            this.genderBox.Name = "genderBox";
-            this.genderBox.Size = new System.Drawing.Size(100, 20);
-            this.genderBox.TabIndex = 21;
+            this.patientGenderTextBox.Location = new System.Drawing.Point(98, 116);
+            this.patientGenderTextBox.Name = "patientGenderTextBox";
+            this.patientGenderTextBox.Size = new System.Drawing.Size(149, 20);
+            this.patientGenderTextBox.TabIndex = 21;
             // 
             // label3
             // 
@@ -208,7 +208,7 @@
             this.patientStateTextBox.Location = new System.Drawing.Point(360, 87);
             this.patientStateTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.patientStateTextBox.Name = "patientStateTextBox";
-            this.patientStateTextBox.Size = new System.Drawing.Size(42, 20);
+            this.patientStateTextBox.Size = new System.Drawing.Size(64, 20);
             this.patientStateTextBox.TabIndex = 16;
             // 
             // stateLabel
@@ -250,7 +250,7 @@
             // 
             this.patientAddressLine2TextBox.Location = new System.Drawing.Point(360, 57);
             this.patientAddressLine2TextBox.Name = "patientAddressLine2TextBox";
-            this.patientAddressLine2TextBox.Size = new System.Drawing.Size(137, 20);
+            this.patientAddressLine2TextBox.Size = new System.Drawing.Size(146, 20);
             this.patientAddressLine2TextBox.TabIndex = 12;
             // 
             // addressLine2Label
@@ -294,7 +294,7 @@
             this.PatientMiddleInitialTextBox.Location = new System.Drawing.Point(360, 27);
             this.PatientMiddleInitialTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.PatientMiddleInitialTextBox.Name = "PatientMiddleInitialTextBox";
-            this.PatientMiddleInitialTextBox.Size = new System.Drawing.Size(42, 20);
+            this.PatientMiddleInitialTextBox.Size = new System.Drawing.Size(64, 20);
             this.PatientMiddleInitialTextBox.TabIndex = 3;
             // 
             // PatientMiddleInitialLabel
@@ -345,15 +345,6 @@
             this.VisitGroupBox.TabStop = false;
             this.VisitGroupBox.Text = "Visit Info";
             this.VisitGroupBox.Enter += new System.EventHandler(this.VisitGroupBox_Enter);
-            this.VisitGroupBox.Controls.SetChildIndex(this.EntryDatePicker, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.EntryDateLabel, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.RoomNumberLabel, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.roomNumber, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.DiagnosisLabel, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.VisitDiagnosisTextBox, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.textBox2, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.VisitSymptomsLabel, 0);
-            this.VisitGroupBox.Controls.SetChildIndex(this.textAttendingPhy, 0);
             // 
             // textAttendingPhy
             // 
@@ -703,8 +694,8 @@
         private System.Windows.Forms.Label addressLine1Label;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textAttendingPhy;
-        private System.Windows.Forms.TextBox birthdateBox;
-        private System.Windows.Forms.TextBox genderBox;
+        private System.Windows.Forms.TextBox patientBirthdateTextBox;
+        private System.Windows.Forms.TextBox patientGenderTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;

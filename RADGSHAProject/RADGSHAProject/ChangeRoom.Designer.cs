@@ -76,11 +76,13 @@
             // 
             // RoomListView
             // 
+            this.RoomListView.GridLines = true;
             this.RoomListView.Location = new System.Drawing.Point(33, 75);
             this.RoomListView.Name = "RoomListView";
             this.RoomListView.Size = new System.Drawing.Size(314, 90);
             this.RoomListView.TabIndex = 13;
             this.RoomListView.UseCompatibleStateImageBehavior = false;
+            this.RoomListView.View = System.Windows.Forms.View.Details;
             this.RoomListView.SelectedIndexChanged += new System.EventHandler(this.RoomListView_SelectedIndexChanged);
             this.RoomListView.Leave += new System.EventHandler(this.RoomListView_Leave);
             // 

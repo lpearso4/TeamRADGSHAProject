@@ -64,6 +64,8 @@ namespace RADGSHAProject
             patientCityTextBox.Text = selectedPatient.getCity();
             patientStateTextBox.Text = selectedPatient.getState();
             patientZipTextBox.Text = selectedPatient.getZipcode();
+            patientGenderTextBox.Text = selectedPatient.getGender().ToString();
+            patientBirthdateTextBox.Text = selectedPatient.getBirthDate().ToString("MM/dd/yyyy");
 
             if (selectedVisit==null)
             {
@@ -103,6 +105,8 @@ namespace RADGSHAProject
             patientCityTextBox.Enabled = true;
             patientStateTextBox.Enabled = true;
             patientZipTextBox.Enabled = true;
+            patientGenderTextBox.Enabled = true;
+            patientBirthdateTextBox.Enabled = true;
         }
 
         private void disableCurrentPatientTextBoxes()
@@ -115,6 +119,8 @@ namespace RADGSHAProject
             patientCityTextBox.Enabled = false;
             patientStateTextBox.Enabled = false;
             patientZipTextBox.Enabled = false;
+            patientGenderTextBox.Enabled = false;
+            patientBirthdateTextBox.Enabled = false;
         }
 
         private void saveCurrentPatient()
@@ -129,6 +135,8 @@ namespace RADGSHAProject
             selectedPatient.setCity(patientCityTextBox.Text);
             selectedPatient.setState(patientStateTextBox.Text);
             selectedPatient.setZipcode(patientZipTextBox.Text);
+            selectedPatient.setGender(patientGenderTextBox.Text[0]);
+            selectedPatient.setBirthDate(DateTime.Parse(patientBirthdateTextBox.ToString()));
 
             conn.updatePatient(selectedPatient);
         }
