@@ -590,51 +590,48 @@ namespace RADGSHALibrary
             reader.Close();
         }
 
-        public void addUses(Inventory inventory, Patient patient, Visit v)
+        public void addUses(Inventory inventory, Patient patient, Visit v, int quantityUsed)
         {
-            string queryString = "addUses";
+            string procedureName = "addUses";
 
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
-            command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
-            command.Parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
-           
-            command.Connection = conn;
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@quantityUsed", quantityUsed));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Close();
+            closeReader(ref reader);
+
+          
         }
 
         public void addToLog(Inventory inventory, User user, decimal quantityUsed)
         {
-            string queryString = "addToLog";
 
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
-            command.Parameters.Add(new SqlParameter("@userName", user.getUsername()));
-            command.Parameters.Add(new SqlParameter("@quantityUsed", quantityUsed));
-            command.Connection = conn;
+            string procedureName = "addToLog";
 
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Close();
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@stockId", inventory.getStockID()));
+            parameters.Add(new SqlParameter("@userName", user.getUsername()));
+            parameters.Add(new SqlParameter("@quantityUsed", quantityUsed));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+
+            closeReader(ref reader);
+                   
         }
         public void addSymptom(Patient patient, Visit v, string symptom)
         {
-            string queryString = "addSymptom";
 
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
-            command.Parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
-            command.Parameters.Add(new SqlParameter("@symptomName", symptom));
-            
+            string procedureName = "addSymptom";
 
-            command.Connection = conn;
-
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Close();
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@entryDate", v.getEntryDate()));
+            parameters.Add(new SqlParameter("@symptomName", symptom));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+                        
+            closeReader(ref reader);
         }
 
         public List<string> querySymptoms (string patientSSN="", string symptomName="")
@@ -681,58 +678,49 @@ namespace RADGSHALibrary
 
         public void addStaysIn(Room room, Patient patient, Visit v)
         {
-            string queryString = "addStaysIn";
+            string procedureName = "addStaysIn";
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
+            parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
+            parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
+            parameters.Add(new SqlParameter("@visitEntrydate", v.getEntryDate()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
             
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@patientId", patient.getSSN()));
-            command.Parameters.Add(new SqlParameter("@roomNumber", room.getRoomNumber()));
-            command.Parameters.Add(new SqlParameter("@roomEffectiveDate", room.getEffectiveDate()));
-            command.Parameters.Add(new SqlParameter("@visitEntrydate", v.getEntryDate()));
-
-            command.Connection = conn;
-
-            SqlDataReader reader = command.ExecuteReader();
-            reader.Close();
+            closeReader(ref reader);
         }
         public bool validateLogin(User user)
         {
-            string queryString = "validateLogin";
+            
+            string procedureName = "validateLogin";
 
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@userName", user.getUsername()));
-            command.Parameters.Add(new SqlParameter("@givenPW", user.getPassword()));
-
-            command.Connection = conn;
-
-            SqlDataReader reader = command.ExecuteReader();
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@userName", user.getUsername()));
+            parameters.Add(new SqlParameter("@givenPW", user.getPassword()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
 
             reader.Read();
 
             bool isValid = reader.GetBoolean(0);
 
-            reader.Close();
+            closeReader(ref reader);
 
             return isValid;
         }
         public bool validateUserType(User user)
         {
-            string queryString = "validateUserType";
+            string procedureName = "validateUserType";
 
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@UserName", user.getUsername()));
-
-            command.Connection = conn;
-
-            SqlDataReader reader = command.ExecuteReader();
-
+            
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@UserName", user.getUsername()));
+            SqlDataReader reader = executeStoredProcedure(procedureName, parameters);
+    
             reader.Read();
 
             bool isAdmin = reader.GetBoolean(0);
 
-            reader.Close();
+            closeReader(ref reader);
 
             return isAdmin;
         }

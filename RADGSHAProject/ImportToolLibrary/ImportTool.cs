@@ -66,7 +66,7 @@ namespace ImportToolLibrary
         }
         public async void importPatientData(string url)
         {
-            
+            int numErrors = 0;
 
             int numberOfLines = getFileLineLength(url);
             int currentLineNumber = 0;
@@ -169,31 +169,39 @@ namespace ImportToolLibrary
                 v.setNote(note);
        
                 v.changeDiagnosis(diagnosis);
-                conn.addVisit(v, p);
 
-
-                for (int i = 0; i < 6; i++)
+                try
                 {
-                    List<string> l = conn.querySymptoms(p,v, symptom[i]);
-                    //Console.WriteLine("Matching symptoms for " + symptom[i] +" : " + l.Count());
-                    if (l.Count == 0) conn.addSymptom(p, v, symptom[i]); // if this patient doesn't have the symptom, add it
-                }
-                conn.closeVisit(p, v);
+                    conn.addVisit(v, p);
 
-                List<Room> rooms = conn.queryRoom(roomNumber);
 
-                int bestIndex = -1;
-                for(int i = 0; i<rooms.Count;i++)
-                {
-                    if (v.getEntryDate() < rooms[i].getEffectiveDate())
+
+                    for (int i = 0; i < 6; i++)
                     {
-                        bestIndex = i;
+                        List<string> l = conn.querySymptoms(p, v, symptom[i]);
+                        //Console.WriteLine("Matching symptoms for " + symptom[i] +" : " + l.Count());
+                        if (l.Count == 0) conn.addSymptom(p, v, symptom[i]); // if this patient doesn't have the symptom, add it
                     }
+                    conn.closeVisit(p, v);
+
+                    List<Room> rooms = conn.queryRoom(roomNumber);
+
+                    int bestIndex = -1;
+                    for (int i = 0; i < rooms.Count; i++)
+                    {
+                        if (v.getEntryDate() < rooms[i].getEffectiveDate())
+                        {
+                            bestIndex = i;
+                        }
+                    }
+                    if (bestIndex != -1) conn.addStaysIn(rooms[bestIndex], p, v);
+
+                    conn.closeStaysIn(p, v, rooms[bestIndex], v.getExitDate());
                 }
-                if (bestIndex != -1) conn.addStaysIn(rooms[bestIndex],p,v);
-
-                conn.closeStaysIn(p, v, rooms[bestIndex], v.getExitDate());
-
+                catch (Exception e)
+                {
+                    numErrors++;
+                }
                 currentLineNumber++;
                 outputPercentTimer++;
 
@@ -211,6 +219,7 @@ namespace ImportToolLibrary
             status.Imported = status.Total;
             Console.WriteLine("Import Completed.");
             file.Close();
+            Console.WriteLine("Import Completed with " + numErrors + " errors. If errors occurred, it's possible user is already imported.");
         }
         public async void importRoomData(string url)
         {

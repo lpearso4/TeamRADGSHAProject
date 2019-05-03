@@ -1009,7 +1009,7 @@ ALTER PROCEDURE addUses
 
 	-- Add the parameters for the stored procedure here
 	@stockId nvarchar(50), @patientId nvarchar(9),
-	@entryDateTime datetime
+	@entryDateTime datetime, @quantityUsed int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -1018,7 +1018,7 @@ BEGIN
 
     -- Insert statements for procedure here
 
-	INSERT INTO Uses(StockId, PatientId, EntryDateTime) VALUES (@stockId, @patientId, @entryDateTime)
+	INSERT INTO Uses(StockId, PatientId, EntryDateTime, QuantityUsed) VALUES (@stockId, @patientId, @entryDateTime,@quantityUsed)
 
 END
 GO
