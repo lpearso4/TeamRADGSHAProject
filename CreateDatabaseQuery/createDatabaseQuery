@@ -1608,11 +1608,11 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-    	-- Insert statements for procedure here
+    -- Insert statements for procedure here
 
-	/* temporary tables for executing a for each loop and to hold the list of all symptoms */
 	DECLARE @allRecords table (symptomName nvarchar(50), patientId nvarchar(9), enrtyDate datetime, diagnosis nvarchar(50))
 	DECLARE @distinctSymptom table (symptomName nvarchar(50), percentage decimal(8,5))
+	DECLARE @skipSymptom table (symptomName nvarchar(50))
 	DECLARE @allDiagnosis table (diagnosis nvarchar(50))
 	DECLARE @diagnosisToDelete table (diagnosis nvarchar(50))
 	DECLARE @distinctDiagnosis table (diagnosis nvarchar(50))
@@ -1632,6 +1632,7 @@ BEGIN
 	-- set values into @allRecords
 	INSERT INTO @allRecords (symptomName, patientId, enrtyDate, diagnosis) SELECT s.SymptomName, v.PatientId, v.EntryDate, v.Diagnosis FROM Symptom s INNER JOIN Visit v ON v.PatientId = s.PatientId
 	SET @totalnumberOfOccurances = (SELECT COUNT(SymptomName) FROM @allRecords)
+	SELECT COUNT(DISTINCT(diagnosis)) FROM @allRecords
 
 	-- delete values based on previous responses
 	IF (@previousResponses IS NOT NULL)
@@ -1649,43 +1650,37 @@ BEGIN
 			DELETE FROM @previousResultsTable WHERE i = (SELECT top 1 i FROM @previousResultsTable)
 			SET ROWCOUNT 0
 
-			-- currently not working as desired, if current result = 1 then all diagnosis that dont contain the symptom should be deleted
-			-- if result = 0 then all diagnosis that do not contain symptom should be deleted
-			--   /
-			--  /
-			-- /
-			--|----------------------------
-			-- \
-			--  \ 
-			--   \
 			IF (@currentResult = 1)
 			BEGIN
-				DELETE FROM @allRecords WHERE symptomName = @currentResultName
-				--DELETE FROM @allRecords WHERE diagnosis IN (SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName = @currentResultName)
-				--DELETE FROM @allRecords WHERE symptomName = @currentResultName
+				INSERT INTO @skipSymptom(symptomName) SELECT @currentResultName
+				INSERT INTO @diagnosisToDelete SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName = @currentResultName
+				DELETE FROM @allRecords WHERE diagnosis NOT IN (SELECT diagnosis FROM @diagnosisToDelete)
+				DELETE FROM @diagnosisToDelete
 			END
 			ELSE 
 			BEGIN
-				INSERT INTO @diagnosisToDelete (diagnosis) SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName <> @currentResultName
-				DELETE FROM @allRecords WHERE diagnosis IN (SELECT * FROM @diagnosisToDelete)
-				--SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName <> @currentResultName
+				INSERT INTO @skipSymptom(symptomName) SELECT @currentResultName
+				INSERT INTO @diagnosisToDelete SELECT DISTINCT(diagnosis) FROM @allRecords WHERE symptomName = @currentResultName
+				DELETE FROM @allRecords WHERE diagnosis IN (SELECT diagnosis FROM @diagnosisToDelete) AND symptomName = @currentResultName
+				DELETE FROM @diagnosisToDelete
 			END
 			SET @counter = @counter  + 1 
 		END
 	END
 
 	-- puts top 100 results into table to determine symptom to query
-	INSERT INTO @currentResultSymptom (name, percentage) SELECT top 100 symptomName, CAST(CAST(COUNT(*) as float)/CAST(@totalnumberOfOccurances as float) as decimal(5,5)) FROM @allRecords GROUP BY symptomName ORDER BY COUNT(*) DESC
+	INSERT INTO @currentResultSymptom (name, percentage) SELECT top 5 symptomName, CAST(COUNT(*) AS DECIMAL)/@totalnumberOfOccurances FROM @allRecords WHERE symptomName NOT IN (SELECT * FROM @skipSymptom) GROUP BY symptomName ORDER BY COUNT(*)
+	--DELETE FROM @currentResultSymptom WHERE [name] IN (SELECT * FROM @skipSymptom)
 
 	-- add values to distinctSymptom for next calculation
 	INSERT INTO @distinctSymptom (symptomName, percentage) SELECT name, percentage FROM @currentResultSymptom
-	SET @maxCount = 100
+	SET @maxCount = 10
 
 	-- update values if above .5 to be distance from .5
 	WHILE(@counter < @maxCount)
 	BEGIN
 		--update distance from .5
-		IF ((SELECT top 1 percentage FROM @distinctSymptom) > .5) UPDATE @currentResultSymptom SET percentage = ((SELECT top 1 percentage FROM @distinctSymptom) - .5) WHERE name = (SELECT top 1 symptomName FROM @distinctSymptom)
+		IF ((SELECT top 1 [percentage] FROM @distinctSymptom) > .5) UPDATE @currentResultSymptom SET percentage = ((SELECT top 1 [percentage] FROM @distinctSymptom) - .5) WHERE name = (SELECT top 1 symptomName FROM @distinctSymptom)
 		SET @counter = @counter  + 1 
 	END
 
@@ -1693,20 +1688,19 @@ BEGIN
 	BEGIN
 		-- set values for calculations and loop
 		SET @totalnumberOfOccurances = (SELECT COUNT(Diagnosis) FROM @allRecords)
-		INSERT INTO @allDiagnosis (Diagnosis) SELECT Diagnosis FROM Visit WHERE PatientId IN (SELECT PatientId FROM @allRecords)
-		INSERT INTO @distinctDiagnosis (diagnosis) SELECT DISTINCT(diagnosis) FROM @allRecords
+		INSERT INTO @allDiagnosis (Diagnosis) SELECT diagnosis FROM @allRecords
+		INSERT INTO @distinctDiagnosis (diagnosis) SELECT DISTINCT(diagnosis) FROM @allDiagnosis
 		SET @maxCount = (SELECT COUNT(*) FROM @distinctDiagnosis)
 		SET @counter = 1
 
-		--for each loop to loop through and calculate results and put into tables for output
+		--for each loop to loop through and calculate results and put into table for output
 		WHILE(@counter <= @maxCount)
 		BEGIN
 			--set variables
 			SET @diagnosisName = (SELECT top 1 diagnosis FROM @distinctDiagnosis)
 			SET @numberOfOccurances = (SELECT COUNT(diagnosis) FROM @allDiagnosis WHERE diagnosis = @diagnosisName)
-			SET @calculation = CAST(@numberOfOccurances as float)/CAST(@totalnumberOfOccurances as float)
 
-			INSERT INTO @results (diagnosis, perc) VALUES (@diagnosisName, @calculation*100)
+			INSERT INTO @results (diagnosis, perc) VALUES (@diagnosisName, CAST(@numberOfOccurances AS DECIMAL)/@totalnumberOfOccurances*100)
 		
 			--delete to use while loop like a 'for each' loop, update counter variable
 			DELETE FROM @distinctDiagnosis WHERE diagnosis = (SELECT top 1 diagnosis FROM @distinctDiagnosis)
@@ -1716,7 +1710,7 @@ BEGIN
 	END
 
 	--output results
-	SELECT top 1 name FROM @currentResultSymptom
+	SELECT top 1 name, [percentage] FROM @currentResultSymptom
 	SELECT top 3 * from @results ORDER BY perc DESC
 	SELECT @previousResponses
 
