@@ -19,7 +19,7 @@ namespace RADGSHAProject
             InitializeComponent();
             wizard = new RADGSHALibrary.DiagnosisWizard(ref selectedVisit, ref selectedPatient);
             currentSymptom = wizard.getNextSymptom();
-            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
+            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have the symptom: '" + currentSymptom.Substring(0,currentSymptom.Length - 1) + "' ?";
         }
 
         public DiagnosisWizard(Form previousForm)
@@ -64,14 +64,14 @@ namespace RADGSHAProject
         {
             wizard.clickedYes();
             currentSymptom = wizard.getNextSymptom();
-            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
+            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have the symptom: '" + currentSymptom.Substring(0,currentSymptom.Length - 1) + "' ?";
         }
 
         private void PatientDoesNotHaveSymptomButton_Click(object sender, EventArgs e)
         {
             wizard.clickedNo();
             currentSymptom = wizard.getNextSymptom();
-            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have " + currentSymptom;
+            QuestionLabel.Text = "Does " + selectedPatient.getFirstName() + " have the symptom: '" + currentSymptom.Substring(0,currentSymptom.Length - 1) + "' ?";
         }
     }
 }

@@ -1632,7 +1632,6 @@ BEGIN
 	-- set values into @allRecords
 	INSERT INTO @allRecords (symptomName, patientId, enrtyDate, diagnosis) SELECT s.SymptomName, v.PatientId, v.EntryDate, v.Diagnosis FROM Symptom s INNER JOIN Visit v ON v.PatientId = s.PatientId
 	SET @totalnumberOfOccurances = (SELECT COUNT(SymptomName) FROM @allRecords)
-	SELECT COUNT(DISTINCT(diagnosis)) FROM @allRecords
 
 	-- delete values based on previous responses
 	IF (@previousResponses IS NOT NULL)
@@ -1669,7 +1668,7 @@ BEGIN
 	END
 
 	-- puts top 100 results into table to determine symptom to query
-	INSERT INTO @currentResultSymptom (name, percentage) SELECT top 5 symptomName, CAST(COUNT(*) AS DECIMAL)/@totalnumberOfOccurances FROM @allRecords WHERE symptomName NOT IN (SELECT * FROM @skipSymptom) GROUP BY symptomName ORDER BY COUNT(*)
+	INSERT INTO @currentResultSymptom (name, percentage) SELECT top 5 symptomName, CAST(COUNT(*) AS DECIMAL)/@totalnumberOfOccurances FROM @allRecords WHERE symptomName NOT IN (SELECT * FROM @skipSymptom) GROUP BY symptomName ORDER BY COUNT(*) DESC
 	--DELETE FROM @currentResultSymptom WHERE [name] IN (SELECT * FROM @skipSymptom)
 
 	-- add values to distinctSymptom for next calculation
@@ -1710,7 +1709,7 @@ BEGIN
 	END
 
 	--output results
-	SELECT top 1 name, [percentage] FROM @currentResultSymptom
+	SELECT top 1 name FROM @currentResultSymptom
 	SELECT top 3 * from @results ORDER BY perc DESC
 	SELECT @previousResponses
 

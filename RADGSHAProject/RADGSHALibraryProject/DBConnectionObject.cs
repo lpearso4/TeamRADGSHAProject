@@ -336,7 +336,7 @@ namespace RADGSHALibrary
         public string getDiagnosisWizardSymptomByPreviousResponses(string previousResponses)
         {
             RADGSHALibraryProject.DiagnosisWizardResults results = RunDiagnosisWizard(previousResponses);
-            return (results == null) ? "" : results.CurrentBestSymptom;
+            return (results == null) ? "" : results.CurrentBestSymptom + ",";
         }
         public string getDiagnosisWizardResultingDiagnosis(string previousResponses)
         {
