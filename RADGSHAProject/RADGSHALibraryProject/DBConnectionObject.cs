@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace RADGSHALibrary
 {
@@ -353,13 +354,23 @@ namespace RADGSHALibrary
 
             command.Connection = conn;
 
-            SqlDataReader reader = command.ExecuteReader();
-
             RADGSHALibraryProject.DiagnosisWizardResults results = new RADGSHALibraryProject.DiagnosisWizardResults();
-            
-            reader.Read();
-            string currentBestSymptom = reader.GetString((int)DiagnosisWizardCurrentSymptomCol.CurrentResultSymptom);
-            results.CurrentBestSymptom = currentBestSymptom;
+
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                string currentBestSymptom = reader.GetString((int)DiagnosisWizardCurrentSymptomCol.CurrentResultSymptom);
+                results.CurrentBestSymptom = currentBestSymptom;
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Out of results!", "ERROR");
+            }
+
+
 
             /*reader.Read();
             string resultingDiagnosisName = reader.GetString((int)DiagnosisCol.DiagnosisName);
@@ -372,7 +383,6 @@ namespace RADGSHALibrary
             string currentPreviousResponses = reader.GetString((int)DiagnosisWizardPreviousResponseCol.previousResponses);
             results.PreviousResponses = currentPreviousResponses;*/
 
-            reader.Close();
 
             return results;
         }
